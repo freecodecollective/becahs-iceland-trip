@@ -205,7 +205,7 @@ function render(data) {
   const container = document.getElementById('content');
   const updatedEl = document.getElementById('lastUpdated');
 
-  if (!data) {
+  if (!data || !data.itinerary || !data.itinerary.length) {
     container.innerHTML = `
       <div class="no-data">
         <h2>No trip data yet</h2>
