@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Becah's Iceland Adventure</title>
+<style>
+  :root {
+    --bg: #0f1923;
+    --card: #1a2736;
+    --text: #e8edf2;
+    --muted: #8899aa;
+    --accent: #3b9eff;
+    --green: #34d399;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --border: #2a3a4a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    background: linear-gradient(135deg, #1a3a5c 0%, #0f1923 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 { font-size: 2rem; margin-bottom: 4px; }
+  .header .subtitle { color: var(--muted); font-size: 0.95rem; }
+  .header .flag { font-size: 2.5rem; margin-bottom: 8px; }
+  .header .last-updated {
+    display: inline-block; margin-top: 12px; padding: 4px 12px;
+    background: var(--card); border-radius: 20px;
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  /* Trip progress bar */
+  .progress-bar-container {
+    margin: 24px 0; padding: 16px 20px;
+    background: var(--card); border-radius: 12px;
+  }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  .progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; transition: width 0.5s; }
+
+  /* Stats grid */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 20px 0; }
+  .stat-card {
+    background: var(--card); border-radius: 12px; padding: 16px; text-align: center;
+    border: 1px solid var(--border);
+  }
+  .stat-card .number { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  /* Day cards */
+  .day-card {
+    background: var(--card); border-radius: 12px; margin-bottom: 16px;
+    border: 1px solid var(--border); overflow: hidden;
+  }
+  .day-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px; cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: background 0.2s;
+  }
+  .day-header:hover { background: rgba(59, 158, 255, 0.05); }
+  .day-header.expanded { border-bottom-color: var(--border); }
+  .day-number {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+  }
+  .day-number.today { background: var(--accent); color: white; }
+  .day-number.past { background: var(--green); color: white; }
+  .day-number.future { background: var(--border); color: var(--muted); }
+  .day-info { flex: 1; min-width: 0; }
+  .day-title { font-weight: 600; font-size: 0.95rem; }
+  .day-date { font-size: 0.8rem; color: var(--muted); }
+  .day-badges { display: flex; gap: 6px; flex-shrink: 0; }
+  .badge {
+    font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;
+    background: rgba(52, 211, 153, 0.15); color: var(--green);
+  }
+  .day-chevron { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+  .day-chevron.open { transform: rotate(90deg); }
+
+  .day-body { padding: 0 20px 16px; display: none; }
+  .day-body.open { display: block; }
+
+  .activity-list { list-style: none; padding: 0; }
+  .activity-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid rgba(42, 58, 74, 0.5);
+    font-size: 0.85rem;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .check-icon { font-size: 1.1rem; }
+  .activity-name { flex: 1; }
+  .activity-duration { color: var(--muted); font-size: 0.75rem; }
+  .activity-rating { color: var(--orange); font-size: 0.8rem; }
+
+  .stay-info {
+    margin-top: 12px; padding: 10px 14px;
+    background: rgba(59, 158, 255, 0.08); border-radius: 8px;
+    font-size: 0.85rem;
+  }
+  .stay-info .stay-icon { margin-right: 6px; }
+
+  /* Notes */
+  .note-block {
+    margin-top: 8px; padding: 8px 12px;
+    background: rgba(245, 158, 11, 0.08); border-radius: 8px;
+    border-left: 3px solid var(--orange);
+    font-size: 0.82rem; font-style: italic; color: var(--muted);
+  }
+
+  /* Photos */
+  .photo-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px; margin-top: 12px;
+  }
+  .photo-thumb {
+    aspect-ratio: 1; border-radius: 8px; overflow: hidden;
+    background: var(--border);
+  }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Loading state */
+  .loading { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .loading .spinner {
+    width: 40px; height: 40px; border: 3px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .no-data { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .no-data h2 { margin-bottom: 8px; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 30px; color: var(--muted); font-size: 0.75rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="flag">&#x1F1EE;&#x1F1F8;</div>
+  <h1>Becah's Iceland Adventure</h1>
+  <div class="subtitle">July 13 - 22, 2026</div>
+  <div class="last-updated" id="lastUpdated">Loading...</div>
+</div>
+
+<div class="container">
+  <div id="content">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading trip data...</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Made with love for the family
+</div>
+
+<script>
+const REPO_OWNER = 'freecodecollective';
+const REPO_NAME = 'becahs-iceland-trip';
+const DATA_PATH = 'data/trip-data.json';
+const PHOTOS_BASE = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/data/photos/`;
+
+const TRIP_START = new Date('2026-07-13T00:00:00');
+const TRIP_END = new Date('2026-07-22T23:59:59');
+const TOTAL_DAYS = 10;
+
+async function loadData() {
+  try {
+    const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_PATH}?t=${Date.now()}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return await resp.json();
+  } catch (e) {
+    console.error('Failed to load trip data:', e);
+    return null;
+  }
+}
+
+function getTripDay() {
+  const now = new Date();
+  if (now < TRIP_START) return 0;
+  if (now > TRIP_END) return TOTAL_DAYS + 1;
+  const diffMs = now - TRIP_START;
+  return Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
+}
+
+function render(data) {
+  const container = document.getElementById('content');
+  const updatedEl = document.getElementById('lastUpdated');
+
+  if (!data) {
+    container.innerHTML = `
+      <div class="no-data">
+        <h2>No trip data yet</h2>
+        <p>Data will appear here once the travelers start syncing from the app.</p>
+      </div>`;
+    updatedEl.textContent = 'Not synced yet';
+    return;
+  }
+
+  const traveler = data.travelers?.[0];
+  const currentDay = getTripDay();
+  const updatedDate = data.lastUpdated ? new Date(data.lastUpdated) : null;
+
+  if (updatedDate) {
+    const ago = timeSince(updatedDate);
+    updatedEl.textContent = `Last synced ${ago}`;
+  }
+
+  const checkInsByDay = {};
+  const ratingsByKey = {};
+  const notesByKey = {};
+
+  if (traveler) {
+    (traveler.checkIns || []).forEach(c => {
+      if (!checkInsByDay[c.dayID]) checkInsByDay[c.dayID] = {};
+      checkInsByDay[c.dayID][c.key] = c;
+    });
+    (traveler.ratings || []).forEach(r => { ratingsByKey[r.key] = r.rating; });
+    (traveler.notes || []).forEach(n => { notesByKey[n.key] = n.text; });
+  }
+
+  const photosByDay = {};
+  (data.photos || []).forEach(p => {
+    if (!photosByDay[p.dayID]) photosByDay[p.dayID] = [];
+    photosByDay[p.dayID].push(p);
+  });
+
+  const totalActivities = data.itinerary.reduce((sum, d) => sum + d.activityCount, 0);
+  const totalCheckIns = traveler ? (traveler.checkIns || []).length : 0;
+  const totalRatings = traveler ? (traveler.ratings || []).length : 0;
+  const totalPhotos = (data.photos || []).length;
+  const progressPct = currentDay <= 0 ? 0 : currentDay > TOTAL_DAYS ? 100 : Math.round((currentDay / TOTAL_DAYS) * 100);
+
+  let html = '';
+
+  // Progress bar
+  html += `
+    <div class="progress-bar-container">
+      <div class="progress-label">
+        <span>${currentDay <= 0 ? 'Trip starts soon!' : currentDay > TOTAL_DAYS ? 'Trip complete!' : `Day ${currentDay} of ${TOTAL_DAYS}`}</span>
+        <span>${progressPct}%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${progressPct}%"></div>
+      </div>
+    </div>`;
+
+  // Stats
+  html += `
+    <div class="stats">
+      <div class="stat-card"><div class="number">${totalCheckIns}</div><div class="label">Check-ins</div></div>
+      <div class="stat-card"><div class="number">${totalRatings}</div><div class="label">Ratings</div></div>
+      <div class="stat-card"><div class="number">${totalPhotos}</div><div class="label">Photos</div></div>
+      <div class="stat-card"><div class="number">${traveler ? traveler.hikesCompleted : 0}</div><div class="label">Hikes Done</div></div>
+      <div class="stat-card"><div class="number">${traveler ? traveler.totalHikeDistanceKm : 0}</div><div class="label">km Hiked</div></div>
+      <div class="stat-card"><div class="number">${traveler ? (traveler.customEvents || []).length : 0}</div><div class="label">Bonus Activities</div></div>
+    </div>`;
+
+  // Day cards
+  data.itinerary.forEach(day => {
+    const dayClass = day.id < currentDay ? 'past' : day.id === currentDay ? 'today' : 'future';
+    const dayCheckIns = checkInsByDay[day.id] || {};
+    const checkedCount = Object.keys(dayCheckIns).length;
+    const dayPhotos = photosByDay[day.id] || [];
+
+    html += `<div class="day-card">`;
+    html += `<div class="day-header" onclick="toggleDay(this)" ${day.id === currentDay ? 'data-auto-expand="true"' : ''}>`;
+    html += `<div class="day-number ${dayClass}">${day.id}</div>`;
+    html += `<div class="day-info"><div class="day-title">${day.title}</div><div class="day-date">${day.date} &middot; ${day.driving} driving</div></div>`;
+
+    html += `<div class="day-badges">`;
+    if (checkedCount > 0) html += `<span class="badge">${checkedCount} done</span>`;
+    if (dayPhotos.length > 0) html += `<span class="badge" style="background:rgba(59,158,255,0.15);color:var(--accent)">${dayPhotos.length} pics</span>`;
+    html += `</div>`;
+
+    html += `<span class="day-chevron">&#9654;</span>`;
+    html += `</div>`;
+
+    // Body
+    html += `<div class="day-body">`;
+    html += `<div style="font-size:0.8rem;color:var(--muted);margin-bottom:8px">${day.route}</div>`;
+
+    // Activities
+    if (day.activities && day.activities.length > 0) {
+      html += `<ul class="activity-list">`;
+      day.activities.forEach((act, idx) => {
+        const key = `d${day.id}-a${idx}`;
+        const checked = dayCheckIns[key];
+        const rating = ratingsByKey[key];
+        const note = notesByKey[key];
+        const icon = checked ? '&#x2705;' : '&#x2B55;';
+
+        html += `<li class="activity-item">`;
+        html += `<span class="check-icon">${icon}</span>`;
+        html += `<span class="activity-name">${act.name}</span>`;
+        html += `<span class="activity-duration">${act.duration}</span>`;
+        if (rating) html += `<span class="activity-rating">${'&#9733;'.repeat(rating)}</span>`;
+        html += `</li>`;
+
+        if (note) {
+          html += `<div class="note-block">"${note}"</div>`;
+        }
+      });
+      html += `</ul>`;
+    }
+
+    // Custom events for this day
+    if (traveler && traveler.customEvents) {
+      const dayEvents = traveler.customEvents.filter(e => e.dayID === day.id);
+      dayEvents.forEach(evt => {
+        html += `<div class="activity-item" style="border:none;padding-top:4px">`;
+        html += `<span class="check-icon">&#x1F31F;</span>`;
+        html += `<span class="activity-name">${evt.name} <span style="color:var(--muted);font-size:0.75rem">(${evt.type})</span></span>`;
+        html += `</div>`;
+        if (evt.notes) html += `<div class="note-block">"${evt.notes}"</div>`;
+      });
+    }
+
+    // Photos
+    if (dayPhotos.length > 0) {
+      html += `<div class="photo-grid">`;
+      dayPhotos.forEach(p => {
+        html += `<div class="photo-thumb"><img src="${PHOTOS_BASE}${p.filename}" alt="${p.activityName}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`;
+      });
+      html += `</div>`;
+    }
+
+    // Stay
+    if (day.stayName) {
+      html += `<div class="stay-info"><span class="stay-icon">&#x1F3E0;</span> Staying at <strong>${day.stayName}</strong></div>`;
+    }
+
+    html += `</div>`; // day-body
+    html += `</div>`; // day-card
+  });
+
+  container.innerHTML = html;
+
+  // Auto-expand current day
+  document.querySelectorAll('[data-auto-expand]').forEach(el => toggleDay(el));
+}
+
+function toggleDay(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.day-chevron');
+  const isOpen = body.classList.toggle('open');
+  header.classList.toggle('expanded', isOpen);
+  chevron.classList.toggle('open', isOpen);
+}
+
+function timeSince(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  if (seconds < 60) return 'just now';
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
+// Auto-refresh every 5 minutes
+async function init() {
+  const data = await loadData();
+  render(data);
+  setInterval(async () => {
+    const fresh = await loadData();
+    if (fresh) render(fresh);
+  }, 5 * 60 * 1000);
+}
+
+init();
+</script>
+</body>
+</html>
