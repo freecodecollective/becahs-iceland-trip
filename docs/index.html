@@ -5,389 +5,1154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Becah's Iceland Adventure</title>
 <style>
+:root {
+  --bg: #0f172a;
+  --bg2: #131c2e;
+  --card: #1e293b;
+  --card-hover: #243044;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --accent: #60a5fa;
+  --accent-bg: #1e3a5f;
+  --accent2: #22d3ee;
+  --accent2-bg: #164e63;
+  --green: #34d399;
+  --green-bg: #064e3b;
+  --orange: #fbbf24;
+  --orange-bg: #78350f;
+  --red: #f87171;
+  --red-bg: #7f1d1d;
+  --purple: #a78bfa;
+  --purple-bg: #2e1065;
+  --border: #334155;
+  --border2: #475569;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow2: 0 4px 12px rgba(0,0,0,0.4);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
   :root {
-    --bg: #0f1923;
-    --card: #1a2736;
-    --text: #e8edf2;
-    --muted: #8899aa;
-    --accent: #3b9eff;
-    --green: #34d399;
-    --orange: #f59e0b;
-    --red: #ef4444;
-    --border: #2a3a4a;
+    --bg: #f1f5f9;
+    --bg2: #e8ecf1;
+    --card: #ffffff;
+    --card-hover: #f8fafc;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #94a3b8;
+    --accent: #2563eb;
+    --accent-bg: #dbeafe;
+    --accent2: #0891b2;
+    --accent2-bg: #cffafe;
+    --green: #059669;
+    --green-bg: #d1fae5;
+    --orange: #d97706;
+    --orange-bg: #fef3c7;
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+    --purple: #7c3aed;
+    --purple-bg: #ede9fe;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow2: 0 4px 12px rgba(0,0,0,0.08);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.5;
-  }
-  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+}
 
-  /* Header */
-  .header {
-    text-align: center;
-    padding: 40px 20px 30px;
-    background: linear-gradient(135deg, #1a3a5c 0%, #0f1923 100%);
-    border-bottom: 1px solid var(--border);
-  }
-  .header h1 { font-size: 2rem; margin-bottom: 4px; }
-  .header .subtitle { color: var(--muted); font-size: 0.95rem; }
-  .header .flag { font-size: 2.5rem; margin-bottom: 8px; }
-  .header .last-updated {
-    display: inline-block; margin-top: 12px; padding: 4px 12px;
-    background: var(--card); border-radius: 20px;
-    font-size: 0.75rem; color: var(--muted);
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.app { max-width: 860px; margin: 0 auto; padding-bottom: 60px; }
 
-  /* Trip progress bar */
-  .progress-bar-container {
-    margin: 24px 0; padding: 16px 20px;
-    background: var(--card); border-radius: 12px;
-  }
-  .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
-  .progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; transition: width 0.5s; }
+/* Header */
+.header {
+  text-align: center;
+  padding: 32px 20px 24px;
+  background: linear-gradient(135deg, var(--accent-bg) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.header .flag { font-size: 2.2rem; margin-bottom: 6px; }
+.header h1 { font-size: 1.6rem; font-weight: 700; }
+.header .dates { color: var(--text2); font-size: 0.9rem; margin-top: 2px; }
+.sync-status {
+  display: inline-block; margin-top: 10px; padding: 3px 12px;
+  background: var(--card); border-radius: 20px; border: 1px solid var(--border);
+  font-size: 0.72rem; color: var(--text3);
+}
+.sync-status .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.sync-status .dot.live { background: var(--green); }
+.sync-status .dot.stale { background: var(--orange); }
 
-  /* Stats grid */
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 20px 0; }
-  .stat-card {
-    background: var(--card); border-radius: 12px; padding: 16px; text-align: center;
-    border: 1px solid var(--border);
-  }
-  .stat-card .number { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
-  .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+/* Progress */
+.progress-section {
+  margin: 16px 20px 0;
+  background: var(--card); border-radius: var(--radius); padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text2); margin-bottom: 6px; }
+.progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; transition: width 0.5s; }
 
-  /* Day cards */
-  .day-card {
-    background: var(--card); border-radius: 12px; margin-bottom: 16px;
-    border: 1px solid var(--border); overflow: hidden;
-  }
-  .day-header {
-    display: flex; align-items: center; gap: 12px;
-    padding: 16px 20px; cursor: pointer;
-    border-bottom: 1px solid transparent;
-    transition: background 0.2s;
-  }
-  .day-header:hover { background: rgba(59, 158, 255, 0.05); }
-  .day-header.expanded { border-bottom-color: var(--border); }
-  .day-number {
-    width: 36px; height: 36px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
-  }
-  .day-number.today { background: var(--accent); color: white; }
-  .day-number.past { background: var(--green); color: white; }
-  .day-number.future { background: var(--border); color: var(--muted); }
-  .day-info { flex: 1; min-width: 0; }
-  .day-title { font-weight: 600; font-size: 0.95rem; }
-  .day-date { font-size: 0.8rem; color: var(--muted); }
-  .day-badges { display: flex; gap: 6px; flex-shrink: 0; }
-  .badge {
-    font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;
-    background: rgba(52, 211, 153, 0.15); color: var(--green);
-  }
-  .day-chevron { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
-  .day-chevron.open { transform: rotate(90deg); }
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 20px 0; }
+@media (max-width: 600px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+.stat-card {
+  background: var(--card); border-radius: var(--radius-sm); padding: 12px 8px; text-align: center;
+  border: 1px solid var(--border);
+}
+.stat-card .icon { font-size: 1.1rem; margin-bottom: 2px; }
+.stat-card .num { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+.stat-card .label { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .day-body { padding: 0 20px 16px; display: none; }
-  .day-body.open { display: block; }
+/* Day cards */
+.days-container { padding: 16px 20px 0; }
+.day-card {
+  background: var(--card); border-radius: var(--radius); margin-bottom: 12px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+.day-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer; transition: background 0.15s;
+  user-select: none;
+}
+.day-header:hover { background: var(--card-hover); }
+.day-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem; flex-shrink: 0; color: white;
+}
+.day-badge.past { background: var(--green); }
+.day-badge.today { background: var(--accent); animation: pulse 2s infinite; }
+.day-badge.future { background: var(--border2); color: var(--text3); }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0.4); } 50% { box-shadow: 0 0 0 6px rgba(96,165,250,0); } }
+.day-info { flex: 1; min-width: 0; }
+.day-title { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day-meta { font-size: 0.78rem; color: var(--text2); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.day-badges { display: flex; gap: 5px; flex-shrink: 0; flex-wrap: wrap; }
+.badge {
+  font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  white-space: nowrap;
+}
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-orange { background: var(--orange-bg); color: var(--orange); }
+.badge-accent { background: var(--accent-bg); color: var(--accent); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); }
+.chevron { color: var(--text3); font-size: 0.75rem; transition: transform 0.2s; flex-shrink: 0; }
+.chevron.open { transform: rotate(90deg); }
 
-  .activity-list { list-style: none; padding: 0; }
-  .activity-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 0; border-bottom: 1px solid rgba(42, 58, 74, 0.5);
-    font-size: 0.85rem;
-  }
-  .activity-item:last-child { border-bottom: none; }
-  .check-icon { font-size: 1.1rem; }
-  .activity-name { flex: 1; }
-  .activity-duration { color: var(--muted); font-size: 0.75rem; }
-  .activity-rating { color: var(--orange); font-size: 0.8rem; }
+.day-body { padding: 0 16px 16px; display: none; }
+.day-body.open { display: block; }
 
-  .stay-info {
-    margin-top: 12px; padding: 10px 14px;
-    background: rgba(59, 158, 255, 0.08); border-radius: 8px;
-    font-size: 0.85rem;
-  }
-  .stay-info .stay-icon { margin-right: 6px; }
+/* Route bar */
+.route-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: var(--bg2); border-radius: var(--radius-sm); margin-bottom: 14px;
+  font-size: 0.8rem; color: var(--text2);
+}
+.route-bar .icon { font-size: 1rem; }
 
-  /* Notes */
-  .note-block {
-    margin-top: 8px; padding: 8px 12px;
-    background: rgba(245, 158, 11, 0.08); border-radius: 8px;
-    border-left: 3px solid var(--orange);
-    font-size: 0.82rem; font-style: italic; color: var(--muted);
-  }
+/* Match bar */
+.match-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: var(--green-bg); border: 1px solid var(--green);
+  border-radius: var(--radius-sm); margin-bottom: 14px; font-size: 0.82rem;
+}
+.match-bar .ball { font-size: 1.1rem; }
+.match-bar .info { font-weight: 600; flex: 1; }
+.match-bar .time { color: var(--text2); font-size: 0.75rem; }
 
-  /* Photos */
-  .photo-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 8px; margin-top: 12px;
-  }
-  .photo-thumb {
-    aspect-ratio: 1; border-radius: 8px; overflow: hidden;
-    background: var(--border);
-  }
-  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+/* Section titles */
+.section-title {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text3); margin: 18px 0 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.section-title:first-child { margin-top: 4px; }
 
-  /* Loading state */
-  .loading { text-align: center; padding: 60px 20px; color: var(--muted); }
-  .loading .spinner {
-    width: 40px; height: 40px; border: 3px solid var(--border);
-    border-top-color: var(--accent); border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* Activity cards */
+.activity-card {
+  background: var(--bg2); border-radius: var(--radius-sm); padding: 12px;
+  margin-bottom: 8px; border: 1px solid var(--border); cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.activity-card:hover { box-shadow: var(--shadow2); }
+.activity-card.expanded { background: var(--bg); }
+.act-top { display: flex; align-items: flex-start; gap: 8px; }
+.act-info { flex: 1; min-width: 0; }
+.act-name { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.act-meta { font-size: 0.75rem; color: var(--text2); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
+.act-brief { font-size: 0.82rem; color: var(--text2); margin-top: 4px; line-height: 1.4; }
+.act-links { display: flex; gap: 6px; flex-shrink: 0; align-items: flex-start; margin-top: 2px; }
+.map-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--accent-bg); color: var(--accent);
+  text-decoration: none; font-size: 0.75rem; flex-shrink: 0;
+}
+.map-link:hover { background: var(--accent); color: white; }
+.act-chevron { color: var(--text3); font-size: 0.7rem; transition: transform 0.2s; padding-top: 4px; }
+.activity-card.expanded .act-chevron { transform: rotate(90deg); }
 
-  .no-data { text-align: center; padding: 60px 20px; color: var(--muted); }
-  .no-data h2 { margin-bottom: 8px; }
+.act-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.activity-card.expanded .act-details { display: block; }
+.act-details p { font-size: 0.82rem; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+.hike-tag { display: inline-flex; align-items: center; gap: 3px; }
 
-  /* Footer */
-  .footer { text-align: center; padding: 30px; color: var(--muted); font-size: 0.75rem; }
+/* Tips / Trivia / Safety callouts */
+.callout { border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 8px; font-size: 0.8rem; line-height: 1.45; }
+.callout-title { font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.callout-tips { background: var(--accent-bg); }
+.callout-tips .callout-title { color: var(--accent); }
+.callout-tips ul { list-style: none; padding: 0; }
+.callout-tips li { position: relative; padding-left: 14px; margin-top: 3px; }
+.callout-tips li::before { content: '\2022'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.callout-trivia { background: var(--purple-bg); }
+.callout-trivia .callout-title { color: var(--purple); }
+.callout-safety { background: var(--red-bg); border: 1px solid var(--red); }
+.callout-safety .callout-title { color: var(--red); }
+
+/* Ratings */
+.rating-row { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.rating-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; }
+.stars { display: flex; gap: 2px; }
+.star { font-size: 1rem; color: var(--border2); }
+.star.filled { color: var(--orange); }
+
+/* Notes */
+.notes-row { margin-top: 6px; }
+.notes-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; margin-bottom: 2px; }
+.notes-text { font-size: 0.82rem; color: var(--text2); font-style: italic; padding: 6px 10px; background: var(--card); border-radius: 6px; }
+.notes-empty { font-size: 0.78rem; color: var(--text3); font-style: italic; }
+
+/* Photos */
+.photos-row { margin-top: 8px; }
+.photos-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; margin-bottom: 4px; }
+.photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+.photo-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); transition: transform 0.15s; }
+.photo-thumb:hover { transform: scale(1.05); }
+.photos-empty { font-size: 0.78rem; color: var(--text3); font-style: italic; }
+
+/* Food cards */
+.food-card {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 12px; background: var(--bg2); border-radius: var(--radius-sm);
+  margin-bottom: 6px; border: 1px solid var(--border); cursor: pointer;
+  transition: background 0.15s;
+}
+.food-card:hover { background: var(--card-hover); }
+.food-card.expanded { background: var(--bg); }
+.food-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.food-info { flex: 1; min-width: 0; }
+.food-name { font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.food-desc { font-size: 0.78rem; color: var(--text2); margin-top: 1px; }
+.food-details { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.food-card.expanded .food-details { display: block; }
+.gf-tag { background: var(--orange-bg); color: var(--orange); padding: 1px 6px; border-radius: 6px; font-size: 0.62rem; font-weight: 700; }
+
+/* Stay card */
+.stay-card {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px; background: var(--purple-bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--purple); cursor: pointer; transition: background 0.15s;
+}
+.stay-card:hover { opacity: 0.95; }
+.stay-card.expanded .stay-details { display: block; }
+.stay-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.stay-info { flex: 1; }
+.stay-info h4 { font-size: 0.88rem; font-weight: 600; }
+.stay-info .addr { font-size: 0.78rem; color: var(--text2); }
+.stay-info .checkin { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
+.stay-details { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* Custom events */
+.custom-event {
+  display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+  background: var(--accent2-bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--accent2); margin-bottom: 6px; font-size: 0.82rem;
+}
+.custom-event .ce-icon { font-size: 1rem; }
+.custom-event .ce-name { font-weight: 600; flex: 1; }
+.custom-event .ce-notes { font-size: 0.75rem; color: var(--text2); }
+
+/* Photo lightbox */
+.lightbox {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+  cursor: pointer;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 92%; max-height: 92%; object-fit: contain; border-radius: 8px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .header h1 { font-size: 1.3rem; }
+  .header { padding: 24px 16px 20px; }
+  .days-container, .stats { padding-left: 12px; padding-right: 12px; }
+  .progress-section { margin-left: 12px; margin-right: 12px; }
+  .day-header { padding: 12px 14px; }
+  .day-body { padding: 0 14px 14px; }
+  .act-name { font-size: 0.85rem; }
+  .stats { margin-left: 12px; margin-right: 12px; }
+}
+
+/* Scroll animation */
+.day-card { opacity: 0; transform: translateY(8px); animation: slideIn 0.3s ease forwards; }
+.day-card:nth-child(1) { animation-delay: 0.05s; }
+.day-card:nth-child(2) { animation-delay: 0.1s; }
+.day-card:nth-child(3) { animation-delay: 0.15s; }
+.day-card:nth-child(4) { animation-delay: 0.2s; }
+.day-card:nth-child(5) { animation-delay: 0.25s; }
+.day-card:nth-child(6) { animation-delay: 0.3s; }
+.day-card:nth-child(7) { animation-delay: 0.35s; }
+.day-card:nth-child(8) { animation-delay: 0.4s; }
+.day-card:nth-child(9) { animation-delay: 0.45s; }
+.day-card:nth-child(10) { animation-delay: 0.5s; }
+@keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="flag">&#x1F1EE;&#x1F1F8;</div>
-  <h1>Becah's Iceland Adventure</h1>
-  <div class="subtitle">July 13 - 22, 2026</div>
-  <div class="last-updated" id="lastUpdated">Loading...</div>
-</div>
-
-<div class="container">
-  <div id="content">
-    <div class="loading">
-      <div class="spinner"></div>
-      <p>Loading trip data...</p>
+<div class="app">
+  <div class="header">
+    <div class="flag">&#127470;&#127480;</div>
+    <h1>Becah's Iceland Adventure</h1>
+    <div class="dates">July 13 &ndash; 22, 2026</div>
+    <div class="sync-status" id="syncStatus">
+      <span class="dot stale"></span> Loading sync data&hellip;
     </div>
   </div>
+
+  <div class="progress-section" id="progressSection"></div>
+  <div class="stats" id="statsRow"></div>
+  <div class="days-container" id="daysContainer"></div>
 </div>
 
-<div class="footer">
-  Made with love for the family
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="Photo">
 </div>
 
 <script>
-const REPO_OWNER = 'freecodecollective';
-const REPO_NAME = 'becahs-iceland-trip';
-const DATA_PATH = 'data/trip-data.json';
-const PHOTOS_BASE = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/data/photos/`;
+// ─── STATIC TRIP DATA ───────────────────────────────────────────
+const TRIP_DATA = [
+  {
+    id: 1, date: "Mon Jul 13", title: "Arrival & Reykjanes",
+    route: "Keflavik → Reykjanes loop → Reykjavik", km: 80,
+    stay: { name: "Guesthouse Galtafell", address: "Laufasvegur 46, Reykjavik 101", checkin: "3:00 PM", lat: 64.1426, lng: -21.9101 },
+    match: null,
+    activities: [
+      { name: "Bridge Between Continents", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Walk between tectonic plates on a footbridge.",
+        details: "The Mid-Atlantic Ridge runs through Iceland. This footbridge marks where the North American and Eurasian plates pull apart. The rift widens ~2 cm/year.",
+        tips: ["Great first stop — quick, free, sets the geological tone", "The rift widens about 2 cm per year — the bridge has been extended since built"],
+        trivia: "Iceland sits on the Mid-Atlantic Ridge and is literally being torn in half.",
+        safety: null, lat: 63.8685, lng: -22.6760 },
+      { name: "Gunnuhver geothermal", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Bubbling mud pots and steam vents on boardwalk.",
+        details: "Named after the ghost Guðrún, trapped in the spring 400 years ago. Iceland's largest mud pool.",
+        tips: ["Stay on boardwalk — ground is thin crust over boiling water", "Less crowded than Geysir and arguably more dramatic"],
+        trivia: "In 2008 a new vent opened and destroyed part of the boardwalk overnight.",
+        safety: null, lat: 63.8193, lng: -22.6875 },
+      { name: "Reykjanesviti lighthouse", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Iceland's oldest lighthouse on sea cliffs.",
+        details: "Historic lighthouse on the southwestern tip of the Reykjanes Peninsula with dramatic coastal views.",
+        tips: ["Windy — hold onto hats", "Good photo looking back along coast"],
+        trivia: null, safety: null, lat: 63.8126, lng: -22.7095 },
+      { name: "Krysuvík / Seltún geothermal", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Colorful sulfurous landscape with boardwalks.",
+        details: "Vibrant geothermal area with boiling mud pots, fumaroles, and mineral-stained earth in reds, yellows, and greens.",
+        tips: ["Sulfur smell is normal", "Stay on marked paths — crust can be thin"],
+        trivia: null, safety: null, lat: 63.8919, lng: -22.0538 },
+      { name: "Brimketill lava pool", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Natural rock formation on lava shoreline carved by waves.",
+        details: "A natural rock pool carved by the Atlantic waves into the lava coast. Named after a giantess from local folklore.",
+        tips: ["Viewing platform only — sneaker waves are real"],
+        trivia: null, safety: null, lat: 63.8264, lng: -22.7178 },
+      { name: "Blue Lagoon & LAVA Restaurant", duration: "3 hrs", booked: true, hikeKm: null,
+        brief: "Iconic geothermal spa, silica-rich milky blue water 38–40°C.",
+        details: "Premium package includes drink and masks. LAVA Restaurant dinner reserved for 4. The silica-rich water is world-famous for its milky blue color and skin-healing properties.",
+        tips: ["Put conditioner in hair BEFORE — silica dries hair badly", "Don't wear contacts in water", "Head to far corners for fewer crowds"],
+        trivia: "The lagoon is man-made — formed from runoff of Svartsengi power plant in 1976. People discovered skin-healing properties.",
+        safety: null, lat: 63.8804, lng: -22.4495 }
+    ],
+    food: [
+      { name: "Sandholt Bakery", desc: "Famous Reykjavik bakery — sourdough + pastries", gf: true, lat: 64.1450, lng: -21.9264 },
+      { name: "LAVA Restaurant", desc: "Dinner at Blue Lagoon, reserved for 4", gf: true, lat: 63.8804, lng: -22.4495 }
+    ]
+  },
+  {
+    id: 2, date: "Tue Jul 14", title: "Golden Circle",
+    route: "Reykjavik → Silfra → Þingvellir → Geysir → Gullfoss → Kerið → Reykjavik", km: 200,
+    stay: { name: "Guesthouse Galtafell", address: "Laufasvegur 46, Reykjavik 101", checkin: null, lat: 64.1426, lng: -21.9101 },
+    match: { event: "World Cup Semifinal 1", time: "7:00 PM", note: "Find a sports bar in Reykjavik, arrive by 6:30" },
+    activities: [
+      { name: "Silfra fissure snorkeling", duration: "2 hrs", booked: true, hikeKm: null,
+        brief: "Snorkel between tectonic plates in crystal-clear glacial meltwater.",
+        details: "Visibility up to 100 m. Water filtered through lava rock for 30–50 years. Adventure Vikings provides dry suits + free photos.",
+        tips: ["Water is 2°C — dry suit keeps warm but face/hands feel it", "Wear warm layers under dry suit", "Hot chocolate afterward — bring change of warm socks", "Photos included free — check with Bjarki"],
+        trivia: "Water so pure you can drink it while snorkeling. Originates from Langjökull glacier, takes decades to filter through lava.",
+        safety: null, lat: 64.2563, lng: -21.1166 },
+      { name: "Þingvellir National Park", duration: "2 hrs", booked: false, hikeKm: null,
+        brief: "UNESCO World Heritage. Almannagjá gorge walk between tectonic plates.",
+        details: "Althingi parliament founded 930 AD — one of the oldest in the world. Walk through the Almannagjá rift valley where plates diverge.",
+        tips: ["Full Almannagjá walk 30–40 min one way — do the whole thing", "Þingvallakirkja church rebuilt 1859", "One parking ticket covers all lots"],
+        trivia: "In the Viking Age, a Lawspeaker stood at Lögberg and recited laws from memory. Disputes settled, alliances formed, outlaws declared for centuries.",
+        safety: null, lat: 64.2559, lng: -21.1299 },
+      { name: "Geysir & Strokkur", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Strokkur erupts every 6–10 min, 20–40 m high.",
+        details: "The original Geysir is mostly dormant. Strokkur is the reliable performer, shooting boiling water high into the air on a regular cycle.",
+        tips: ["Stand upwind to avoid steam", "Video in slow motion — blue bubble before blast is incredible", "Decent café and gift shop"],
+        trivia: "The word 'geyser' comes from this site. 'Geysir' from Old Norse 'geysa' meaning 'to gush.'",
+        safety: null, lat: 64.3103, lng: -20.3024 },
+      { name: "Gullfoss waterfall", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Massive two-tier waterfall, 32 m drop.",
+        details: "Up to 140 cubic meters/sec in summer. Two cascading tiers plunge into a rugged canyon.",
+        tips: ["Lower viewpoint for most dramatic angle", "You WILL get sprayed — bring rain jackets", "Look for rainbows in spray on sunny days"],
+        trivia: "Nearly dammed for hydroelectric. Sigríður Tómasdóttir threatened to throw herself into the falls. Now a national hero with monument at site.",
+        safety: null, lat: 64.3271, lng: -20.1199 },
+      { name: "Kerið crater lake", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Volcanic crater with aquamarine water, 3000 years old.",
+        details: "55 m deep, 170 m wide. A collapsed magma chamber filled with groundwater, creating a striking turquoise lake.",
+        tips: ["Small entrance fee ~500 ISK", "Walk full rim for best photos", "Quick stop fits well on drive back"],
+        trivia: null, safety: null, lat: 64.0413, lng: -20.8853 }
+    ],
+    food: [
+      { name: "Brauð & Co", desc: "Bakery — artisan bread and pastries", gf: false, lat: 64.1440, lng: -21.9261 },
+      { name: "Sandholt", desc: "Return visit for sourdough and pastries", gf: true, lat: 64.1450, lng: -21.9264 },
+      { name: "Omnom Chocolate Factory Store", desc: "Hólmaslóð 4 — pick up bars for Day 8 summit!", gf: false, lat: 64.1573, lng: -21.9407 },
+      { name: "The Sea Baron / Nonono", desc: "Dinner near harbor — seafood", gf: false, lat: 64.1509, lng: -21.9440 }
+    ]
+  },
+  {
+    id: 3, date: "Wed Jul 15", title: "Waterfalls & South Coast",
+    route: "Reykjavik → Hella → Seljalandsfoss → Skógafoss → Vík", km: 187,
+    stay: { name: "Vik House", address: "Brekkur 1, Vík 871", checkin: "5:00 PM", lat: 63.4186, lng: -19.0060 },
+    match: { event: "World Cup Semifinal 2", time: "7:00 PM", note: "Watch at bar in Vík or stream at house" },
+    activities: [
+      { name: "Lava Centre Hvolsvöllur", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "Interactive volcano museum with real-time earthquake monitoring.",
+        details: "Modern exhibit covering Iceland's volcanic geology with live seismic displays.",
+        tips: ["Optional — skip if tight on time for waterfall light", "Real-time seismic display is fascinating"],
+        trivia: "Iceland has ~130 volcanic mountains, 30 active. Sits on mantle plume right on Mid-Atlantic Ridge — unique double geological activity.",
+        safety: null, lat: 63.7512, lng: -20.2282 },
+      { name: "Gljúfrabúi", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Hidden waterfall in slot canyon — \"Dweller in the gorge.\"",
+        details: "Wade through stream into narrow chamber, 40 m falls above. Around solar noon (~1:30 PM July) sunlight shoots down the slot.",
+        tips: ["Do this FIRST before Seljalandsfoss — light is time-sensitive", "Wear water-friendly shoes — ankle to shin deep", "Waterproof phone case — spray intense inside", "Arrive by 12:00 for best light"],
+        trivia: "Most tourists miss it — all eyes on Seljalandsfoss next door. One of Iceland's best-kept open secrets.",
+        safety: null, lat: 63.6213, lng: -19.9885 },
+      { name: "Seljalandsfoss", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "60 m waterfall you walk behind — one of few in the world.",
+        details: "Full loop path behind the falls. One of few waterfalls in the world where you can walk completely behind the curtain of water.",
+        tips: ["Rain jackets mandatory — you will be drenched", "Path behind can be slippery — take your time", "Phone in ziplock behind the falls", "Go counterclockwise for best view progression"],
+        trivia: "The cliff is the old coastline of Iceland. Land south was reclaimed from sea by volcanic eruptions.",
+        safety: null, lat: 63.6156, lng: -19.9886 },
+      { name: "Skógafoss", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "60 m, 25 m-wide curtain of water. 527 steps to top viewpoint.",
+        details: "One of Iceland's biggest and most impressive waterfalls with an accessible staircase leading to panoramic river valley views.",
+        tips: ["Stairs to top worth it — stunning river valley view", "Double rainbows common on sunny days", "Skip climb if tired — can do Day 4 instead"],
+        trivia: "Legend says Viking settler Þrasi hid a gold chest behind the falls. A local boy found the chest, grabbed the ring, but the chest vanished. The ring was given to a church, now in Skógar Museum.",
+        safety: null, lat: 63.5321, lng: -19.5114 }
+    ],
+    food: [
+      { name: "Bónus supermarket", desc: "Stock up in Hvolsvöllur/Hella for the week", gf: false, lat: 63.7510, lng: -20.2260 },
+      { name: "Cook-in at Vík House", desc: "Light cooking night — kitchen available", gf: false, lat: null, lng: null }
+    ]
+  },
+  {
+    id: 4, date: "Thu Jul 16", title: "Vík Explorer Day",
+    route: "Vík area", km: 80,
+    stay: { name: "Vik House", address: "Brekkur 1, Vík 871", checkin: null, lat: 63.4186, lng: -19.0060 },
+    match: null,
+    activities: [
+      { name: "Þakgil–Mælifell hike", duration: "~4 hrs", booked: false, hikeKm: 11.9,
+        brief: "7.4 mi, 1981 ft gain. Summit views of Mýrdalsjökull glacier and Katla volcano.",
+        details: "A substantial hike through dramatic terrain culminating in panoramic views of one of Iceland's most dangerous volcanic systems.",
+        tips: ["Start early for afternoon beach time", "Trail muddy — hiking boots essential", "Layers — exposed at summit"],
+        trivia: "Katla beneath Mýrdalsjökull erupts every 40–80 years, considered overdue. Glacial floods are catastrophic.",
+        safety: null, lat: 63.4522, lng: -19.0860 },
+      { name: "Reynisfjara black sand beach", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Jet-black sand, hexagonal basalt columns, Reynisdrangar sea stacks.",
+        details: "One of the most famous beaches in the world. Dramatic basalt column formations, a cave, and iconic sea stacks offshore.",
+        tips: ["Check safetravel.is morning of", "NEVER turn your back to the ocean", "Stay well above waterline — steep shelf pulls waves far up", "Basalt cave to the left facing ocean"],
+        trivia: "Reynisdrangar stacks are trolls caught by sunrise turned to stone. Basalt columns form when lava cools slowly, cracking into hexagons.",
+        safety: "Reynisfjara has killed tourists. Sneaker waves surge 50+ meters up beach unpredictably. Stay far from waterline.",
+        lat: 63.4047, lng: -19.0714 },
+      { name: "Dyrhólaey", duration: "1.5 hrs", booked: false, hikeKm: null,
+        brief: "120 m promontory with massive natural arch. Lighthouse, panoramic views.",
+        details: "Summer puffin nesting site with stunning views. The natural arch is large enough for a small boat to pass through.",
+        tips: ["Evening 6–9 PM best for puffins", "Upper Dyrhólaey for best views + puffin vantage", "Bring binoculars", "July twilight = decent light until 10 PM"],
+        trivia: "\"Dyrhólaey\" means \"Door Hill Island.\" Puffins spend most of their lives at sea, come to land only to breed Apr–Aug. They fly 55 mph and dive to 60 m.",
+        safety: null, lat: 63.4019, lng: -19.1284 },
+      { name: "Hjörleifshöfði / Yoda Cave", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "Sea cave opening looks like Yoda's face.",
+        details: "A rock formation and sea cave that bears a striking resemblance to the Star Wars character, surrounded by black sand desert.",
+        tips: ["Drive sand road carefully — rough but passable", "Best with someone in entrance for scale"],
+        trivia: "Resemblance to Yoda went viral. Now one of Vík's quirky must-sees.",
+        safety: null, lat: 63.4228, lng: -18.7932 },
+      { name: "Reyniskirkja church", duration: "30 min", booked: false, hikeKm: null,
+        brief: "White wooden church on hill overlooking Vík and sea stacks.",
+        details: "A charming white church perched on the hillside above Vík with commanding views of the coastline and Reynisdrangar stacks.",
+        tips: ["Walk up for the view even if closed — panorama is the point"],
+        trivia: null, safety: null, lat: 63.4189, lng: -19.0075 }
+    ],
+    food: [
+      { name: "Suður-Vík", desc: "Lunch in Vík", gf: false, lat: 63.4175, lng: -19.0085 },
+      { name: "Smiðjan Brugghús", desc: "Brewpub — pizza + beer", gf: false, lat: 63.4188, lng: -19.0050 },
+      { name: "Black Crust Pizzeria", desc: "Pizza restaurant in Vík", gf: false, lat: 63.4189, lng: -18.9985 }
+    ]
+  },
+  {
+    id: 5, date: "Fri Jul 17", title: "Glaciers & Icebergs",
+    route: "Vík → Fjaðrárgljúfur → Skaftafell → Fjallsárlón → Jökulsárlón → Höfn", km: 270,
+    stay: { name: "Fosshotel Vatnajökull", address: "Lindarbakki, Höfn 781", checkin: null, lat: 64.2529, lng: -15.2107 },
+    match: null,
+    activities: [
+      { name: "Fjaðrárgljúfur canyon", duration: "45 min", booked: false, hikeKm: null,
+        brief: "100 m deep, 2 km long serpentine canyon with green moss walls.",
+        details: "A dramatic winding canyon carved over millennia by the Fjaðrá river. Lush green moss covers the sheer walls.",
+        tips: ["Walk full rim path for highlights", "Early start beats crowds"],
+        trivia: "Went viral after Justin Bieber's 'I'll Show You' video 2015. Tourist surge caused temporary closures.",
+        safety: null, lat: 63.7713, lng: -18.1722 },
+      { name: "Svartifoss hike (Skaftafell)", duration: "2 hrs", booked: false, hikeKm: 5.5,
+        brief: "\"Black Falls\" — waterfall framed by dark basalt columns. 5.5 km round trip.",
+        details: "An easy-to-moderate hike through Skaftafell in Vatnajökull National Park to a waterfall dramatically framed by hexagonal basalt columns.",
+        tips: ["Well-marked trail", "Last stretch steepest", "Hit Skaftafellsjökull viewpoint on way back"],
+        trivia: "Inspired design of Hallgrímskirkja church in Reykjavik. The architect modeled the façade after these columns.",
+        safety: null, lat: 64.0148, lng: -16.9757 },
+      { name: "Fjallsárlón Glacier Hike & Boat Tour", duration: "3 hrs", booked: true, hikeKm: null,
+        brief: "Hike on Vatnajökull outlet + zodiac among icebergs.",
+        details: "More intimate than Jökulsárlón. Guided glacier walk followed by a zodiac boat tour through icebergs calving from the glacier front.",
+        tips: ["All equipment provided", "Dress warmly in layers", "Meet at Fjallsárlón road, Öræfi 785"],
+        trivia: "Vatnajökull is Europe's largest glacier — covers ~8% of Iceland, up to 1000 m thick. Several active volcanoes beneath.",
+        safety: null, lat: 64.0171, lng: -16.3741 },
+      { name: "Jökulsárlón glacier lagoon", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Icebergs calve from glacier, seals on ice. Iceland's deepest lake at 248 m.",
+        details: "Growing since the 1930s as the glacier retreats. Massive icebergs drift through the lagoon toward the sea.",
+        tips: ["Walking shore and bridge is plenty — you have the boat tour", "Look for seals on ice", "Icebergs can be blue, white, or black with ash"],
+        trivia: "Featured in two Bond films, Batman Begins, Tomb Raider, Interstellar. Didn't exist before 1935 — entirely from glacial retreat.",
+        safety: null, lat: 64.0784, lng: -16.2306 },
+      { name: "Diamond Beach", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Glacier ice chunks on jet-black sand.",
+        details: "Chunks of glacial ice wash up on the volcanic black sand beach, glittering like diamonds in the light.",
+        tips: ["Smaller in July vs winter but still beautiful", "Evening light especially dramatic", "Don't climb large ice near water"],
+        trivia: "Some ice chunks up to 1000 years old. Break off icebergs, flow to sea, wash back on beach.",
+        safety: null, lat: 64.0779, lng: -16.2182 },
+      { name: "Vestrahorn / Stokksnes", duration: "1.5 hrs", booked: false, hikeKm: null,
+        brief: "454 m horn-shaped mountain on black sand. Mirror reflections at low tide.",
+        details: "One of Iceland's most photographed mountains. The dramatic peak rises from flat black sand, creating stunning reflections when conditions are right.",
+        tips: ["Pay 900 ISK at Viking Café to access", "Evening light post-9 PM can be extraordinary", "Check tide times for reflections", "Photography pilgrimage site — bring best camera"],
+        trivia: "Made of gabbro rock (not volcanic like most Icelandic mountains). An igneous intrusion — magma cooled slowly underground, exposed by erosion.",
+        safety: null, lat: 64.2559, lng: -15.0068 }
+    ],
+    food: [
+      { name: "Pakkhús", desc: "Langoustine in Höfn harbor — book 8 PM", gf: true, lat: 64.2539, lng: -15.2108 },
+      { name: "Humarhöfnin", desc: "Alternative langoustine restaurant in Höfn", gf: true, lat: 64.2507, lng: -15.2052 },
+      { name: "Pack picnic for Skaftafell", desc: "No food in the park — bring everything", gf: false, lat: null, lng: null }
+    ]
+  },
+  {
+    id: 6, date: "Sat Jul 18", title: "Laki & the Highlands",
+    route: "Höfn → Klaustur → Laki via F206 → Klaustur", km: 200,
+    stay: { name: "Stracta Apartments", address: "Orustastaðir, Kirkjubæjarklaustur 881", checkin: "~6:00 PM", lat: 63.7889, lng: -17.9862 },
+    match: null,
+    activities: [
+      { name: "Lómagnúpur viewpoint", duration: "5 min", booked: false, hikeKm: null,
+        brief: "700 m cliff face beside Route 1.",
+        details: "A massive sheer cliff visible from the Ring Road — one of the most dramatic roadside sights in south Iceland.",
+        tips: ["Pull over and gawk — 5 min is all you need"],
+        trivia: null, safety: null, lat: 63.8735, lng: -17.6978 },
+      { name: "Dverghamrar \"Dwarf Cliffs\"", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Columnar basalt right off Route 1.",
+        details: "Small but striking basalt column formation easily accessible from the Ring Road. Named for the elves believed to live here.",
+        tips: ["Quick stop, no hiking needed"],
+        trivia: "Icelanders take elf folklore seriously — construction rerouted to avoid elf habitats. 2007 survey: over half the population wouldn't deny elves exist.",
+        safety: null, lat: 63.8146, lng: -17.8890 },
+      { name: "Fagrifoss waterfall", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Dramatic waterfall on F206 en route to Laki.",
+        details: "A striking waterfall accessible by a short walk from the highland road, setting the tone for Laki.",
+        tips: ["Short walk from road", "Nice warm-up before Laki"],
+        trivia: null, safety: null, lat: 63.9216, lng: -18.2134 },
+      { name: "Laki / Lakagígar craters", duration: "4–5 hrs", booked: false, hikeKm: 8.0,
+        brief: "1783 eruption — one of largest lava flows recorded. 25 km crater row in vivid green moss.",
+        details: "The 1783 eruption lasted 8 months and was one of the most devastating volcanic events in recorded history. Summit climb has panoramic views. Tjarnargígur crater has a lake inside.",
+        tips: ["Summit climb is short but worth every step", "Bring lunch for summit — best picnic of the trip", "F206 requires 4x4 (Land Cruiser is set)", "Fill fuel in Klaustur before — no services on F-road", "Allow 1.5 hrs each way for F-road driving"],
+        trivia: "1783 eruption killed ~25% of Iceland's population from famine. SO₂ cloud reached Europe, ~6 million deaths worldwide. Benjamin Franklin in Paris wrote about 'dry fog' and correctly attributed it to Iceland. Some historians link resulting famine to French Revolution.",
+        safety: null, lat: 64.0693, lng: -18.2369 }
+    ],
+    food: [
+      { name: "N1 Klaustur", desc: "Fuel + lunch supplies before F-road", gf: false, lat: 63.7939, lng: -18.0397 },
+      { name: "Hotel Klausturhof", desc: "Dinner option in Kirkjubæjarklaustur", gf: false, lat: 63.7862, lng: -18.0598 },
+      { name: "Systrakaffi", desc: "Small café in Klaustur", gf: false, lat: 63.7860, lng: -18.0580 }
+    ]
+  },
+  {
+    id: 7, date: "Sun Jul 19", title: "Plane Wreck & Secret Lagoon",
+    route: "Klaustur → Sólheimasandur → Flúðir → Selfoss", km: 225,
+    stay: { name: "Heima Holiday Homes", address: "Smáratún 1, Selfoss 800", checkin: "~4:30 PM", lat: 63.9360, lng: -20.9942 },
+    match: { event: "World Cup Final", time: "7:00 PM", note: "Find somewhere in Selfoss to watch!" },
+    activities: [
+      { name: "DC-3 plane wreck Sólheimasandur", duration: "1.5 hrs", booked: false, hikeKm: null,
+        brief: "US Navy DC-3 crash-landed 1973 on black sand. All crew survived.",
+        details: "4 km walk each way across featureless black desert to reach the wreck of a US Navy Douglas DC-3.",
+        tips: ["4 km each way flat — allow 1.5 hrs total", "Exposed — bring water and windbreaker", "Marked parking off Route 1, no driving to wreck", "Best in overcast weather for dramatic photos"],
+        trivia: "Plane ran low on fuel, icing made instruments unreliable. Pilot crash-landed on beach rather than risk ocean. All 7 crew walked away. Navy stripped useful parts, left fuselage.",
+        safety: null, lat: 63.4590, lng: -19.3647 },
+      { name: "Secret Lagoon (Gamla Laugin)", duration: "1.5 hrs", booked: true, hikeKm: null,
+        brief: "Iceland's oldest natural geothermal pool dating to 1891. Water 38–40°C.",
+        details: "A beautiful natural hot spring pool with a mini geyser that erupts near the pool edge. Much more laid-back than Blue Lagoon.",
+        tips: ["Towels included", "Pre-swim shower mandatory (Icelandic custom)", "Watch mini-geyser near pool edge"],
+        trivia: "One of Iceland's oldest pools. In early 1900s women used it for laundry in the hot water.",
+        safety: null, lat: 64.1371, lng: -20.3093 },
+      { name: "Hjálparfoss", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Twin waterfalls with radial basalt in quiet valley. Off tourist trail.",
+        details: "A peaceful pair of waterfalls surrounded by unusual radial basalt formations in a lush green valley.",
+        tips: ["Easy access, short walk from parking", "One of the more peaceful stops"],
+        trivia: "\"Hjálparfoss\" means \"Help Waterfall\" — weary travelers found water and rest here after crossing the difficult highland interior.",
+        safety: null, lat: 64.1339, lng: -19.8144 }
+    ],
+    food: [
+      { name: "Bónus Selfoss", desc: "HEAVY stock: sandwiches, snacks, hot drinks, breakfast for tomorrow, dinner", gf: false, lat: 63.9356, lng: -21.0010 },
+      { name: "Pre-make sandwiches tonight", desc: "For Landmannalaugar — no food out there", gf: false, lat: null, lng: null }
+    ]
+  },
+  {
+    id: 8, date: "Mon Jul 20", title: "Landmannalaugar",
+    route: "Selfoss → F208 → Landmannalaugar → Selfoss", km: 400,
+    stay: { name: "Heima Holiday Homes", address: "Smáratún 1, Selfoss 800", checkin: null, lat: 63.9360, lng: -20.9942 },
+    match: null,
+    activities: [
+      { name: "Brennisteinsalda + Bláhnúkur loop", duration: "~5 hrs", booked: false, hikeKm: null,
+        brief: "Highlight of entire trip. Rainbow-colored rhyolite mountains with active fumaroles and obsidian fields.",
+        details: "Brennisteinsalda \"Sulphur Wave\" 855 m — one of the most colorful mountains on Earth. Active fumaroles on the slopes. Then Bláhnúkur \"Blue Peak\" 943 m through obsidian. Full loop ~5 hrs.",
+        tips: ["Bring layers, wind protection, sunscreen, lots of water", "Trekking poles very helpful on loose scree descent", "Head net recommended — midges thick near springs", "Omnom chocolate at Bláhnúkur summit is the planned treat!", "F208 north Sigalda approach has NO river crossings"],
+        trivia: "Rainbow colors from rhyolite — silica-rich rock. Iron oxides = red/yellow, sulfur = yellow-green, obsidian = blue-black. Only a few thousand years old.",
+        safety: "Bláhnúkur descent is steep loose scree — go slow, use poles. Hot springs at base are boiling in places — only soak in designated area.",
+        lat: 63.9930, lng: -19.0615 },
+      { name: "Landmannalaugar hot spring", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Natural geothermal pool 36–40°C where warm and cold streams mix.",
+        details: "The signature hot spring of the Icelandic highlands. Warm water mixes with a cold river, letting you find your ideal temperature.",
+        tips: ["Bring swimsuits + quick-dry towels!", "Move around to find right temperature", "Changing facilities basic — towel wrap", "Perfect post-hike reward"],
+        trivia: null, safety: null, lat: 63.9925, lng: -19.0580 },
+      { name: "Ljótipollur red crater lake (optional)", duration: "45 min add-on", booked: false, hikeKm: null,
+        brief: "Vivid red-rimmed crater with deep blue water.",
+        details: "An optional add-on only if the group has energy. A vivid red volcanic crater containing an intensely blue lake.",
+        tips: ["Only if everyone has energy after hike", "Adds 45 min", "Stunning red/blue contrast from rim"],
+        trivia: "\"Ljótipollur\" means \"Ugly Puddle\" — ironic because it's one of the most beautiful Highland sights.",
+        safety: null, lat: 63.9481, lng: -18.9984 }
+    ],
+    food: [
+      { name: "Pre-made sandwiches at Bláhnúkur summit + Omnom chocolate", desc: "Summit picnic with the good stuff", gf: false, lat: null, lng: null },
+      { name: "Grandkaffi Selfoss", desc: "Casual fast dinner after a long day", gf: false, lat: 63.9358, lng: -20.9975 }
+    ]
+  },
+  {
+    id: 9, date: "Tue Jul 21", title: "Snæfellsnes South",
+    route: "Selfoss → Borgarnes → Snæfellsnes south → Arnarstapi", km: 250,
+    stay: { name: "Arnarstapi Hotel", address: "Arnarstapi 350, IS-355", checkin: "~3:30 PM", lat: 64.7671, lng: -23.6307 },
+    match: null,
+    activities: [
+      { name: "Gerðuberg basalt columns", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Dramatic wall of perfectly formed hexagonal columns right off road.",
+        details: "One of the most symmetrical displays of columnar basalt in Iceland, easily accessible from the road.",
+        tips: ["Quick stop, easy access", "Symmetry of columns is remarkable"],
+        trivia: null, safety: null, lat: 64.8600, lng: -22.3708 },
+      { name: "Ytri Tunga seal beach", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Small beach with resident harbor seal colony.",
+        details: "A golden-sand beach where harbor seals haul out to rest and bask in the sun year-round.",
+        tips: ["Bring binoculars!", "Keep respectful distance", "Mid-day best for viewing"],
+        trivia: "Harbor seals are one of two species in Iceland year-round. Can hold breath up to 30 minutes.",
+        safety: null, lat: 64.7974, lng: -23.4348 },
+      { name: "Búðakirkja black church", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Jet-black church alone on lava field.",
+        details: "A strikingly photogenic jet-black church standing in solitary splendor on a moss-covered lava field.",
+        tips: ["Photo stop only — interior usually closed", "Lava field setting is otherworldly"],
+        trivia: "Original church here from 1703. Painted black to preserve wood — tar was traditional sealant.",
+        safety: null, lat: 64.8177, lng: -23.5093 },
+      { name: "Arnarstapi cliff walk to Hellnar", duration: "1.5 hrs", booked: false, hikeKm: 5.0,
+        brief: "Highlight of Day 9. 2.5 km one-way coastal trail with basalt arches and seabird colonies.",
+        details: "One of Iceland's most beautiful coastal walks. Basalt sea arches, columnar cliffs, seabird colonies, and the Bárður Snæfellsás sculpture at the start.",
+        tips: ["Walk slowly — something spectacular every 100 m", "Bárður statue at Arnarstapi end is great start", "Fjöruhúsið café at Hellnar end famous for fish soup", "Seabird colonies active in July"],
+        trivia: "Bárður Snæfellsás — half-troll, half-human from sagas who walked into Snæfellsjökull glacier and became its guardian spirit. Sculptor Ragnar Kjartansson created 1.5-ton statue in 1989.",
+        safety: null, lat: 64.7671, lng: -23.6307 }
+    ],
+    food: [
+      { name: "Geirabakari Kaffihús Borgarnes", desc: "Bakery — recovery lunch after Landmannalaugar", gf: false, lat: 64.5399, lng: -21.9071 },
+      { name: "Settlement Center café Borgarnes", desc: "Alternative lunch option", gf: false, lat: 64.5357, lng: -21.9232 },
+      { name: "Fjöruhúsið café Hellnar", desc: "Famous fish soup at end of cliff walk", gf: true, lat: 64.7517, lng: -23.6454 },
+      { name: "Arnarstapi Hotel restaurant", desc: "Dinner at hotel", gf: false, lat: 64.7691, lng: -23.6259 }
+    ]
+  },
+  {
+    id: 10, date: "Wed Jul 22", title: "Snæfellsnes North & Home",
+    route: "Arnarstapi → Snæfellsnes north → Borgarnes → Keflavik → Boston", km: 300,
+    stay: null,
+    match: null,
+    activities: [
+      { name: "Vatnshellir lava cave", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Guided tour into 8000-year-old lava tube, two levels, 35 m underground.",
+        details: "A fascinating guided descent into a prehistoric lava tube with two distinct levels and dramatic formations.",
+        tips: ["Book ahead ~$35/adult", "Wear warm layers — cool underground", "Headlamps provided, bring own for extra", "Good shoes with grip"],
+        trivia: "Jules Verne chose nearby Snæfellsjökull as the entrance to the center of the Earth in his novel. This cave gives a taste of what he imagined.",
+        safety: null, lat: 64.7501, lng: -23.8085 },
+      { name: "Djúpalónssandur black pebble beach", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Black pebble beach with \"lifting stones\" and 1948 shipwreck remains.",
+        details: "A dramatic beach strewn with rounded black pebbles, remnants of a 1948 trawler wreck, and four historical lifting stones used to test fishermen's strength.",
+        tips: ["Try the stones! Fullsterkur=154 kg, Hálfsterkur=100 kg, Hálfdrættingur=54 kg, Amlóði=23 kg", "Don't remove pebbles — leave no trace"],
+        trivia: "If a fisherman couldn't lift hálfdrættingur (54 kg), he was deemed too weak for boat work.",
+        safety: null, lat: 64.7529, lng: -23.8981 },
+      { name: "Kirkjufell + Kirkjufellsfoss", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "\"Church Mountain\" — most photographed mountain in Iceland with waterfall foreground.",
+        details: "The distinctive cone-shaped mountain near Grundarfjörður is Iceland's most iconic photography subject, with a picturesque waterfall completing the composition.",
+        tips: ["Classic photo from bridge near waterfall", "Morning light ideal, noon still works", "Don't climb — dangerous, no trail", "Grundarfjörður has decent restaurants"],
+        trivia: "Appeared in Game of Thrones as \"Arrowhead Mountain\" north of the Wall. About 463 m tall, ~7 million years old.",
+        safety: null, lat: 64.9426, lng: -23.3072 }
+    ],
+    food: [
+      { name: "Bjargarsteinn Mathús Grundarfjörður", desc: "Last Icelandic meal — make it count!", gf: true, lat: 64.9279, lng: -23.2618 },
+      { name: "Borgarnes gas stop", desc: "Snacks for the drive", gf: false, lat: 64.5437, lng: -21.9107 }
+    ]
+  }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────
+let syncData = null;
+let lastFetchTime = null;
 
 const TRIP_START = new Date('2026-07-13T00:00:00');
 const TRIP_END = new Date('2026-07-22T23:59:59');
-const TOTAL_DAYS = 10;
+const PHOTO_BASE = 'https://raw.githubusercontent.com/freecodecollective/becahs-iceland-trip/main/data/photos/';
+const SYNC_URL = 'https://raw.githubusercontent.com/freecodecollective/becahs-iceland-trip/main/data/trip-data.json';
 
-async function loadData() {
-  try {
-    const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_PATH}?t=${Date.now()}`;
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    return await resp.json();
-  } catch (e) {
-    console.error('Failed to load trip data:', e);
-    return null;
-  }
-}
-
-function getTripDay() {
+// ─── HELPERS ──────────────────────────────────────────────────────
+function getCurrentDayNum() {
   const now = new Date();
   if (now < TRIP_START) return 0;
-  if (now > TRIP_END) return TOTAL_DAYS + 1;
-  const diffMs = now - TRIP_START;
-  return Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
+  if (now > TRIP_END) return 11;
+  const diff = now - TRIP_START;
+  return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 }
 
-function render(data) {
-  const container = document.getElementById('content');
-  const updatedEl = document.getElementById('lastUpdated');
+function getDayStatus(dayId) {
+  const current = getCurrentDayNum();
+  if (dayId < current) return 'past';
+  if (dayId === current) return 'today';
+  return 'future';
+}
 
-  if (!data || !data.itinerary || !data.itinerary.length) {
-    container.innerHTML = `
-      <div class="no-data">
-        <h2>No trip data yet</h2>
-        <p>Data will appear here once the travelers start syncing from the app.</p>
-      </div>`;
-    updatedEl.textContent = 'Not synced yet';
-    return;
+function mapsUrl(lat, lng) {
+  if (!lat || !lng) return null;
+  return `https://maps.google.com/?q=${lat},${lng}`;
+}
+
+function getTravelerData(key, type) {
+  if (!syncData || !syncData.travelers) return [];
+  const results = [];
+  for (const t of syncData.travelers) {
+    const arr = t[type] || [];
+    const match = arr.find(i => i.key === key);
+    if (match) results.push({ ...match, travelerName: t.name, travelerColor: t.colorHex });
   }
+  return results;
+}
 
-  const traveler = data.travelers?.[0];
-  const currentDay = getTripDay();
-  const updatedDate = data.lastUpdated ? new Date(data.lastUpdated) : null;
+function getPhotos(key) {
+  if (!syncData || !syncData.photos) return [];
+  return syncData.photos.filter(p => p.key === key);
+}
 
-  if (updatedDate) {
-    const ago = timeSince(updatedDate);
-    updatedEl.textContent = `Last synced ${ago}`;
+function renderStars(rating) {
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="star ${i <= rating ? 'filled' : ''}">&#9733;</span>`;
   }
+  return html;
+}
 
-  const checkInsByDay = {};
-  const ratingsByKey = {};
-  const notesByKey = {};
-
-  if (traveler) {
-    (traveler.checkIns || []).forEach(c => {
-      if (!checkInsByDay[c.dayID]) checkInsByDay[c.dayID] = {};
-      checkInsByDay[c.dayID][c.key] = c;
-    });
-    (traveler.ratings || []).forEach(r => { ratingsByKey[r.key] = r.rating; });
-    (traveler.notes || []).forEach(n => { notesByKey[n.key] = n.text; });
-  }
-
-  const photosByDay = {};
-  (data.photos || []).forEach(p => {
-    if (!photosByDay[p.dayID]) photosByDay[p.dayID] = [];
-    photosByDay[p.dayID].push(p);
-  });
-
-  const totalActivities = data.itinerary.reduce((sum, d) => sum + d.activityCount, 0);
-  const totalCheckIns = traveler ? (traveler.checkIns || []).length : 0;
-  const totalRatings = traveler ? (traveler.ratings || []).length : 0;
-  const totalPhotos = (data.photos || []).length;
-  const progressPct = currentDay <= 0 ? 0 : currentDay > TOTAL_DAYS ? 100 : Math.round((currentDay / TOTAL_DAYS) * 100);
+function renderRatingNotesPhotos(key) {
+  const ratings = getTravelerData(key, 'ratings');
+  const notes = getTravelerData(key, 'notes');
+  const photos = getPhotos(key);
 
   let html = '';
 
-  // Progress bar
-  html += `
-    <div class="progress-bar-container">
-      <div class="progress-label">
-        <span>${currentDay <= 0 ? 'Trip starts soon!' : currentDay > TOTAL_DAYS ? 'Trip complete!' : `Day ${currentDay} of ${TOTAL_DAYS}`}</span>
-        <span>${progressPct}%</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" style="width:${progressPct}%"></div>
-      </div>
-    </div>`;
-
-  // Stats
-  html += `
-    <div class="stats">
-      <div class="stat-card"><div class="number">${totalCheckIns}</div><div class="label">Check-ins</div></div>
-      <div class="stat-card"><div class="number">${totalRatings}</div><div class="label">Ratings</div></div>
-      <div class="stat-card"><div class="number">${totalPhotos}</div><div class="label">Photos</div></div>
-      <div class="stat-card"><div class="number">${traveler ? traveler.hikesCompleted : 0}</div><div class="label">Hikes Done</div></div>
-      <div class="stat-card"><div class="number">${traveler ? traveler.totalHikeDistanceKm : 0}</div><div class="label">km Hiked</div></div>
-      <div class="stat-card"><div class="number">${traveler ? (traveler.customEvents || []).length : 0}</div><div class="label">Bonus Activities</div></div>
-    </div>`;
-
-  // Day cards
-  data.itinerary.forEach(day => {
-    const dayClass = day.id < currentDay ? 'past' : day.id === currentDay ? 'today' : 'future';
-    const dayCheckIns = checkInsByDay[day.id] || {};
-    const checkedCount = Object.keys(dayCheckIns).length;
-    const dayPhotos = photosByDay[day.id] || [];
-
-    html += `<div class="day-card">`;
-    html += `<div class="day-header" onclick="toggleDay(this)" ${day.id === currentDay ? 'data-auto-expand="true"' : ''}>`;
-    html += `<div class="day-number ${dayClass}">${day.id}</div>`;
-    html += `<div class="day-info"><div class="day-title">${day.title}</div><div class="day-date">${day.date} &middot; ${day.driving} driving</div></div>`;
-
-    html += `<div class="day-badges">`;
-    if (checkedCount > 0) html += `<span class="badge">${checkedCount} done</span>`;
-    if (dayPhotos.length > 0) html += `<span class="badge" style="background:rgba(59,158,255,0.15);color:var(--accent)">${dayPhotos.length} pics</span>`;
-    html += `</div>`;
-
-    html += `<span class="day-chevron">&#9654;</span>`;
-    html += `</div>`;
-
-    // Body
-    html += `<div class="day-body">`;
-    html += `<div style="font-size:0.8rem;color:var(--muted);margin-bottom:8px">${day.route}</div>`;
-
-    // Activities
-    if (day.activities && day.activities.length > 0) {
-      html += `<ul class="activity-list">`;
-      day.activities.forEach((act, idx) => {
-        const key = `d${day.id}-a${idx}`;
-        const checked = dayCheckIns[key];
-        const rating = ratingsByKey[key];
-        const note = notesByKey[key];
-        const icon = checked ? '&#x2705;' : '&#x2B55;';
-
-        html += `<li class="activity-item">`;
-        html += `<span class="check-icon">${icon}</span>`;
-        html += `<span class="activity-name">${act.name}</span>`;
-        html += `<span class="activity-duration">${act.duration}</span>`;
-        if (rating) html += `<span class="activity-rating">${'&#9733;'.repeat(rating)}</span>`;
-        html += `</li>`;
-
-        if (note) {
-          html += `<div class="note-block">"${note}"</div>`;
-        }
-      });
-      html += `</ul>`;
+  // Ratings
+  if (ratings.length > 0) {
+    for (const r of ratings) {
+      html += `<div class="rating-row">
+        <span class="rating-label">${escHtml(r.travelerName)}:</span>
+        <span class="stars">${renderStars(r.rating)}</span>
+      </div>`;
     }
+  } else {
+    html += `<div class="rating-row"><span class="rating-label">Rating:</span>
+      <span class="stars">${renderStars(0)}</span></div>`;
+  }
 
-    // Custom events for this day
-    if (traveler && traveler.customEvents) {
-      const dayEvents = traveler.customEvents.filter(e => e.dayID === day.id);
-      dayEvents.forEach(evt => {
-        html += `<div class="activity-item" style="border:none;padding-top:4px">`;
-        html += `<span class="check-icon">&#x1F31F;</span>`;
-        html += `<span class="activity-name">${evt.name} <span style="color:var(--muted);font-size:0.75rem">(${evt.type})</span></span>`;
-        html += `</div>`;
-        if (evt.notes) html += `<div class="note-block">"${evt.notes}"</div>`;
-      });
+  // Notes
+  if (notes.length > 0) {
+    html += '<div class="notes-row">';
+    for (const n of notes) {
+      html += `<div class="notes-label">${escHtml(n.travelerName)}'s note:</div>
+        <div class="notes-text">${escHtml(n.text)}</div>`;
     }
+    html += '</div>';
+  } else {
+    html += '<div class="notes-row"><span class="notes-empty">No notes yet</span></div>';
+  }
 
-    // Photos
-    if (dayPhotos.length > 0) {
-      html += `<div class="photo-grid">`;
-      dayPhotos.forEach(p => {
-        html += `<div class="photo-thumb"><img src="${PHOTOS_BASE}${p.filename}" alt="${p.activityName}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`;
-      });
-      html += `</div>`;
+  // Photos
+  html += '<div class="photos-row"><div class="photos-label">Photos</div>';
+  if (photos.length > 0) {
+    html += '<div class="photos-grid">';
+    for (const p of photos) {
+      const url = PHOTO_BASE + encodeURIComponent(p.filename);
+      html += `<img class="photo-thumb" src="${url}" alt="${escHtml(p.activityName || '')}" onclick="openLightbox('${url}')" loading="lazy">`;
     }
+    html += '</div>';
+  } else {
+    html += '<span class="photos-empty">No photos yet</span>';
+  }
+  html += '</div>';
 
-    // Stay
-    if (day.stayName) {
-      html += `<div class="stay-info"><span class="stay-icon">&#x1F3E0;</span> Staying at <strong>${day.stayName}</strong></div>`;
-    }
-
-    html += `</div>`; // day-body
-    html += `</div>`; // day-card
-  });
-
-  container.innerHTML = html;
-
-  // Auto-expand current day
-  document.querySelectorAll('[data-auto-expand]').forEach(el => toggleDay(el));
+  return html;
 }
 
-function toggleDay(header) {
-  const body = header.nextElementSibling;
-  const chevron = header.querySelector('.day-chevron');
-  const isOpen = body.classList.toggle('open');
-  header.classList.toggle('expanded', isOpen);
-  chevron.classList.toggle('open', isOpen);
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── LIGHTBOX ─────────────────────────────────────────────────────
+function openLightbox(url) {
+  event.stopPropagation();
+  document.getElementById('lightboxImg').src = url;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ─── RENDER PROGRESS ──────────────────────────────────────────────
+function renderProgress() {
+  const current = getCurrentDayNum();
+  let pct, label;
+  if (current <= 0) { pct = 0; label = 'Trip starts Jul 13'; }
+  else if (current > 10) { pct = 100; label = 'Trip complete!'; }
+  else { pct = ((current - 1) / 10) * 100 + (10); label = `Day ${current} of 10`; }
+
+  document.getElementById('progressSection').innerHTML = `
+    <div class="progress-label">
+      <span>${label}</span>
+      <span>${Math.round(pct)}%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:${pct}%"></div>
+    </div>`;
+}
+
+// ─── RENDER STATS ─────────────────────────────────────────────────
+function renderStats() {
+  let checkIns = 0, ratingsCount = 0, photoCount = 0, hikesCount = 0, hikeKm = 0;
+
+  if (syncData && syncData.travelers) {
+    for (const t of syncData.travelers) {
+      checkIns += (t.checkIns || []).length;
+      ratingsCount += (t.ratings || []).length;
+      hikesCount = Math.max(hikesCount, t.hikesCompleted || 0);
+      hikeKm = Math.max(hikeKm, t.totalHikeDistanceKm || 0);
+    }
+  }
+  if (syncData && syncData.photos) {
+    photoCount = syncData.photos.length;
+  }
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card"><div class="icon">&#10004;&#65039;</div><div class="num">${checkIns}</div><div class="label">Check-ins</div></div>
+    <div class="stat-card"><div class="icon">&#11088;</div><div class="num">${ratingsCount}</div><div class="label">Ratings</div></div>
+    <div class="stat-card"><div class="icon">&#128247;</div><div class="num">${photoCount}</div><div class="label">Photos</div></div>
+    <div class="stat-card"><div class="icon">&#129406;</div><div class="num">${hikesCount}</div><div class="label">Hikes</div></div>
+    <div class="stat-card"><div class="icon">&#128099;</div><div class="num">${hikeKm.toFixed(1)}</div><div class="label">Km Hiked</div></div>
+  `;
+}
+
+// ─── RENDER DAYS ──────────────────────────────────────────────────
+function renderDays() {
+  const container = document.getElementById('daysContainer');
+  const currentDay = getCurrentDayNum();
+  let html = '';
+
+  for (const day of TRIP_DATA) {
+    const status = getDayStatus(day.id);
+    const isToday = status === 'today';
+    const expanded = isToday;
+
+    // Count booked activities
+    const bookedCount = day.activities.filter(a => a.booked).length;
+    const hikeActivities = day.activities.filter(a => a.hikeKm);
+
+    // Badges
+    let badges = '';
+    if (bookedCount > 0) badges += `<span class="badge badge-green">&#10003; ${bookedCount} booked</span>`;
+    if (hikeActivities.length > 0) {
+      const totalKm = hikeActivities.reduce((s, a) => s + a.hikeKm, 0);
+      badges += `<span class="badge badge-orange">&#129406; ${totalKm} km</span>`;
+    }
+    if (day.match) badges += `<span class="badge badge-accent">&#9917; Match</span>`;
+
+    html += `<div class="day-card" id="day-${day.id}">
+      <div class="day-header" onclick="toggleDay(${day.id})">
+        <div class="day-badge ${status}">${day.id}</div>
+        <div class="day-info">
+          <div class="day-title">${escHtml(day.title)}</div>
+          <div class="day-meta">
+            <span>${day.date}</span>
+            <span>&#8226; ~${day.km} km</span>
+          </div>
+        </div>
+        <div class="day-badges">${badges}</div>
+        <span class="chevron ${expanded ? 'open' : ''}" id="chev-${day.id}">&#9654;</span>
+      </div>
+      <div class="day-body ${expanded ? 'open' : ''}" id="body-${day.id}">
+        ${renderDayBody(day)}
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderDayBody(day) {
+  let html = '';
+
+  // Route bar
+  html += `<div class="route-bar">
+    <span class="icon">&#128663;</span>
+    <span>${escHtml(day.route)} &bull; ~${day.km} km</span>
+  </div>`;
+
+  // Match bar
+  if (day.match) {
+    html += `<div class="match-bar">
+      <span class="ball">&#9917;</span>
+      <span class="info">${escHtml(day.match.event)}</span>
+      <span class="time">${escHtml(day.match.time)} &mdash; ${escHtml(day.match.note)}</span>
+    </div>`;
+  }
+
+  // Custom events from sync
+  const customEvents = getCustomEventsForDay(day.id);
+  if (customEvents.length > 0) {
+    html += '<div class="section-title">&#127775; Custom Events</div>';
+    for (const ce of customEvents) {
+      html += `<div class="custom-event">
+        <span class="ce-icon">${ce.type === 'Activity' ? '&#127939;' : ce.type === 'Food' ? '&#127860;' : '&#128204;'}</span>
+        <span class="ce-name">${escHtml(ce.name)}</span>
+        ${ce.notes ? `<span class="ce-notes">${escHtml(ce.notes)}</span>` : ''}
+        <span style="font-size:0.7rem;color:var(--text3)">${escHtml(ce.travelerName)}</span>
+      </div>`;
+    }
+  }
+
+  // Activities
+  html += `<div class="section-title">&#128205; Activities (${day.activities.length})</div>`;
+  day.activities.forEach((act, idx) => {
+    const key = `d${day.id}-a${idx}`;
+    const mapLink = mapsUrl(act.lat, act.lng);
+    html += renderActivityCard(act, key, mapLink);
+  });
+
+  // Food
+  html += `<div class="section-title">&#127860; Food & Drink (${day.food.length})</div>`;
+  day.food.forEach((f, idx) => {
+    const key = `d${day.id}-f${idx}`;
+    const mapLink = mapsUrl(f.lat, f.lng);
+    html += renderFoodCard(f, key, mapLink);
+  });
+
+  // Accommodation
+  if (day.stay) {
+    const stayKey = `d${day.id}-stay`;
+    const stayMap = mapsUrl(day.stay.lat, day.stay.lng);
+    html += `<div class="section-title">&#127968; Accommodation</div>`;
+    html += `<div class="stay-card" onclick="toggleStay(this)">
+      <div class="stay-icon">&#127968;</div>
+      <div class="stay-info">
+        <h4>${escHtml(day.stay.name)}
+          ${stayMap ? `<a href="${stayMap}" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="display:inline-flex;width:22px;height:22px;font-size:0.65rem;margin-left:6px;vertical-align:middle;">&#128205;</a>` : ''}
+        </h4>
+        <div class="addr">${escHtml(day.stay.address)}</div>
+        ${day.stay.checkin ? `<div class="checkin">Check-in: ${escHtml(day.stay.checkin)}</div>` : ''}
+        <div class="stay-details">
+          ${renderRatingNotesPhotos(stayKey)}
+        </div>
+      </div>
+    </div>`;
+  } else {
+    html += `<div class="section-title">&#9992;&#65039; Flying home!</div>`;
+  }
+
+  return html;
+}
+
+function renderActivityCard(act, key, mapLink) {
+  let metaParts = [];
+  if (act.duration) metaParts.push(act.duration);
+  if (act.hikeKm) metaParts.push(`<span class="hike-tag badge badge-orange">&#129406; ${act.hikeKm} km hike</span>`);
+
+  let detailsHtml = '';
+  if (act.details) detailsHtml += `<p>${escHtml(act.details)}</p>`;
+
+  if (act.tips && act.tips.length > 0) {
+    detailsHtml += `<div class="callout callout-tips">
+      <div class="callout-title">&#128161; Tips</div>
+      <ul>${act.tips.map(t => `<li>${escHtml(t)}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  if (act.trivia) {
+    detailsHtml += `<div class="callout callout-trivia">
+      <div class="callout-title">&#129504; Fun Fact</div>
+      ${escHtml(act.trivia)}
+    </div>`;
+  }
+
+  if (act.safety) {
+    detailsHtml += `<div class="callout callout-safety">
+      <div class="callout-title">&#9888;&#65039; Safety Warning</div>
+      ${escHtml(act.safety)}
+    </div>`;
+  }
+
+  detailsHtml += renderRatingNotesPhotos(key);
+
+  return `<div class="activity-card" onclick="toggleActivity(this)">
+    <div class="act-top">
+      <div class="act-info">
+        <div class="act-name">
+          ${escHtml(act.name)}
+          ${act.booked ? '<span class="badge badge-green">&#10003; Booked</span>' : ''}
+        </div>
+        <div class="act-meta">${metaParts.join(' &bull; ')}</div>
+        <div class="act-brief">${escHtml(act.brief)}</div>
+      </div>
+      <div class="act-links">
+        ${mapLink ? `<a href="${mapLink}" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" title="Open in Google Maps">&#128205;</a>` : ''}
+        <span class="act-chevron">&#9654;</span>
+      </div>
+    </div>
+    <div class="act-details">${detailsHtml}</div>
+  </div>`;
+}
+
+function renderFoodCard(f, key, mapLink) {
+  return `<div class="food-card" onclick="toggleFood(this)">
+    <span class="food-icon">&#127860;</span>
+    <div class="food-info">
+      <div class="food-name">
+        ${escHtml(f.name)}
+        ${f.gf ? '<span class="gf-tag">GF OK</span>' : ''}
+        ${mapLink ? `<a href="${mapLink}" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="width:22px;height:22px;font-size:0.6rem;">&#128205;</a>` : ''}
+      </div>
+      <div class="food-desc">${escHtml(f.desc)}</div>
+      <div class="food-details">${renderRatingNotesPhotos(key)}</div>
+    </div>
+  </div>`;
+}
+
+function getCustomEventsForDay(dayId) {
+  if (!syncData || !syncData.travelers) return [];
+  const events = [];
+  for (const t of syncData.travelers) {
+    for (const ce of (t.customEvents || [])) {
+      if (ce.dayID === dayId) {
+        events.push({ ...ce, travelerName: t.name });
+      }
+    }
+  }
+  return events;
+}
+
+// ─── TOGGLES ──────────────────────────────────────────────────────
+function toggleDay(dayId) {
+  const body = document.getElementById(`body-${dayId}`);
+  const chev = document.getElementById(`chev-${dayId}`);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function toggleActivity(el) {
+  el.classList.toggle('expanded');
+}
+function toggleFood(el) {
+  el.classList.toggle('expanded');
+}
+function toggleStay(el) {
+  el.classList.toggle('expanded');
+}
+
+// ─── SYNC FETCH ───────────────────────────────────────────────────
+async function fetchSyncData() {
+  try {
+    const resp = await fetch(SYNC_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    syncData = await resp.json();
+    lastFetchTime = new Date();
+    updateSyncStatus(true);
+    render();
+  } catch (e) {
+    console.warn('Sync fetch failed:', e);
+    updateSyncStatus(false);
+  }
+}
+
+function updateSyncStatus(ok) {
+  const el = document.getElementById('syncStatus');
+  if (ok && syncData && syncData.lastUpdated) {
+    const d = new Date(syncData.lastUpdated);
+    const ago = timeSince(d);
+    el.innerHTML = `<span class="dot live"></span> Synced ${ago} ago`;
+  } else if (ok) {
+    el.innerHTML = `<span class="dot live"></span> Connected (no data yet)`;
+  } else {
+    el.innerHTML = `<span class="dot stale"></span> Offline &mdash; showing static data`;
+  }
 }
 
 function timeSince(date) {
-  const seconds = Math.floor((new Date() - date) / 1000);
-  if (seconds < 60) return 'just now';
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
+  const s = Math.floor((new Date() - date) / 1000);
+  if (s < 60) return `${s}s`;
+  if (s < 3600) return `${Math.floor(s/60)}m`;
+  if (s < 86400) return `${Math.floor(s/3600)}h`;
+  return `${Math.floor(s/86400)}d`;
 }
+
+// ─── RENDER ALL ───────────────────────────────────────────────────
+function render() {
+  renderProgress();
+  renderStats();
+  renderDays();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────
+render();
+fetchSyncData();
 
 // Auto-refresh every 5 minutes
-async function init() {
-  const data = await loadData();
-  render(data);
-  setInterval(async () => {
-    const fresh = await loadData();
-    if (fresh) render(fresh);
-  }, 5 * 60 * 1000);
-}
+setInterval(fetchSyncData, 5 * 60 * 1000);
 
-init();
+// Keyboard shortcut: Escape closes lightbox
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 </body>
 </html>
