@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T20:36:15Z",
+  "lastUpdated" : "2026-07-12T20:39:46Z",
   "photos" : [
 
   ],
@@ -573,6 +573,12 @@
           "itemName" : "custom-hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
           "key" : "custom-hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
           "timestamp" : "2026-07-12T20:34:49Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
+          "key" : "custom-hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
+          "timestamp" : "2026-07-12T20:36:55Z"
         },
         {
           "dayID" : -1,
@@ -603,6 +609,14 @@
           "itemName" : "d10-s15",
           "key" : "d10-s15",
           "timestamp" : "2026-07-11T17:34:45Z"
+        },
+        {
+          "dayID" : 5,
+          "itemName" : "Svartifoss hike (Skaftafell)",
+          "key" : "d5-a1",
+          "latitude" : 42.702373164061704,
+          "longitude" : -71.43716309543727,
+          "timestamp" : "2026-07-12T20:36:58Z"
         }
       ],
       "colorHex" : "#B87A40",
@@ -646,12 +660,21 @@
           "name" : "Test 434",
           "notes" : "",
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 0,
+          "id" : "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
+          "name" : "Svartifoss hike (Skaftafell)",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
 
       ],
-      "gpsPointCount" : 324,
+      "gpsPointCount" : 326,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -2596,6 +2619,18 @@
           "lat" : 42.702398583565895,
           "lng" : -71.43716075743387,
           "ts" : "2026-07-12T20:34:49Z"
+        },
+        {
+          "acc" : 9.82948403643565,
+          "lat" : 42.702373164061704,
+          "lng" : -71.43716309543727,
+          "ts" : "2026-07-12T20:36:55Z"
+        },
+        {
+          "acc" : 13.646868799546777,
+          "lat" : 42.70236620138001,
+          "lng" : -71.43716744441636,
+          "ts" : "2026-07-12T20:39:44Z"
         }
       ],
       "hikes" : [
@@ -2622,9 +2657,24 @@
           "pointCount" : 3,
           "source" : "gps",
           "startTime" : "2026-07-12T20:34:49Z"
+        },
+        {
+          "distanceKm" : 0,
+          "endTime" : "2026-07-12T20:37:00Z",
+          "name" : "Svartifoss hike (Skaftafell)",
+          "pointCount" : 1,
+          "source" : "gps",
+          "startTime" : "2026-07-12T20:36:55Z"
+        },
+        {
+          "distanceKm" : 5.5,
+          "name" : "Svartifoss hike (Skaftafell)",
+          "pointCount" : 0,
+          "source" : "checkin",
+          "startTime" : "2026-07-12T20:36:58Z"
         }
       ],
-      "hikesCompleted" : 3,
+      "hikesCompleted" : 4,
       "name" : "Chris",
       "notes" : [
         {
@@ -2696,8 +2746,8 @@
           "rating" : 5
         }
       ],
-      "totalHikeDistanceKm" : 0,
-      "waterfallsVisited" : 2
+      "totalHikeDistanceKm" : 5.5,
+      "waterfallsVisited" : 3
     }
   ]
 }
