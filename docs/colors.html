@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iceland Map Icon Colors — Pick a Scheme</title>
+<style>
+  @font-face {
+    font-family: 'Display';
+    src: local('Avenir Next'), local('Avenir'), local('Helvetica Neue');
+    font-weight: 600;
+  }
+  :root {
+    --bg: #fafaf9; --card-bg: #ffffff; --text: #1c1917;
+    --text-muted: #78716c; --border: #e7e5e4; --selected-ring: #3b82f6;
+    --shadow: rgba(28,25,23,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1918; --card-bg: #262524; --text: #f5f5f4;
+      --text-muted: #a8a29e; --border: #3a3835; --shadow: rgba(0,0,0,0.2);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Display', system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 780px; margin: 0 auto; padding: 40px 20px 60px; }
+  .header { text-align: center; margin-bottom: 40px; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; margin-bottom: 6px; }
+  .header p { color: var(--text-muted); font-size: 0.9rem; }
+  .scheme-card {
+    background: var(--card-bg); border: 2px solid var(--border);
+    border-radius: 16px; padding: 24px; margin-bottom: 20px;
+    cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; position: relative;
+  }
+  .scheme-card:hover { border-color: var(--selected-ring); box-shadow: 0 4px 20px var(--shadow); }
+  .scheme-card.selected { border-color: var(--selected-ring); box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+  .scheme-card.selected::after {
+    content: '✓ Selected'; position: absolute; top: 12px; right: 16px;
+    font-size: 0.75rem; font-weight: 600; color: var(--selected-ring); letter-spacing: 0.02em;
+  }
+  .scheme-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .scheme-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px; }
+  .icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .icon-item { display: flex; align-items: center; gap: 10px; }
+  .icon-circle {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .icon-circle svg { width: 16px; height: 16px; fill: white; }
+  .icon-label { font-size: 0.72rem; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .map-preview {
+    margin-top: 20px; border-radius: 12px; overflow: hidden;
+    position: relative; height: 180px; background: #d4e6c3;
+  }
+  @media (prefers-color-scheme: dark) { .map-preview { background: #2d4a3e; } }
+  .map-coast { position: absolute; inset: 0; overflow: hidden; }
+  .map-pin {
+    position: absolute; width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3); transform: translate(-50%, -50%);
+  }
+  .map-pin svg { width: 13px; height: 13px; fill: white; }
+  .current-tag {
+    display: inline-block; font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted);
+    border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px;
+    margin-left: 8px; vertical-align: middle;
+  }
+  .vote-banner {
+    margin-top: 32px; padding: 20px; text-align: center;
+    background: var(--card-bg); border: 2px solid var(--border);
+    border-radius: 16px; display: none;
+  }
+  .vote-banner.show { display: block; }
+  .vote-banner .picked { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .vote-banner .hint { font-size: 0.82rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <h1>🇮🇸 Map Icon Color Schemes</h1>
+    <p>Tap a scheme to pick your favorite — then tell Dad which one!</p>
+  </div>
+  <div id="schemes"></div>
+  <div class="vote-banner" id="voteBanner">
+    <div class="picked" id="pickedName"></div>
+    <div class="hint">Screenshot this and send it to Dad so he can update the app!</div>
+  </div>
+</div>
+<script>
+const ICONS = {
+  hiking: '<svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 5.3L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.56-.89-1.68-1.25-2.65-.84L7 8.3V13h2V9.6l1.9-.8"/></svg>',
+  waterfalls: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>',
+  snorkel: '<svg viewBox="0 0 24 24"><path d="M2 12c0 3.31 2.69 6 6 6h2v-2H8c-2.21 0-4-1.79-4-4s1.79-4 4-4h2V6H8C4.69 6 2 8.69 2 12zm20-6h-4v2h4v2h-4v2h4v2h-4v2h4c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>',
+  whale: '<svg viewBox="0 0 24 24"><path d="M12 20c4.97 0 9-2.69 9-6s-4.03-6-9-6-9 2.69-9 6 4.03 6 9 6zM4 8c0-2 2-3 2-3s0 3 2 3-1 3-1 3-3-1-3-3zm14 0c0-2-2-3-2-3s0 3-2 3 1 3 1 3 3-1 3-3z"/></svg>',
+  puffin: '<svg viewBox="0 0 24 24"><path d="M16 8.5c0-.28-.22-.5-.5-.5H14c-1.1 0-2 .9-2 2v.5c0 .55.45 1 1 1h2c.83 0 1.5-.67 1.5-1.5V9c0-.28-.22-.5-.5-.5zM8.5 7C6.01 7 4 9.01 4 11.5S6.01 16 8.5 16H9v4l3-3c2.76 0 5-2.24 5-5s-2.24-5-5-5H8.5z"/></svg>',
+  geothermal: '<svg viewBox="0 0 24 24"><path d="M13.5 0.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>',
+  glacier: '<svg viewBox="0 0 24 24"><path d="M11 1L5.5 8H2l10 14L22 8h-3.5L13 1h-2zm0 3.24L14.28 8H9.72L11 4.24z"/></svg>',
+  caves: '<svg viewBox="0 0 24 24"><path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22L14 6z"/></svg>',
+  museum: '<svg viewBox="0 0 24 24"><path d="M12 3L2 8v2h20V8L12 3zm0 2.74L17.12 8H6.88L12 5.74zM4 12v6h2v-6H4zm6 0v6h2v-6h-2zm6 0v6h2v-6h-2zM2 20v2h20v-2H2z"/></svg>',
+  viewpoint: '<svg viewBox="0 0 24 24"><circle cx="12" cy="4" r="2"/><path d="M12 7c-1.1 0-2 .9-2 2v5h1v7h2v-7h1V9c0-1.1-.9-2-2-2zM7 2v2h4V2H7zm6 0v2h4V2h-4z"/></svg>',
+  swim: '<svg viewBox="0 0 24 24"><path d="M22 21c-1.11 0-1.73-.37-2.18-.64-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.46.27-1.07.64-2.18.64s-1.73-.37-2.18-.64c-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.46.27-1.08.64-2.19.64-1.11 0-1.73-.37-2.18-.64-.37-.23-.6-.36-1.15-.36v-2c1.11 0 1.73.37 2.18.64.37.22.6.36 1.15.36.56 0 .78-.13 1.15-.36.46-.27 1.08-.64 2.19-.64s1.73.37 2.18.64c.37.23.59.36 1.15.36.56 0 .78-.13 1.15-.36.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.23.59.36 1.15.36v2zM8.67 12c.56 0 .78-.13 1.15-.36.46-.27 1.08-.64 2.19-.64s1.73.37 2.18.64c.37.22.6.36 1.15.36l1.76-4.97-1.88-.68-.96 2.74-.56-.2C13.91 8.08 13 7.62 12 7.62c-.99 0-1.91.46-2.7 1.07l-.56.2-.96-2.74-1.88.68L8.67 12z"/></svg>',
+  food: '<svg viewBox="0 0 24 24"><path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.008 4.008 0 000 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg>',
+  horse: '<svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>',
+  flight: '<svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>',
+  activity: '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
+  stays: '<svg viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2V10c0-2.21-1.79-4-4-4z"/></svg>'
+};
+const CATEGORIES = [
+  {key:'hiking',label:'Hiking'},{key:'waterfalls',label:'Waterfalls'},{key:'geothermal',label:'Geothermal'},
+  {key:'glacier',label:'Glaciers'},{key:'swim',label:'Swimming'},{key:'whale',label:'Whales'},
+  {key:'puffin',label:'Puffins'},{key:'caves',label:'Caves'},{key:'museum',label:'Museums'},
+  {key:'viewpoint',label:'Viewpoints'},{key:'snorkel',label:'Snorkeling'},{key:'food',label:'Food'},
+  {key:'horse',label:'Horseback'},{key:'flight',label:'Flights'},{key:'activity',label:'Activities'},
+  {key:'stays',label:'Stays'}
+];
+const SCHEMES = [
+  {id:'current',name:'Current',tag:'current',desc:"What's in the app now — functional but a bit muted",colors:{hiking:'#22C55E',waterfalls:'#06B6D4',snorkel:'#14B8A6',whale:'#3B82F6',puffin:'#F97316',geothermal:'#EF4444',glacier:'#06B6D4',caves:'#92400E',museum:'#A855F7',viewpoint:'#14B8A6',swim:'#3B82F6',food:'#22C55E',horse:'#92400E',flight:'#94A3B8',activity:'#F97316',stays:'#6366F1'}},
+  {id:'candy',name:'Candy Pop',desc:'Bright, sweet, and unmistakably fun — like a bag of Icelandic kleinur',colors:{hiking:'#10B981',waterfalls:'#22D3EE',snorkel:'#2DD4BF',whale:'#818CF8',puffin:'#FB923C',geothermal:'#F43F5E',glacier:'#67E8F9',caves:'#C084FC',museum:'#E879F9',viewpoint:'#34D399',swim:'#60A5FA',food:'#FBBF24',horse:'#FB923C',flight:'#A78BFA',activity:'#F472B6',stays:'#A78BFA'}},
+  {id:'aurora',name:'Northern Lights',desc:'Magentas, electric greens, and deep teals — like the sky at 2 AM',colors:{hiking:'#4ADE80',waterfalls:'#22D3EE',snorkel:'#5EEAD4',whale:'#6366F1',puffin:'#FBBF24',geothermal:'#F43F5E',glacier:'#7DD3FC',caves:'#E879F9',museum:'#C084FC',viewpoint:'#2DD4BF',swim:'#38BDF8',food:'#A3E635',horse:'#FCD34D',flight:'#D8B4FE',activity:'#FB7185',stays:'#818CF8'}},
+  {id:'sunset',name:'Midnight Sun',desc:'Warm golds, corals, and ocean blues — the sky that never sets',colors:{hiking:'#34D399',waterfalls:'#38BDF8',snorkel:'#2DD4BF',whale:'#60A5FA',puffin:'#FDBA74',geothermal:'#FB7185',glacier:'#7DD3FC',caves:'#F0ABFC',museum:'#C4B5FD',viewpoint:'#5EEAD4',swim:'#93C5FD',food:'#FCD34D',horse:'#FDBA74',flight:'#D4D4D8',activity:'#FDA4AF',stays:'#A5B4FC'}},
+  {id:'rainbow',name:'Full Rainbow',desc:'Every category gets its own hue — maximum distinction, maximum joy',colors:{hiking:'#22C55E',waterfalls:'#06B6D4',snorkel:'#0EA5E9',whale:'#6366F1',puffin:'#F59E0B',geothermal:'#EF4444',glacier:'#38BDF8',caves:'#D946EF',museum:'#8B5CF6',viewpoint:'#14B8A6',swim:'#3B82F6',food:'#F97316',horse:'#CA8A04',flight:'#A78BFA',activity:'#EC4899',stays:'#0D9488'}}
+];
+const PIN_POSITIONS = [
+  {x:32,y:35,cat:'geothermal'},{x:18,y:60,cat:'waterfalls'},{x:50,y:28,cat:'glacier'},
+  {x:65,y:55,cat:'hiking'},{x:80,y:30,cat:'whale'},{x:42,y:70,cat:'stays'},
+  {x:72,y:72,cat:'food'},{x:15,y:38,cat:'puffin'},{x:88,y:55,cat:'activity'},{x:55,y:50,cat:'swim'}
+];
+let selectedScheme = null;
+function render() {
+  const c = document.getElementById('schemes'); c.innerHTML = '';
+  SCHEMES.forEach(s => {
+    const d = document.createElement('div');
+    d.className = 'scheme-card' + (selectedScheme === s.id ? ' selected' : '');
+    d.onclick = () => { selectedScheme = s.id; render(); };
+    const tag = s.tag ? '<span class="current-tag">'+s.tag+'</span>' : '';
+    const icons = CATEGORIES.map(cat =>
+      '<div class="icon-item"><div class="icon-circle" style="background:'+s.colors[cat.key]+'">'+ICONS[cat.key]+'</div><span class="icon-label">'+cat.label+'</span></div>'
+    ).join('');
+    const pins = PIN_POSITIONS.map(p =>
+      '<div class="map-pin" style="left:'+p.x+'%;top:'+p.y+'%;background:'+s.colors[p.cat]+'">'+ICONS[p.cat]+'</div>'
+    ).join('');
+    d.innerHTML = '<div class="scheme-name">'+s.name+tag+'</div><div class="scheme-desc">'+s.desc+'</div><div class="icons-grid">'+icons+'</div><div class="map-preview"><svg class="map-coast" viewBox="0 0 400 180" preserveAspectRatio="none" style="opacity:0.3"><path d="M0 180 L0 120 Q30 100 60 110 Q90 95 120 105 Q150 80 180 95 Q210 70 240 85 Q280 60 320 80 Q350 75 380 90 Q400 85 400 95 L400 180 Z" fill="currentColor" style="color:var(--text)"/></svg>'+pins+'</div>';
+    c.appendChild(d);
+  });
+  const b = document.getElementById('voteBanner');
+  const p = document.getElementById('pickedName');
+  if (selectedScheme) {
+    const name = SCHEMES.find(x => x.id === selectedScheme).name;
+    b.classList.add('show'); p.textContent = '✨ You picked: ' + name;
+  } else { b.classList.remove('show'); }
+}
+render();
+</script>
+</body>
+</html>
