@@ -1984,11 +1984,25 @@ function renderDayBody(day) {
   return html;
 }
 
+function getCheckInInfo(key) {
+  if (!syncData || !syncData.travelers) return null;
+  for (var ti = 0; ti < syncData.travelers.length; ti++) {
+    var t = syncData.travelers[ti];
+    var cins = t.checkIns || [];
+    for (var ci = 0; ci < cins.length; ci++) {
+      if (cins[ci].key === key) return { travelerName: t.name, timestamp: cins[ci].timestamp };
+    }
+  }
+  return null;
+}
+
 function renderActivityCard(act, key) {
   const mapLink = mapsUrl(act.lat, act.lng);
+  const checkIn = getCheckInInfo(key);
   let metaParts = [];
   if (act.duration) metaParts.push(act.duration);
   if (act.hikeKm) metaParts.push('<span class="hike-tag badge badge-orange">&#129406; ' + act.hikeKm + ' km hike</span>');
+  if (checkIn) metaParts.push(checkIn.travelerName + ' &bull; ' + new Date(checkIn.timestamp).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"}));
 
   let detailsHtml = '';
   if (act.details) detailsHtml += '<p>' + escHtml(act.details) + '</p>';
@@ -2006,7 +2020,7 @@ function renderActivityCard(act, key) {
 
   return '<div class="activity-card" onclick="toggleActivity(this)">' +
     '<div class="act-top"><div class="act-info">' +
-    '<div class="act-name">' + escHtml(act.name) + (act.booked ? ' <span class="badge badge-green">&#10003; Booked</span>' : '') + '</div>' +
+    '<div class="act-name">' + escHtml(act.name) + (act.booked ? ' <span class="badge badge-green">&#10003; Booked</span>' : '') + (checkIn ? ' <span class="badge badge-green">&#10003; Visited</span>' : '') + '</div>' +
     '<div class="act-meta">' + metaParts.join(' &bull; ') + '</div>' +
     '<div class="act-brief">' + escHtml(act.brief) + '</div></div>' +
     '<div class="act-links">' +
@@ -2017,10 +2031,12 @@ function renderActivityCard(act, key) {
 
 function renderFoodCard(f, key) {
   const mapLink = mapsUrl(f.lat, f.lng);
+  const checkIn = getCheckInInfo(key);
   return '<div class="food-card" onclick="toggleFood(this)">' +
     '<span class="food-icon">&#127860;</span><div class="food-info">' +
     '<div class="food-name">' + escHtml(f.name) +
     (f.gf ? ' <span class="gf-tag">GF OK</span>' : '') +
+    (checkIn ? ' <span class="badge badge-green">&#10003; Visited</span>' : '') +
     (mapLink ? ' <a href="' + mapLink + '" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="width:22px;height:22px;font-size:0.6rem;">&#128205;</a>' : '') +
     '</div><div class="food-desc">' + escHtml(f.desc) + '</div>' +
     '<div class="food-details">' + renderRatingNotesPhotos(key) + '</div></div></div>';
