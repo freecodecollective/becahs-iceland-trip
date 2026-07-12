@@ -1285,7 +1285,7 @@ function buildGPSFallbacks() {
     var p = allPoints[i];
     var dateStr = p.ts.substring(0, 10);
     var dayId = dayDateMap[dateStr];
-    if (dayId !== undefined && !fallbacks[dayId]) {
+    if (dayId !== undefined) {
       fallbacks[dayId] = [p.lat, p.lng];
     }
   }
