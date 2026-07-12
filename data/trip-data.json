@@ -73,7 +73,7 @@
     {
       "activities" : [
         {
-          "duration" : "2 hrs",
+          "duration" : "2 hrs (9:00–11:00 AM)",
           "name" : "Silfra fissure snorkeling"
         },
         {
@@ -173,7 +173,7 @@
           "name" : "Svartifoss hike (Skaftafell)"
         },
         {
-          "duration" : "3 hrs",
+          "duration" : "4 hrs (2:00 PM start)",
           "name" : "Fjallsárlón Glacier Hike & Boat Tour"
         },
         {
@@ -233,7 +233,7 @@
           "name" : "DC-3 plane wreck Sólheimasandur"
         },
         {
-          "duration" : "1.5 hrs",
+          "duration" : "1.5 hrs (1:30 PM start)",
           "name" : "Secret Lagoon (Gamla Laugin)"
         },
         {
@@ -326,7 +326,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T17:00:00Z",
+  "lastUpdated" : "2026-07-12T17:14:58Z",
   "photos" : [
     {
       "activityName" : "World Cup with family",
@@ -436,7 +436,7 @@
       "customEvents" : [
 
       ],
-      "gpsPointCount" : 220,
+      "gpsPointCount" : 223,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -1757,6 +1757,24 @@
           "lat" : 42.6668148945583,
           "lng" : -71.58971426146856,
           "ts" : "2026-07-12T17:00:00Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T17:14:37Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T17:14:37Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T17:14:37Z"
         }
       ],
       "hikesCompleted" : 0,
