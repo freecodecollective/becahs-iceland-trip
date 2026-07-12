@@ -47,7 +47,7 @@ tr:hover td { background: #243044; }
 .add-row { margin-top: 12px; display: flex; gap: 8px; align-items: center; }
 .add-row input { background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #f1f5f9; padding: 6px 10px; font-size: 0.85rem; }
 .add-row input[name="name"] { flex: 1; }
-.add-row input[name="km"] { width: 80px; text-align: right; }
+.add-row input[name="mi"] { width: 80px; text-align: right; }
 .add-row button { padding: 6px 14px; border-radius: 6px; border: none; background: #166534; color: #4ade80; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
 .remove-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.8rem; padding: 2px 6px; }
 .remove-btn:hover { text-decoration: underline; }
@@ -109,12 +109,12 @@ function parseItinerary(itinerary) {
 
 async function load() {
   try {
-    var res = await fetch(API + '/contents/data/trip-data.json?ref=main', { headers: headers() });
+    var res = await fetch(API + '/contents/data/trip-data.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
     var json = await res.json();
     syncData = JSON.parse(atob(json.content));
     parseItinerary(syncData.itinerary);
 
-    var statsRes = await fetch(API + '/contents/data/shared-stats.json?ref=main', { headers: headers() });
+    var statsRes = await fetch(API + '/contents/data/shared-stats.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
     if (statsRes.ok) {
       var statsJson = await statsRes.json();
       sharedStatsSha = statsJson.sha;
@@ -198,7 +198,7 @@ function render() {
 
   html += '<div class="total-card">';
   html += '<div><span class="big">' + totalMiles.toFixed(1) + '</span><span class="unit">miles hiked</span></div>';
-  html += '<div class="detail">' + totalKm.toFixed(1) + ' km &middot; ' + hikes.length + ' hikes &middot; ' + wfCount + ' waterfalls</div>';
+  html += '<div class="detail">' + hikes.length + ' hikes &middot; ' + wfCount + ' waterfalls</div>';
   html += '</div>';
 
   html += '<div class="stats">';
@@ -213,7 +213,7 @@ function render() {
   if (hikes.length === 0) {
     html += '<div class="empty">No hikes recorded yet</div>';
   } else {
-    html += '<table><thead><tr><th>Hike</th><th>Source</th><th>Distance (km)</th><th style="width:40px"></th></tr></thead><tbody>';
+    html += '<table><thead><tr><th>Hike</th><th>Source</th><th>Distance (mi)</th><th style="width:40px"></th></tr></thead><tbody>';
     for (var i = 0; i < hikes.length; i++) {
       var h = hikes[i];
       var srcClass = h.source === 'gps' ? 'source-gps' : (h.source === 'manual' ? 'source-manual' : 'source-checkin');
@@ -223,7 +223,8 @@ function render() {
       if (h.traveler) html += '<br><span class="traveler">by ' + esc(h.traveler) + '</span>';
       html += '</td>';
       html += '<td><span class="source ' + srcClass + '">' + srcLabel + '</span></td>';
-      html += '<td><input class="dist-input" type="number" step="0.1" min="0" value="' + h.distanceKm.toFixed(1) + '" data-name="' + esc(h.name) + '" data-original="' + h.distanceKm.toFixed(1) + '" onchange="markChanged(this)"></td>';
+      var miles = (h.distanceKm * 0.621371).toFixed(1);
+      html += '<td><input class="dist-input" type="number" step="0.1" min="0" value="' + miles + '" data-name="' + esc(h.name) + '" data-original="' + miles + '" onchange="markChanged(this)"></td>';
       html += '<td><button class="remove-btn" onclick="removeHike(\'' + esc(h.name).replace(/'/g, "\\'") + '\')">x</button></td>';
       html += '</tr>';
     }
@@ -232,7 +233,7 @@ function render() {
 
   html += '<div class="add-row">';
   html += '<input name="name" placeholder="Add hike name...">';
-  html += '<input name="km" type="number" step="0.1" min="0" placeholder="km">';
+  html += '<input name="mi" type="number" step="0.1" min="0" placeholder="miles">';
   html += '<button onclick="addManualHike()">Add</button>';
   html += '</div>';
 
@@ -267,17 +268,17 @@ function markChanged(input) {
 
 function addManualHike() {
   var nameInput = document.querySelector('.add-row input[name="name"]');
-  var kmInput = document.querySelector('.add-row input[name="km"]');
+  var miInput = document.querySelector('.add-row input[name="mi"]');
   var name = nameInput.value.trim();
-  var km = parseFloat(kmInput.value);
-  if (!name || isNaN(km) || km <= 0) return;
+  var miles = parseFloat(miInput.value);
+  if (!name || isNaN(miles) || miles <= 0) return;
 
   if (!sharedStats) {
     sharedStats = { lastUpdated: '', hikes: [], totalHikeKm: 0, waterfallsVisited: 0 };
   }
-  sharedStats.hikes.push({ name: name, distanceKm: km, isOverride: true });
+  sharedStats.hikes.push({ name: name, distanceKm: miles / 0.621371, isOverride: true });
   nameInput.value = '';
-  kmInput.value = '';
+  miInput.value = '';
   hasChanges = true;
   document.getElementById('saveBar').classList.add('active');
   render();
@@ -310,10 +311,10 @@ async function saveSharedStats() {
   for (var i = 0; i < inputs.length; i++) {
     var inp = inputs[i];
     var name = inp.dataset.name;
-    var val = parseFloat(inp.value);
-    var orig = parseFloat(inp.dataset.original);
-    if (!isNaN(val) && val !== orig) {
-      overrides[name] = val;
+    var valMi = parseFloat(inp.value);
+    var origMi = parseFloat(inp.dataset.original);
+    if (!isNaN(valMi) && valMi !== origMi) {
+      overrides[name] = valMi / 0.621371;
     }
   }
 
