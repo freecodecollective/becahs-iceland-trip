@@ -1925,6 +1925,20 @@ function renderDayBody(day) {
     html += renderFoodCard(f, 'd' + day.id + '-f' + idx);
   });
 
+  var scheduleInteractions = getScheduleInteractions(day.id);
+  if (scheduleInteractions.length > 0) {
+    html += '<div class="section-title">&#9989; Your Check-ins</div>';
+    for (var sci = 0; sci < scheduleInteractions.length; sci++) {
+      var si = scheduleInteractions[sci];
+      html += '<div class="activity-card" onclick="toggleActivity(this)">' +
+        '<div class="act-top"><div class="act-info">' +
+        '<div class="act-name">' + escHtml(si.itemName) + ' <span class="badge badge-green">&#10003; Checked in</span></div>' +
+        '<div class="act-meta">' + escHtml(si.travelerName) + ' &bull; ' + new Date(si.timestamp).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"}) + '</div>' +
+        '</div><span class="act-chevron">&#9654;</span></div>' +
+        '<div class="act-details">' + renderRatingNotesPhotos(si.key) + '</div></div>';
+    }
+  }
+
   if (day.stay) {
     const stayMap = mapsUrl(day.stay.lat, day.stay.lng);
     html += '<div class="section-title">&#127968; Accommodation</div>' +
@@ -1982,6 +1996,25 @@ function renderFoodCard(f, key) {
     (mapLink ? ' <a href="' + mapLink + '" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="width:22px;height:22px;font-size:0.6rem;">&#128205;</a>' : '') +
     '</div><div class="food-desc">' + escHtml(f.desc) + '</div>' +
     '<div class="food-details">' + renderRatingNotesPhotos(key) + '</div></div></div>';
+}
+
+function getScheduleInteractions(dayId) {
+  if (!syncData || !syncData.travelers) return [];
+  var seen = {};
+  var results = [];
+  var prefix = 'd' + dayId + '-s';
+  for (var ti = 0; ti < syncData.travelers.length; ti++) {
+    var t = syncData.travelers[ti];
+    var checkIns = t.checkIns || [];
+    for (var ci = 0; ci < checkIns.length; ci++) {
+      var c = checkIns[ci];
+      if (c.key.indexOf(prefix) === 0 && !seen[c.key]) {
+        seen[c.key] = true;
+        results.push({ key: c.key, itemName: c.itemName, timestamp: c.timestamp, travelerName: t.name });
+      }
+    }
+  }
+  return results;
 }
 
 function getCustomEventsForDay(dayId) {
