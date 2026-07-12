@@ -180,7 +180,7 @@ function aggregateWaterfalls() {
       var customEvents = syncData.travelers[ti].customEvents || [];
       for (var ei = 0; ei < customEvents.length; ei++) {
         var ev = customEvents[ei];
-        if (ev.activityCategory === 'waterfall') {
+        if (ev.activityCategory && ev.activityCategory.toLowerCase() === 'waterfall') {
           visited['custom-' + (ev.id || ei)] = ev.name;
         }
       }
