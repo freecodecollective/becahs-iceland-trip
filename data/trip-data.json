@@ -326,7 +326,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T15:46:26Z",
+  "lastUpdated" : "2026-07-12T15:58:45Z",
   "photos" : [
     {
       "activityName" : "Bridge Between Continents",
@@ -437,7 +437,7 @@
       "customEvents" : [
 
       ],
-      "gpsPointCount" : 170,
+      "gpsPointCount" : 172,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -1458,6 +1458,18 @@
           "lat" : 42.666758751467974,
           "lng" : -71.5897613362088,
           "ts" : "2026-07-12T15:45:58Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T15:58:44Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T15:58:44Z"
         }
       ],
       "hikesCompleted" : 0,
