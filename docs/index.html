@@ -1160,11 +1160,12 @@ function closeLightbox() {
 }
 
 // ─── TAB SWITCHING ────────────────────────────────────────────────
-function switchTab(tabId) {
+function switchTab(tabId, skipHash) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById(`panel-${tabId}`).classList.add('active');
+  if (!skipHash) location.hash = tabId;
 
   if (tabId === 'map') {
     if (!mapInitialized) {
@@ -1625,7 +1626,7 @@ function whereAreTheyNow() {
 }
 
 // ─── PHOTOS TAB ──────────────────────────────────────────────────
-var photoSize = 'large';
+var photoSize = 'medium';
 
 function setPhotoSize(size, btn) {
   photoSize = size;
@@ -2093,6 +2094,12 @@ render();
 fetchSyncData();
 setInterval(fetchSyncData, 5 * 60 * 1000);
 document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+var initHash = location.hash.replace('#', '');
+if (['itinerary', 'map', 'photos'].indexOf(initHash) !== -1) switchTab(initHash, true);
+window.addEventListener('hashchange', function() {
+  var h = location.hash.replace('#', '');
+  if (['itinerary', 'map', 'photos'].indexOf(h) !== -1) switchTab(h, true);
+});
 </script>
 </body>
 </html>
