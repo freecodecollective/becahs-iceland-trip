@@ -1262,6 +1262,36 @@ function mapPopupContent(name, dayTitle, desc, duration, lat, lng, key) {
   return html;
 }
 
+function buildGPSFallbacks() {
+  var fallbacks = {};
+  if (!syncData || !syncData.travelers) return fallbacks;
+  var allPoints = [];
+  for (var ti = 0; ti < syncData.travelers.length; ti++) {
+    var track = syncData.travelers[ti].gpsTrack || [];
+    for (var pi = 0; pi < track.length; pi++) allPoints.push(track[pi]);
+  }
+  if (allPoints.length === 0) return fallbacks;
+  var months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  var dayDateMap = {};
+  for (var di = 0; di < TRIP_DATA.length; di++) {
+    var d = TRIP_DATA[di];
+    var parts = d.date.split(' ');
+    var mon = months[parts[1]];
+    var dayNum = parseInt(parts[2]);
+    var dateKey = '2026-' + String(mon + 1).padStart(2, '0') + '-' + String(dayNum).padStart(2, '0');
+    dayDateMap[dateKey] = d.id;
+  }
+  for (var i = 0; i < allPoints.length; i++) {
+    var p = allPoints[i];
+    var dateStr = p.ts.substring(0, 10);
+    var dayId = dayDateMap[dateStr];
+    if (dayId !== undefined && !fallbacks[dayId]) {
+      fallbacks[dayId] = [p.lat, p.lng];
+    }
+  }
+  return fallbacks;
+}
+
 // ─── MAP INITIALIZATION ──────────────────────────────────────────
 function initMap() {
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1276,19 +1306,27 @@ function initMap() {
   }).addTo(tripMap);
 
   const categories = {};
+  const gpsFallback = buildGPSFallbacks();
 
   for (const day of TRIP_DATA) {
     day.activities.forEach(function(act, idx) {
-      if (!act.lat || !act.lng) return;
-      const cat = getActivityCategory(act);
+      var lat = act.lat, lng = act.lng;
+      var key = 'd' + day.id + '-a' + idx;
+      if (!lat || !lng) {
+        var hasPhotos = syncData && syncData.photos && syncData.photos.some(function(p) { return p.key === key; });
+        var hasCheckIn = syncData && syncData.travelers && syncData.travelers.some(function(t) { return (t.checkIns || []).some(function(c) { return c.key === key; }); });
+        if ((hasPhotos || hasCheckIn) && gpsFallback[day.id]) {
+          lat = gpsFallback[day.id][0]; lng = gpsFallback[day.id][1];
+        } else { return; }
+      }
+      var cat = getActivityCategory(act);
       if (!categories[cat.cat]) categories[cat.cat] = cat.color;
-      const key = 'd' + day.id + '-a' + idx;
 
-      const marker = L.circleMarker([act.lat, act.lng], {
+      const marker = L.circleMarker([lat, lng], {
         radius: 7, fillColor: cat.color, color: '#fff',
         weight: 2, fillOpacity: 0.9
       });
-      marker.bindPopup(function() { return mapPopupContent(act.name, dayLabel(day.id) + ': ' + day.title, act.brief, act.duration, act.lat, act.lng, key); }, { maxWidth: 280 });
+      marker.bindPopup(function() { return mapPopupContent(act.name, dayLabel(day.id) + ': ' + day.title, act.brief, act.duration, lat, lng, key); }, { maxWidth: 280 });
       marker._dayId = day.id;
       marker._type = 'activity';
       marker.addTo(tripMap);
