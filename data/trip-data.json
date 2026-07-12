@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T20:48:09Z",
+  "lastUpdated" : "2026-07-12T20:50:44Z",
   "photos" : [
 
   ],
@@ -609,14 +609,6 @@
           "itemName" : "d10-s15",
           "key" : "d10-s15",
           "timestamp" : "2026-07-11T17:34:45Z"
-        },
-        {
-          "dayID" : 5,
-          "itemName" : "Svartifoss hike (Skaftafell)",
-          "key" : "d5-a1",
-          "latitude" : 42.702373164061704,
-          "longitude" : -71.43716309543727,
-          "timestamp" : "2026-07-12T20:36:58Z"
         }
       ],
       "colorHex" : "#B87A40",
@@ -2683,13 +2675,6 @@
           "pointCount" : 1,
           "source" : "gps",
           "startTime" : "2026-07-12T20:36:55Z"
-        },
-        {
-          "distanceKm" : 5.5,
-          "name" : "Svartifoss hike (Skaftafell)",
-          "pointCount" : 0,
-          "source" : "checkin",
-          "startTime" : "2026-07-12T20:36:58Z"
         }
       ],
       "hikesCompleted" : 4,
@@ -2764,8 +2749,8 @@
           "rating" : 5
         }
       ],
-      "totalHikeDistanceKm" : 5.5,
-      "waterfallsVisited" : 3
+      "totalHikeDistanceKm" : 0,
+      "waterfallsVisited" : 2
     }
   ]
 }
