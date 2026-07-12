@@ -129,6 +129,13 @@ function headers() {
   return { 'Authorization': 'Bearer ' + TOKEN, 'Accept': 'application/vnd.github+json' };
 }
 
+function decodeB64(b64) {
+  var bin = atob(b64.replace(/\n/g, ''));
+  var bytes = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
 async function load() {
   try {
     var [tripRes, adminRes] = await Promise.all([
@@ -137,12 +144,12 @@ async function load() {
     ]);
 
     var tripJson = await tripRes.json();
-    tripData = JSON.parse(atob(tripJson.content.replace(/\n/g, '')));
+    tripData = JSON.parse(decodeB64(tripJson.content));
 
     if (adminRes.ok) {
       var adminJson = await adminRes.json();
       adminSha = adminJson.sha;
-      adminData = JSON.parse(atob(adminJson.content.replace(/\n/g, '')));
+      adminData = JSON.parse(decodeB64(adminJson.content));
       if (!adminData.renames) adminData.renames = {};
       if (!adminData.hidden) adminData.hidden = [];
     }
