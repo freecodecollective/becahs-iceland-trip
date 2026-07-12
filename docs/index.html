@@ -1200,6 +1200,26 @@ function getActivityCategory(act) {
   return { cat: 'Activity', color: '#FB7185' };
 }
 
+function getCustomEventCategory(cat) {
+  var map = {
+    'Waterfall': { cat: 'Waterfall', color: '#22D3EE' },
+    'Hiking': { cat: 'Hiking', color: '#4ADE80' },
+    'Snorkeling': { cat: 'Snorkeling', color: '#5EEAD4' },
+    'Whale Watching': { cat: 'Whale Watching', color: '#6366F1' },
+    'Puffins': { cat: 'Puffin', color: '#FBBF24' },
+    'Geothermal': { cat: 'Geothermal', color: '#F43F5E' },
+    'Glacier': { cat: 'Glacier / Ice', color: '#7DD3FC' },
+    'Cave': { cat: 'Cave', color: '#E879F9' },
+    'Museum': { cat: 'Museum', color: '#C084FC' },
+    'Viewpoint': { cat: 'Viewpoint', color: '#2DD4BF' },
+    'Swimming': { cat: 'Swimming', color: '#38BDF8' },
+    'Horseback': { cat: 'Horseback', color: '#FCD34D' },
+    'Food': { cat: 'Food', color: '#A3E635' },
+    'Sightseeing': { cat: 'Viewpoint', color: '#2DD4BF' }
+  };
+  return map[cat] || { cat: 'Activity', color: '#FB7185' };
+}
+
 // ─── MAP POPUP WITH SYNCED DATA ──────────────────────────────────
 function mapPopupContent(name, dayTitle, desc, duration, lat, lng, key) {
   let html = '<div style="font-family:system-ui,sans-serif;min-width:180px;max-width:260px;">' +
@@ -1304,6 +1324,27 @@ function initMap() {
       marker.addTo(tripMap);
       mapMarkers.push(marker);
     }
+  }
+
+  if (syncData && syncData.travelers) {
+    syncData.travelers.forEach(function(t) {
+      if (!t.customEvents) return;
+      t.customEvents.forEach(function(ev) {
+        if (!ev.latitude || !ev.longitude) return;
+        var cat = ev.activityCategory || ev.type || 'Activity';
+        var catInfo = getCustomEventCategory(cat);
+        if (!categories[catInfo.cat]) categories[catInfo.cat] = catInfo.color;
+        var marker = L.circleMarker([ev.latitude, ev.longitude], {
+          radius: 7, fillColor: catInfo.color, color: '#fff',
+          weight: 2, fillOpacity: 0.9
+        });
+        marker.bindPopup(function() { return mapPopupContent(ev.name, dayLabel(ev.dayID) + ' · ' + (t.name || 'Traveler'), ev.notes || '', null, ev.latitude, ev.longitude, ''); }, { maxWidth: 280 });
+        marker._dayId = ev.dayID;
+        marker._type = 'custom';
+        marker.addTo(tripMap);
+        mapMarkers.push(marker);
+      });
+    });
   }
 
   drawRoutes();
@@ -1540,9 +1581,8 @@ function resolveKeyCoords(key) {
 
 function setMapStyle(style, btn) {
   if (!tripMap || style === currentMapStyle) return;
-  currentMapStyle = style;
   document.querySelectorAll('.map-style-toggle').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
 
   if (currentTileLayer) tripMap.removeLayer(currentTileLayer);
   if (currentLabelsLayer) { tripMap.removeLayer(currentLabelsLayer); currentLabelsLayer = null; }
@@ -1563,6 +1603,7 @@ function setMapStyle(style, btn) {
       maxZoom: 18, subdomains: 'abcd', pane: 'overlayPane'
     }).addTo(tripMap);
   }
+  currentMapStyle = style;
 }
 
 function whereAreTheyNow() {
@@ -1608,7 +1649,7 @@ function renderPhotos() {
 
   const photosByDay = {};
   for (const photo of syncData.photos) {
-    const parsed = parsePhotoKey(photo.key);
+    const parsed = parsePhotoKey(photo.key, photo);
     if (!parsed) continue;
     const dayId = parsed.day.id;
     if (!photosByDay[dayId]) photosByDay[dayId] = [];
@@ -1643,6 +1684,7 @@ function renderPhotos() {
         if (!sName && sParsed.activity) sName = sParsed.activity.name;
         if (!sName && sParsed.food) sName = sParsed.food.name;
         if (!sName && sParsed.stay) sName = sParsed.stay.name;
+        if (!sName && sParsed.schedule) sName = sParsed.schedule.title;
         var sUrl = PHOTO_BASE + encodeURIComponent(sPhoto.filename);
         html += '<div class="photo-card-sm" onclick="openLightbox(\'' + sUrl + '\')">' +
           '<img src="' + sUrl + '" alt="' + escHtml(sName) + '" loading="lazy">' +
@@ -1657,6 +1699,7 @@ function renderPhotos() {
         if (!mName && mParsed.activity) mName = mParsed.activity.name;
         if (!mName && mParsed.food) mName = mParsed.food.name;
         if (!mName && mParsed.stay) mName = mParsed.stay.name;
+        if (!mName && mParsed.schedule) mName = mParsed.schedule.title;
         var mUrl = PHOTO_BASE + encodeURIComponent(mPhoto.filename);
         html += '<div class="photo-card-md">' +
           '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="openLightbox(\'' + mUrl + '\')" loading="lazy">' +
@@ -1681,6 +1724,10 @@ function renderPhotos() {
         } else if (p.type === 'stay' && p.stay) {
           placeName = placeName || p.stay.name;
           lat = p.stay.lat; lng = p.stay.lng;
+        } else if (p.type === 'schedule' && p.schedule) {
+          placeName = placeName || p.schedule.title;
+        } else if (p.type === 'custom') {
+          placeName = placeName || p.customName;
         }
 
         const photoUrl = PHOTO_BASE + encodeURIComponent(photo.filename);
@@ -1707,15 +1754,23 @@ function renderPhotos() {
   container.innerHTML = html;
 }
 
-function parsePhotoKey(key) {
-  const m = key.match(/^d(-?\d+)-(a(\d+)|f(\d+)|stay)$/);
-  if (!m) return null;
-  const dayId = parseInt(m[1]);
-  const day = TRIP_DATA.find(function(d) { return d.id === dayId; });
-  if (!day) return null;
-  if (m[3] !== undefined) return { day: day, activity: day.activities[parseInt(m[3])], type: 'activity' };
-  if (m[4] !== undefined) return { day: day, food: day.food[parseInt(m[4])], type: 'food' };
-  return { day: day, stay: day.stay, type: 'stay' };
+function parsePhotoKey(key, photo) {
+  var m = key.match(/^d(-?\d+)-(a(\d+)|f(\d+)|s(\d+)|stay)$/);
+  if (m) {
+    var dayId = parseInt(m[1]);
+    var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
+    if (!day) return null;
+    if (m[3] !== undefined) return { day: day, activity: day.activities[parseInt(m[3])], type: 'activity' };
+    if (m[4] !== undefined) return { day: day, food: day.food[parseInt(m[4])], type: 'food' };
+    if (m[5] !== undefined) return { day: day, schedule: day.schedule ? day.schedule[parseInt(m[5])] : null, type: 'schedule' };
+    return { day: day, stay: day.stay, type: 'stay' };
+  }
+  if (key.startsWith('custom-') && photo) {
+    var cDay = TRIP_DATA.find(function(d) { return d.id === photo.dayID; });
+    if (!cDay) cDay = { id: photo.dayID, title: 'Day ' + photo.dayID, date: '' };
+    return { day: cDay, type: 'custom', customName: photo.activityName || 'Custom Event' };
+  }
+  return null;
 }
 
 function findTravelerForPhoto(photo) {
