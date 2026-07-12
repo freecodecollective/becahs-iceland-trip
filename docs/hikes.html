@@ -146,8 +146,13 @@ async function load() {
   }
 }
 
+function getHiddenHikes() {
+  return (sharedStats && sharedStats.hiddenHikes) ? sharedStats.hiddenHikes : [];
+}
+
 function aggregateHikes() {
   var byName = {};
+  var hidden = getHiddenHikes();
 
   if (syncData && syncData.travelers) {
     for (var ti = 0; ti < syncData.travelers.length; ti++) {
@@ -155,6 +160,7 @@ function aggregateHikes() {
       var hikes = t.hikes || [];
       for (var hi = 0; hi < hikes.length; hi++) {
         var h = hikes[hi];
+        if (hidden.indexOf(h.name) !== -1) continue;
         var existing = byName[h.name];
         if (!existing) {
           byName[h.name] = { name: h.name, distanceKm: h.distanceKm, source: h.source, traveler: t.name, isOverride: false, eventId: null };
@@ -272,7 +278,7 @@ function render() {
       html += '<td><span class="source ' + srcClass + '">' + srcLabel + '</span></td>';
       var miles = (h.distanceKm * 0.621371).toFixed(1);
       html += '<td><input class="dist-input" type="number" step="0.1" min="0" value="' + miles + '" data-name="' + esc(h.name) + '" data-original="' + miles + '" onchange="markChanged(this)"></td>';
-      html += '<td><button class="remove-btn" onclick="removeHike(\'' + esc(h.name).replace(/'/g, "\\'") + '\')">x</button></td>';
+      html += '<td><button class="remove-btn" onclick="removeHike(\'' + esc(h.name).replace(/'/g, "\\'") + '\',\'' + esc(h.source) + '\',\'' + esc(h.eventId || '') + '\')">x</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';
@@ -400,10 +406,25 @@ function hideItineraryWaterfall(key) {
   render();
 }
 
-function removeHike(name) {
-  if (!confirm('Remove "' + name + '" from shared stats?')) return;
-  if (sharedStats && sharedStats.hikes) {
-    sharedStats.hikes = sharedStats.hikes.filter(function(h) { return h.name !== name; });
+function removeHike(name, source, eventId) {
+  if (!confirm('Remove "' + name + '"?')) return;
+  if (source === 'app' && eventId) {
+    deleteCustomEvent(eventId);
+    return;
+  }
+  if (source === 'manual') {
+    if (sharedStats && sharedStats.hikes) {
+      sharedStats.hikes = sharedStats.hikes.filter(function(h) { return h.name !== name; });
+    }
+  }
+  if (source === 'gps' || source === 'checkin') {
+    if (!sharedStats) {
+      sharedStats = { lastUpdated: '', hikes: [], totalHikeKm: 0, waterfallsVisited: 0, extraWaterfalls: [], hiddenHikes: [] };
+    }
+    if (!sharedStats.hiddenHikes) sharedStats.hiddenHikes = [];
+    if (sharedStats.hiddenHikes.indexOf(name) === -1) {
+      sharedStats.hiddenHikes.push(name);
+    }
   }
   hasChanges = true;
   document.getElementById('saveBar').classList.add('active');
@@ -412,11 +433,16 @@ function removeHike(name) {
 
 async function autoSyncIfDrifted() {
   var waterfalls = aggregateWaterfalls();
+  var hikes = aggregateHikes();
   var currentWfCount = Object.keys(waterfalls).length;
   var storedWfCount = (sharedStats && sharedStats.waterfallsVisited != null) ? sharedStats.waterfallsVisited : -1;
-  if (currentWfCount !== storedWfCount) {
+  var currentTotalKm = 0;
+  for (var i = 0; i < hikes.length; i++) currentTotalKm += hikes[i].distanceKm;
+  currentTotalKm = Math.round(currentTotalKm * 10) / 10;
+  var storedTotalKm = (sharedStats && sharedStats.totalHikeKm != null) ? sharedStats.totalHikeKm : -1;
+  if (currentWfCount !== storedWfCount || currentTotalKm !== storedTotalKm) {
     await saveSharedStats();
-    showToast('Auto-synced waterfall count (' + storedWfCount + ' → ' + currentWfCount + ')');
+    showToast('Auto-synced stats (waterfalls: ' + currentWfCount + ', miles: ' + (currentTotalKm * 0.621371).toFixed(1) + ')');
   }
 }
 
@@ -469,6 +495,7 @@ async function saveSharedStats() {
 
   var extras = (sharedStats && sharedStats.extraWaterfalls) ? sharedStats.extraWaterfalls : [];
   var hidden = getHiddenWaterfalls();
+  var hiddenH = getHiddenHikes();
 
   var payload = {
     lastUpdated: new Date().toISOString(),
@@ -476,7 +503,8 @@ async function saveSharedStats() {
     totalHikeKm: Math.round(totalKm * 10) / 10,
     waterfallsVisited: Object.keys(waterfalls).length,
     extraWaterfalls: extras,
-    hiddenWaterfalls: hidden
+    hiddenWaterfalls: hidden,
+    hiddenHikes: hiddenH
   };
 
   var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
