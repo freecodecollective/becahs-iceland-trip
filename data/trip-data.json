@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T20:50:44Z",
+  "lastUpdated" : "2026-07-12T21:13:11Z",
   "photos" : [
 
   ],
@@ -613,60 +613,16 @@
       ],
       "colorHex" : "#B87A40",
       "customEvents" : [
-        {
-          "activityCategory" : "Hiking",
-          "createdBy" : "Chris",
-          "dayID" : 0,
-          "id" : "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
-          "name" : "Test hike 223",
-          "notes" : "",
-          "type" : "Activity"
-        },
-        {
-          "activityCategory" : "Waterfall",
-          "createdBy" : "Chris",
-          "dayID" : 0,
-          "id" : "A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
-          "latitude" : 42.6668148945583,
-          "longitude" : -71.58971426146856,
-          "name" : "Waterfall Test",
-          "notes" : "Test waterfall",
-          "type" : "Activity"
-        },
-        {
-          "activityCategory" : "Waterfall",
-          "createdBy" : "Chris",
-          "dayID" : 0,
-          "id" : "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
-          "latitude" : 42.702594609185006,
-          "longitude" : -71.43670547880501,
-          "name" : "Waterfall Test",
-          "notes" : "",
-          "type" : "Activity"
-        },
-        {
-          "activityCategory" : "Hiking",
-          "createdBy" : "Chris",
-          "dayID" : 0,
-          "id" : "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
-          "name" : "Test 434",
-          "notes" : "",
-          "type" : "Activity"
-        },
-        {
-          "activityCategory" : "Hiking",
-          "createdBy" : "Chris",
-          "dayID" : 0,
-          "id" : "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
-          "name" : "Svartifoss hike (Skaftafell)",
-          "notes" : "",
-          "type" : "Activity"
-        }
-      ],
-      "deletedEventIDs" : [
 
       ],
-      "gpsPointCount" : 329,
+      "deletedEventIDs" : [
+        "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+        "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
+        "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
+        "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
+        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
+      ],
+      "gpsPointCount" : 332,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -2641,6 +2597,24 @@
           "lat" : 42.70236333829044,
           "lng" : -71.43717479602583,
           "ts" : "2026-07-12T20:48:00Z"
+        },
+        {
+          "acc" : 45.60386570086474,
+          "lat" : 42.702596082040834,
+          "lng" : -71.43652468582624,
+          "ts" : "2026-07-12T20:53:07Z"
+        },
+        {
+          "acc" : 45.595014,
+          "lat" : 42.702596082002884,
+          "lng" : -71.43652468582613,
+          "ts" : "2026-07-12T20:53:07Z"
+        },
+        {
+          "acc" : 5,
+          "lat" : 42.707911333333335,
+          "lng" : -71.4561425,
+          "ts" : "2026-07-12T21:13:11Z"
         }
       ],
       "hikes" : [
@@ -2750,7 +2724,7 @@
         }
       ],
       "totalHikeDistanceKm" : 0,
-      "waterfallsVisited" : 2
+      "waterfallsVisited" : 0
     }
   ]
 }
