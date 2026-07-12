@@ -1084,7 +1084,14 @@ function getTravelerData(key, type) {
 
 function getPhotos(key) {
   if (!syncData || !syncData.photos) return [];
-  return syncData.photos.filter(p => p.key === key);
+  return syncData.photos.filter(function(p) {
+    if (p.key !== key) return false;
+    if (p.key && p.key.indexOf('custom-') === 0) {
+      var evId = p.key.replace('custom-', '');
+      if (adminDeletedEvents.indexOf(evId) !== -1) return false;
+    }
+    return true;
+  });
 }
 
 function renderStars(rating) {
@@ -1683,7 +1690,14 @@ function renderPhotos() {
   }
 
   const photosByDay = {};
-  for (const photo of syncData.photos) {
+  const filteredPhotos = syncData.photos.filter(function(p) {
+    if (p.key && p.key.indexOf('custom-') === 0) {
+      var evId = p.key.replace('custom-', '');
+      if (adminDeletedEvents.indexOf(evId) !== -1) return false;
+    }
+    return true;
+  });
+  for (const photo of filteredPhotos) {
     const parsed = parsePhotoKey(photo.key, photo);
     if (!parsed) continue;
     const dayId = parsed.day.id;
@@ -1691,7 +1705,7 @@ function renderPhotos() {
     photosByDay[dayId].push({ photo: photo, parsed: parsed });
   }
 
-  let totalPhotos = syncData.photos.length;
+  let totalPhotos = filteredPhotos.length;
   let html = '<div class="photos-tab-header"><h2>Trip Photos</h2>' +
     '<div class="photo-count">' + totalPhotos + ' photo' + (totalPhotos !== 1 ? 's' : '') + ' captured</div>' +
     '<div class="photo-size-toggle">' +
