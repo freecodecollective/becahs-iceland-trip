@@ -361,6 +361,60 @@ body {
 .photos-tab-header .photo-count {
   font-size: 0.82rem; color: var(--text2);
 }
+.photo-size-toggle {
+  display: flex; justify-content: center; gap: 4px; margin-top: 12px;
+}
+.photo-size-btn {
+  padding: 5px 14px; border-radius: 16px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text2); font-size: 0.75rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.photo-size-btn.active {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+.photo-size-btn:hover:not(.active) { background: var(--card-hover); }
+
+/* Small photo grid */
+.photos-grid-small {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px; padding: 0 20px 16px;
+}
+.photos-grid-small .photo-card-sm {
+  position: relative; border-radius: var(--radius-sm); overflow: hidden;
+  aspect-ratio: 1; cursor: pointer; border: 1px solid var(--border);
+}
+.photos-grid-small .photo-card-sm img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.photos-grid-small .photo-card-sm .sm-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 4px 6px; background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: white; font-size: 0.65rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Medium photo grid */
+.photos-grid-medium {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px; padding: 0 20px 16px;
+}
+.photos-grid-medium .photo-card-md {
+  background: var(--card); border-radius: var(--radius-sm); overflow: hidden;
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+}
+.photos-grid-medium .photo-card-md img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; cursor: pointer;
+}
+.photos-grid-medium .photo-card-md .md-info {
+  padding: 8px 10px;
+}
+.photos-grid-medium .photo-card-md .md-info .md-place {
+  font-weight: 600; font-size: 0.78rem; margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.photos-grid-medium .photo-card-md .md-info .md-day {
+  font-size: 0.7rem; color: var(--text3);
+}
 .photos-tab-empty {
   text-align: center; padding: 80px 20px; color: var(--text3);
 }
@@ -450,6 +504,8 @@ body {
   .photos-day-header { padding: 20px 12px 10px; }
   .photo-card-footer { flex-direction: column; align-items: flex-start; }
   .photo-minimap { width: 100%; height: 120px; }
+  .photos-grid-small { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); padding: 0 12px 12px; }
+  .photos-grid-medium { grid-template-columns: 1fr; padding: 0 12px 12px; }
 }
 
 /* Scroll animation */
@@ -464,6 +520,8 @@ body {
 .day-card:nth-child(8) { animation-delay: 0.4s; }
 .day-card:nth-child(9) { animation-delay: 0.45s; }
 .day-card:nth-child(10) { animation-delay: 0.5s; }
+.day-card:nth-child(11) { animation-delay: 0.55s; }
+.day-card:nth-child(12) { animation-delay: 0.6s; }
 @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
 
 .photo-card { opacity: 0; transform: translateY(10px); animation: slideIn 0.4s ease forwards; }
@@ -510,6 +568,43 @@ body {
 <script>
 // ─── STATIC TRIP DATA ───────────────────────────────────────────
 const TRIP_DATA = [
+  {
+    id: -1, date: "Sat Jul 11", title: "Travel to Boston",
+    route: "SFO → Boston Logan", km: 0,
+    stay: null,
+    match: { event: "World Cup Quarterfinal", time: "Evening", note: "Watch with family in Boston" },
+    activities: [
+      { name: "Flight SFO to Boston", duration: "~5.5 hrs", booked: true, hikeKm: null,
+        brief: "Domestic flight to meet the family before Iceland.",
+        details: "Fly from San Francisco to Boston Logan to regroup with family before the overnight flight to Iceland.",
+        tips: ["Charge all devices for the long travel day ahead"],
+        trivia: null, safety: null, lat: 42.3656, lng: -71.0096 },
+      { name: "World Cup matches with family", duration: "Evening", booked: false, hikeKm: null,
+        brief: "Watch World Cup quarterfinal with the whole crew.",
+        details: "FIFA World Cup 2026 quarterfinal round. Get hyped with the family before the big trip.",
+        tips: [],
+        trivia: "The 2026 World Cup is the first with 48 teams, co-hosted by USA, Mexico, and Canada.",
+        safety: null, lat: null, lng: null }
+    ],
+    food: [],
+    logistics: ["Confirm Iceland flight for tomorrow", "Passports ready for everyone", "Check carry-on limits for Icelandair"]
+  },
+  {
+    id: 0, date: "Sun Jul 12", title: "Travel to Iceland",
+    route: "Boston Logan → Keflavik", km: 0,
+    stay: null,
+    match: null,
+    activities: [
+      { name: "Flight Boston to Reykjavik", duration: "~5 hrs", booked: true, hikeKm: null,
+        brief: "Overnight Icelandair flight across the Atlantic.",
+        details: "Icelandair FI632 from Boston Logan to Keflavik International. Overnight flight arriving 8:10 AM local time on Jul 13.",
+        tips: ["Set watches to Iceland time (GMT) on boarding", "Iceland is 4 hours ahead of Boston (EDT)", "Try to sleep — it's a short night"],
+        trivia: "Iceland straddles the Mid-Atlantic Ridge — you're flying to a country that sits on two tectonic plates.",
+        safety: null, lat: 63.9850, lng: -22.6056 }
+    ],
+    food: [],
+    logistics: ["Passports for all 4 travelers", "Print/download boarding passes", "Snacks for the flight", "Neck pillows + eye masks for red-eye"]
+  },
   {
     id: 1, date: "Mon Jul 13", title: "Arrival & Reykjanes",
     route: "Keflavik → Reykjanes loop → Reykjavik", km: 80,
@@ -898,7 +993,7 @@ let mapInitialized = false;
 let mapMarkers = [];
 let activeMapDay = 'all';
 
-const TRIP_START = new Date('2026-07-13T00:00:00');
+const TRIP_START = new Date('2026-07-11T00:00:00');
 const TRIP_END = new Date('2026-07-22T23:59:59');
 const PHOTO_BASE = 'https://raw.githubusercontent.com/freecodecollective/becahs-iceland-trip/main/data/photos/';
 const SYNC_URL = 'https://raw.githubusercontent.com/freecodecollective/becahs-iceland-trip/main/data/trip-data.json';
@@ -906,9 +1001,10 @@ const SYNC_URL = 'https://raw.githubusercontent.com/freecodecollective/becahs-ic
 // ─── HELPERS ──────────────────────────────────────────────────────
 function getCurrentDayNum() {
   const now = new Date();
-  if (now < TRIP_START) return 0;
+  if (now < TRIP_START) return -2;
   if (now > TRIP_END) return 11;
-  return Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24)) + 1;
+  const offset = Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24));
+  return offset - 1; // offset 0 = Jul 11 = Day -1, offset 1 = Jul 12 = Day 0, offset 2 = Jul 13 = Day 1, etc.
 }
 
 function getDayStatus(dayId) {
@@ -1047,6 +1143,47 @@ function getActivityCategory(act) {
   return { cat: 'Activity', color: '#FB7185' };
 }
 
+// ─── MAP POPUP WITH SYNCED DATA ──────────────────────────────────
+function mapPopupContent(name, dayTitle, desc, duration, lat, lng, key) {
+  let html = '<div style="font-family:system-ui,sans-serif;min-width:180px;max-width:260px;">' +
+    '<div style="font-weight:700;font-size:0.9rem;margin-bottom:4px;">' + escHtml(name) + '</div>' +
+    '<div style="font-size:0.78rem;color:#888;margin-bottom:6px;">' + escHtml(dayTitle) + '</div>' +
+    '<div style="font-size:0.82rem;margin-bottom:8px;">' + escHtml(desc) + '</div>';
+
+  if (duration) html += '<div style="font-size:0.75rem;color:#aaa;margin-bottom:4px;">⏱ ' + escHtml(duration) + '</div>';
+
+  var ratings = getTravelerData(key, 'ratings');
+  if (ratings.length > 0) {
+    for (var r of ratings) {
+      html += '<div style="font-size:0.75rem;margin:2px 0;">' + escHtml(r.travelerName) + ': ';
+      for (var i = 1; i <= 5; i++) html += '<span style="color:' + (i <= r.rating ? '#fbbf24' : '#555') + '">★</span>';
+      html += '</div>';
+    }
+  }
+
+  var notes = getTravelerData(key, 'notes');
+  if (notes.length > 0) {
+    for (var n of notes) {
+      html += '<div style="font-size:0.75rem;margin:4px 0;padding:4px 6px;background:rgba(128,128,128,0.15);border-radius:4px;">' +
+        '<span style="font-weight:600;">' + escHtml(n.travelerName) + ':</span> ' + escHtml(n.text) + '</div>';
+    }
+  }
+
+  var photos = getPhotos(key);
+  if (photos.length > 0) {
+    html += '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
+    for (var p of photos) {
+      var url = PHOTO_BASE + encodeURIComponent(p.filename);
+      html += '<img src="' + url + '" style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="openLightbox(\'' + url + '\')" loading="lazy">';
+    }
+    html += '</div>';
+  }
+
+  if (lat && lng) html += '<a href="' + mapsUrl(lat, lng) + '" target="_blank" rel="noopener" style="font-size:0.75rem;display:block;margin-top:6px;">Open in Google Maps →</a>';
+  html += '</div>';
+  return html;
+}
+
 // ─── MAP INITIALIZATION ──────────────────────────────────────────
 function initMap() {
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1067,19 +1204,13 @@ function initMap() {
       if (!act.lat || !act.lng) return;
       const cat = getActivityCategory(act);
       if (!categories[cat.cat]) categories[cat.cat] = cat.color;
+      const key = 'd' + day.id + '-a' + idx;
 
       const marker = L.circleMarker([act.lat, act.lng], {
         radius: 7, fillColor: cat.color, color: '#fff',
         weight: 2, fillOpacity: 0.9
-      }).bindPopup(
-        '<div style="font-family:system-ui,sans-serif;min-width:180px;">' +
-        '<div style="font-weight:700;font-size:0.9rem;margin-bottom:4px;">' + escHtml(act.name) + '</div>' +
-        '<div style="font-size:0.78rem;color:#888;margin-bottom:6px;">Day ' + day.id + ': ' + escHtml(day.title) + '</div>' +
-        '<div style="font-size:0.82rem;margin-bottom:8px;">' + escHtml(act.brief) + '</div>' +
-        (act.duration ? '<div style="font-size:0.75rem;color:#aaa;">⏱ ' + escHtml(act.duration) + '</div>' : '') +
-        '<a href="' + mapsUrl(act.lat, act.lng) + '" target="_blank" rel="noopener" style="font-size:0.75rem;">Open in Google Maps →</a>' +
-        '</div>'
-      );
+      });
+      marker.bindPopup(function() { return mapPopupContent(act.name, dayLabel(day.id) + ': ' + day.title, act.brief, act.duration, act.lat, act.lng, key); }, { maxWidth: 280 });
       marker._dayId = day.id;
       marker._type = 'activity';
       marker.addTo(tripMap);
@@ -1089,15 +1220,13 @@ function initMap() {
     day.food.forEach(function(f, idx) {
       if (!f.lat || !f.lng) return;
       if (!categories['Food']) categories['Food'] = '#A3E635';
+      const key = 'd' + day.id + '-f' + idx;
+
       const marker = L.circleMarker([f.lat, f.lng], {
         radius: 5, fillColor: '#A3E635', color: '#fff',
         weight: 1.5, fillOpacity: 0.8
-      }).bindPopup(
-        '<div style="font-family:system-ui,sans-serif;">' +
-        '<div style="font-weight:700;font-size:0.85rem;">🍴 ' + escHtml(f.name) + '</div>' +
-        '<div style="font-size:0.78rem;color:#888;">Day ' + day.id + ': ' + escHtml(day.title) + '</div>' +
-        '<div style="font-size:0.82rem;margin-top:4px;">' + escHtml(f.desc) + '</div></div>'
-      );
+      });
+      marker.bindPopup(function() { return mapPopupContent('🍴 ' + f.name, dayLabel(day.id) + ': ' + day.title, f.desc, null, f.lat, f.lng, key); }, { maxWidth: 280 });
       marker._dayId = day.id;
       marker._type = 'food';
       marker.addTo(tripMap);
@@ -1106,15 +1235,13 @@ function initMap() {
 
     if (day.stay && day.stay.lat) {
       if (!categories['Accommodation']) categories['Accommodation'] = '#818CF8';
+      const key = 'd' + day.id + '-stay';
+
       const marker = L.circleMarker([day.stay.lat, day.stay.lng], {
         radius: 8, fillColor: '#818CF8', color: '#fff',
         weight: 2.5, fillOpacity: 0.9
-      }).bindPopup(
-        '<div style="font-family:system-ui,sans-serif;">' +
-        '<div style="font-weight:700;font-size:0.85rem;">🏨 ' + escHtml(day.stay.name) + '</div>' +
-        '<div style="font-size:0.78rem;color:#888;">Day ' + day.id + ': ' + escHtml(day.title) + '</div>' +
-        '<div style="font-size:0.82rem;margin-top:4px;">' + escHtml(day.stay.address) + '</div></div>'
-      );
+      });
+      marker.bindPopup(function() { return mapPopupContent('🏨 ' + day.stay.name, dayLabel(day.id) + ': ' + day.title, day.stay.address, null, day.stay.lat, day.stay.lng, key); }, { maxWidth: 280 });
       marker._dayId = day.id;
       marker._type = 'stay';
       marker.addTo(tripMap);
@@ -1140,11 +1267,17 @@ function addMapLegend(categories) {
   legend.addTo(tripMap);
 }
 
+function dayLabel(id) {
+  if (id === -1) return 'Pre-1';
+  if (id === 0) return 'Pre-2';
+  return 'Day ' + id;
+}
+
 function renderMapDayFilter() {
   const container = document.getElementById('mapDayFilter');
   let html = '<button class="day-filter-btn active" onclick="filterMapDay(\'all\', this)">All Days</button>';
   for (const day of TRIP_DATA) {
-    html += '<button class="day-filter-btn" onclick="filterMapDay(' + day.id + ', this)">Day ' + day.id + '</button>';
+    html += '<button class="day-filter-btn" onclick="filterMapDay(' + day.id + ', this)">' + dayLabel(day.id) + '</button>';
   }
   container.innerHTML = html;
 }
@@ -1178,6 +1311,15 @@ function filterMapDay(dayId, btn) {
 }
 
 // ─── PHOTOS TAB ──────────────────────────────────────────────────
+var photoSize = 'large';
+
+function setPhotoSize(size, btn) {
+  photoSize = size;
+  document.querySelectorAll('.photo-size-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderPhotos();
+}
+
 function renderPhotos() {
   const container = document.getElementById('photosContainer');
 
@@ -1202,52 +1344,89 @@ function renderPhotos() {
 
   let totalPhotos = syncData.photos.length;
   let html = '<div class="photos-tab-header"><h2>Trip Photos</h2>' +
-    '<div class="photo-count">' + totalPhotos + ' photo' + (totalPhotos !== 1 ? 's' : '') + ' captured</div></div>';
+    '<div class="photo-count">' + totalPhotos + ' photo' + (totalPhotos !== 1 ? 's' : '') + ' captured</div>' +
+    '<div class="photo-size-toggle">' +
+    '<button class="photo-size-btn' + (photoSize === 'small' ? ' active' : '') + '" onclick="setPhotoSize(\'small\', this)">Small</button>' +
+    '<button class="photo-size-btn' + (photoSize === 'medium' ? ' active' : '') + '" onclick="setPhotoSize(\'medium\', this)">Medium</button>' +
+    '<button class="photo-size-btn' + (photoSize === 'large' ? ' active' : '') + '" onclick="setPhotoSize(\'large\', this)">Large</button>' +
+    '</div></div>';
 
   for (const day of TRIP_DATA) {
     const dayPhotos = photosByDay[day.id];
     if (!dayPhotos || dayPhotos.length === 0) continue;
 
+    const photoBadge = day.id < 1 ? '&#9992;' : day.id;
     html += '<div class="photos-day-section">' +
       '<div class="photos-day-header">' +
-      '<div class="photos-day-badge">' + day.id + '</div>' +
+      '<div class="photos-day-badge">' + photoBadge + '</div>' +
       '<div class="photos-day-info"><div class="photos-day-title">' + escHtml(day.title) + '</div>' +
       '<div class="photos-day-date">' + escHtml(day.date) + ' &bull; ' + dayPhotos.length + ' photo' + (dayPhotos.length !== 1 ? 's' : '') + '</div></div></div>';
 
-    for (let i = 0; i < dayPhotos.length; i++) {
-      const item = dayPhotos[i];
-      const p = item.parsed;
-      const photo = item.photo;
-      let placeName = photo.activityName || '';
-      let lat = null, lng = null;
-
-      if (p.type === 'activity' && p.activity) {
-        placeName = placeName || p.activity.name;
-        lat = p.activity.lat; lng = p.activity.lng;
-      } else if (p.type === 'food' && p.food) {
-        placeName = placeName || p.food.name;
-        lat = p.food.lat; lng = p.food.lng;
-      } else if (p.type === 'stay' && p.stay) {
-        placeName = placeName || p.stay.name;
-        lat = p.stay.lat; lng = p.stay.lng;
+    if (photoSize === 'small') {
+      html += '<div class="photos-grid-small">';
+      for (var si = 0; si < dayPhotos.length; si++) {
+        var sp = dayPhotos[si], sPhoto = sp.photo, sParsed = sp.parsed;
+        var sName = sPhoto.activityName || '';
+        if (!sName && sParsed.activity) sName = sParsed.activity.name;
+        if (!sName && sParsed.food) sName = sParsed.food.name;
+        if (!sName && sParsed.stay) sName = sParsed.stay.name;
+        var sUrl = PHOTO_BASE + encodeURIComponent(sPhoto.filename);
+        html += '<div class="photo-card-sm" onclick="openLightbox(\'' + sUrl + '\')">' +
+          '<img src="' + sUrl + '" alt="' + escHtml(sName) + '" loading="lazy">' +
+          '<div class="sm-label">' + escHtml(sName) + '</div></div>';
       }
+      html += '</div>';
+    } else if (photoSize === 'medium') {
+      html += '<div class="photos-grid-medium">';
+      for (var mi = 0; mi < dayPhotos.length; mi++) {
+        var mp = dayPhotos[mi], mPhoto = mp.photo, mParsed = mp.parsed;
+        var mName = mPhoto.activityName || '';
+        if (!mName && mParsed.activity) mName = mParsed.activity.name;
+        if (!mName && mParsed.food) mName = mParsed.food.name;
+        if (!mName && mParsed.stay) mName = mParsed.stay.name;
+        var mUrl = PHOTO_BASE + encodeURIComponent(mPhoto.filename);
+        html += '<div class="photo-card-md">' +
+          '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="openLightbox(\'' + mUrl + '\')" loading="lazy">' +
+          '<div class="md-info"><div class="md-place">📍 ' + escHtml(mName) + '</div>' +
+          '<div class="md-day">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div></div></div>';
+      }
+      html += '</div>';
+    } else {
+      for (let i = 0; i < dayPhotos.length; i++) {
+        const item = dayPhotos[i];
+        const p = item.parsed;
+        const photo = item.photo;
+        let placeName = photo.activityName || '';
+        let lat = null, lng = null;
 
-      const photoUrl = PHOTO_BASE + encodeURIComponent(photo.filename);
-      const traveler = findTravelerForPhoto(photo);
+        if (p.type === 'activity' && p.activity) {
+          placeName = placeName || p.activity.name;
+          lat = p.activity.lat; lng = p.activity.lng;
+        } else if (p.type === 'food' && p.food) {
+          placeName = placeName || p.food.name;
+          lat = p.food.lat; lng = p.food.lng;
+        } else if (p.type === 'stay' && p.stay) {
+          placeName = placeName || p.stay.name;
+          lat = p.stay.lat; lng = p.stay.lng;
+        }
 
-      html += '<div class="photo-card" style="animation-delay:' + (i * 0.08) + 's">' +
-        '<div class="photo-card-header">' +
-        '<span class="photo-card-place-icon">&#128205;</span>' +
-        '<span class="photo-card-place">' + escHtml(placeName) + '</span>' +
-        (traveler ? '<span class="photo-card-traveler">&#128248; ' + escHtml(traveler) + '</span>' : '') +
-        '</div>' +
-        '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="openLightbox(\'' + photoUrl + '\')" loading="lazy">' +
-        '<div class="photo-card-footer">' +
-        miniMapHtml(lat, lng) +
-        '<div class="photo-card-meta">' +
-        '<div class="meta-line">Day ' + day.id + ': ' + escHtml(day.title) + '</div>' +
-        (lat ? '<a href="' + mapsUrl(lat, lng) + '" target="_blank" rel="noopener">View on Google Maps &rarr;</a>' : '') +
-        '</div></div></div>';
+        const photoUrl = PHOTO_BASE + encodeURIComponent(photo.filename);
+        const traveler = findTravelerForPhoto(photo);
+
+        html += '<div class="photo-card" style="animation-delay:' + (i * 0.08) + 's">' +
+          '<div class="photo-card-header">' +
+          '<span class="photo-card-place-icon">&#128205;</span>' +
+          '<span class="photo-card-place">' + escHtml(placeName) + '</span>' +
+          (traveler ? '<span class="photo-card-traveler">&#128248; ' + escHtml(traveler) + '</span>' : '') +
+          '</div>' +
+          '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="openLightbox(\'' + photoUrl + '\')" loading="lazy">' +
+          '<div class="photo-card-footer">' +
+          miniMapHtml(lat, lng) +
+          '<div class="photo-card-meta">' +
+          '<div class="meta-line">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div>' +
+          (lat ? '<a href="' + mapsUrl(lat, lng) + '" target="_blank" rel="noopener">View on Google Maps &rarr;</a>' : '') +
+          '</div></div></div>';
+      }
     }
     html += '</div>';
   }
@@ -1256,7 +1435,7 @@ function renderPhotos() {
 }
 
 function parsePhotoKey(key) {
-  const m = key.match(/^d(\d+)-(a(\d+)|f(\d+)|stay)$/);
+  const m = key.match(/^d(-?\d+)-(a(\d+)|f(\d+)|stay)$/);
   if (!m) return null;
   const dayId = parseInt(m[1]);
   const day = TRIP_DATA.find(function(d) { return d.id === dayId; });
@@ -1314,9 +1493,14 @@ function miniMapHtml(lat, lng) {
 function renderProgress() {
   const current = getCurrentDayNum();
   let pct, label;
-  if (current <= 0) { pct = 0; label = 'Trip starts Jul 13'; }
+  if (current < -1) { pct = 0; label = 'Trip starts Jul 11'; }
   else if (current > 10) { pct = 100; label = 'Trip complete!'; }
-  else { pct = ((current - 1) / 10) * 100 + 10; label = 'Day ' + current + ' of 10'; }
+  else {
+    const idx = TRIP_DATA.findIndex(function(d) { return d.id === current; });
+    pct = idx >= 0 ? ((idx + 1) / TRIP_DATA.length) * 100 : 0;
+    if (current < 1) label = (current === -1 ? 'Travel to Boston' : 'Travel to Iceland');
+    else label = 'Day ' + current + ' of 10';
+  }
 
   document.getElementById('progressSection').innerHTML =
     '<div class="progress-label"><span>' + label + '</span><span>' + Math.round(pct) + '%</span></div>' +
@@ -1364,11 +1548,14 @@ function renderDays() {
     }
     if (day.match) badges += '<span class="badge badge-accent">&#9917; Match</span>';
 
+    const badgeText = day.id < 1 ? '&#9992;' : day.id;
+    const kmText = day.km > 0 ? '<span>&#8226; ~' + day.km + ' km</span>' : '<span>&#8226; &#9992; Flight</span>';
+
     html += '<div class="day-card" id="day-' + day.id + '">' +
       '<div class="day-header" onclick="toggleDay(' + day.id + ')">' +
-      '<div class="day-badge ' + status + '">' + day.id + '</div>' +
+      '<div class="day-badge ' + status + '">' + badgeText + '</div>' +
       '<div class="day-info"><div class="day-title">' + escHtml(day.title) + '</div>' +
-      '<div class="day-meta"><span>' + day.date + '</span><span>&#8226; ~' + day.km + ' km</span></div></div>' +
+      '<div class="day-meta"><span>' + day.date + '</span>' + kmText + '</div></div>' +
       '<div class="day-badges">' + badges + '</div>' +
       '<span class="chevron ' + (expanded ? 'open' : '') + '" id="chev-' + day.id + '">&#9654;</span></div>' +
       '<div class="day-body ' + (expanded ? 'open' : '') + '" id="body-' + day.id + '">' +
@@ -1378,7 +1565,9 @@ function renderDays() {
 }
 
 function renderDayBody(day) {
-  let html = '<div class="route-bar"><span class="icon">&#128663;</span><span>' + escHtml(day.route) + ' &bull; ~' + day.km + ' km</span></div>';
+  const routeIcon = day.km > 0 ? '&#128663;' : '&#9992;&#65039;';
+  const routeKm = day.km > 0 ? ' &bull; ~' + day.km + ' km' : '';
+  let html = '<div class="route-bar"><span class="icon">' + routeIcon + '</span><span>' + escHtml(day.route) + routeKm + '</span></div>';
 
   if (day.match) {
     html += '<div class="match-bar"><span class="ball">&#9917;</span>' +
@@ -1417,8 +1606,10 @@ function renderDayBody(day) {
       '</h4><div class="addr">' + escHtml(day.stay.address) + '</div>' +
       (day.stay.checkin ? '<div class="checkin">Check-in: ' + escHtml(day.stay.checkin) + '</div>' : '') +
       '<div class="stay-details">' + renderRatingNotesPhotos('d' + day.id + '-stay') + '</div></div></div>';
-  } else {
+  } else if (day.id === 10) {
     html += '<div class="section-title">&#9992;&#65039; Flying home!</div>';
+  } else if (day.id < 1) {
+    html += '<div class="section-title">&#9992;&#65039; Travel day — no accommodation</div>';
   }
   return html;
 }
