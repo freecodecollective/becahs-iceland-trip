@@ -155,7 +155,9 @@ function aggregateHikes() {
       for (var hi = 0; hi < hikes.length; hi++) {
         var h = hikes[hi];
         var existing = byName[h.name];
-        if (!existing || h.distanceKm > existing.distanceKm) {
+        if (!existing) {
+          byName[h.name] = { name: h.name, distanceKm: h.distanceKm, source: h.source, traveler: t.name, isOverride: false, eventId: null };
+        } else if (h.distanceKm > 0 && (existing.distanceKm === 0 || h.distanceKm < existing.distanceKm)) {
           byName[h.name] = { name: h.name, distanceKm: h.distanceKm, source: h.source, traveler: t.name, isOverride: false, eventId: null };
         }
       }
