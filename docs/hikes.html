@@ -140,6 +140,7 @@ async function load() {
     }
 
     render();
+    autoSyncIfDrifted();
   } catch (e) {
     document.getElementById('content').innerHTML = '<div class="loading">Error: ' + e.message + '</div>';
   }
@@ -407,6 +408,16 @@ function removeHike(name) {
   hasChanges = true;
   document.getElementById('saveBar').classList.add('active');
   render();
+}
+
+async function autoSyncIfDrifted() {
+  var waterfalls = aggregateWaterfalls();
+  var currentWfCount = Object.keys(waterfalls).length;
+  var storedWfCount = (sharedStats && sharedStats.waterfallsVisited != null) ? sharedStats.waterfallsVisited : -1;
+  if (currentWfCount !== storedWfCount) {
+    await saveSharedStats();
+    showToast('Auto-synced waterfall count (' + storedWfCount + ' → ' + currentWfCount + ')');
+  }
 }
 
 function showToast(msg, isError) {
