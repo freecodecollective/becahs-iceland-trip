@@ -90,6 +90,13 @@ function headers() {
   return { 'Authorization': 'Bearer ' + TOKEN, 'Accept': 'application/vnd.github+json' };
 }
 
+function decodeB64(b64) {
+  var bin = atob(b64.replace(/\n/g, ''));
+  var bytes = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
 function parseItinerary(itinerary) {
   if (!itinerary) return;
   for (var di = 0; di < itinerary.length; di++) {
@@ -112,14 +119,14 @@ async function load() {
   try {
     var res = await fetch(API + '/contents/data/trip-data.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
     var json = await res.json();
-    syncData = JSON.parse(atob(json.content));
+    syncData = JSON.parse(decodeB64(json.content));
     parseItinerary(syncData.itinerary);
 
     var statsRes = await fetch(API + '/contents/data/shared-stats.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
     if (statsRes.ok) {
       var statsJson = await statsRes.json();
       sharedStatsSha = statsJson.sha;
-      sharedStats = JSON.parse(atob(statsJson.content));
+      sharedStats = JSON.parse(decodeB64(statsJson.content));
     }
 
     render();
