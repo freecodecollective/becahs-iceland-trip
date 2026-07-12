@@ -326,7 +326,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T15:29:06Z",
+  "lastUpdated" : "2026-07-12T15:30:41Z",
   "photos" : [
     {
       "activityName" : "Bridge Between Continents",
@@ -405,6 +405,12 @@
           "itemName" : "World Cup with family",
           "key" : "d-1-s2",
           "timestamp" : "2026-07-12T02:45:33Z"
+        },
+        {
+          "dayID" : 1,
+          "itemName" : "Brimketill lava pool",
+          "key" : "d1-a4",
+          "timestamp" : "2026-07-12T15:30:31Z"
         },
         {
           "dayID" : 10,
