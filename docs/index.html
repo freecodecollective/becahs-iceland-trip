@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Becah's Iceland Adventure</title>
+<title>Iceland Bound</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root {
@@ -124,17 +124,6 @@ body {
 .progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text2); margin-bottom: 6px; }
 .progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
 .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; transition: width 0.5s; }
-
-/* Stats */
-.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 20px 0; }
-@media (max-width: 600px) { .stats { grid-template-columns: repeat(3, 1fr); } }
-.stat-card {
-  background: var(--card); border-radius: var(--radius-sm); padding: 12px 8px; text-align: center;
-  border: 1px solid var(--border);
-}
-.stat-card .icon { font-size: 1.1rem; margin-bottom: 2px; }
-.stat-card .num { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-.stat-card .label { font-size: 0.65rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* Day cards */
 .days-container { padding: 16px 20px 0; }
@@ -572,7 +561,7 @@ body {
 <div class="app">
   <div class="header">
     <div class="flag">&#127470;&#127480;</div>
-    <h1>Becah's Iceland Adventure</h1>
+    <h1>Iceland Bound</h1>
     <div class="dates">July 13 &ndash; 22, 2026</div>
     <div class="sync-status" id="syncStatus">
       <span class="dot stale"></span> Loading sync data&hellip;
@@ -587,7 +576,6 @@ body {
 
   <div class="tab-panel active" id="panel-itinerary">
     <div class="progress-section" id="progressSection"></div>
-    <div class="stats" id="statsRow"></div>
     <div class="days-container" id="daysContainer"></div>
   </div>
 
@@ -1874,27 +1862,6 @@ function renderProgress() {
     '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>';
 }
 
-// ─── RENDER STATS ─────────────────────────────────────────────────
-function renderStats() {
-  let checkIns = 0, ratingsCount = 0, photoCount = 0, hikesCount = 0, hikeKm = 0;
-  if (syncData && syncData.travelers) {
-    for (const t of syncData.travelers) {
-      checkIns += (t.checkIns || []).length;
-      ratingsCount += (t.ratings || []).length;
-      hikesCount = Math.max(hikesCount, t.hikesCompleted || 0);
-      hikeKm = Math.max(hikeKm, t.totalHikeDistanceKm || 0);
-    }
-  }
-  if (syncData && syncData.photos) photoCount = syncData.photos.length;
-
-  document.getElementById('statsRow').innerHTML =
-    '<div class="stat-card"><div class="icon">&#10004;&#65039;</div><div class="num">' + checkIns + '</div><div class="label">Check-ins</div></div>' +
-    '<div class="stat-card"><div class="icon">&#11088;</div><div class="num">' + ratingsCount + '</div><div class="label">Ratings</div></div>' +
-    '<div class="stat-card"><div class="icon">&#128247;</div><div class="num">' + photoCount + '</div><div class="label">Photos</div></div>' +
-    '<div class="stat-card"><div class="icon">&#129406;</div><div class="num">' + hikesCount + '</div><div class="label">Hikes</div></div>' +
-    '<div class="stat-card"><div class="icon">&#128099;</div><div class="num">' + hikeKm.toFixed(1) + '</div><div class="label">Km Hiked</div></div>';
-}
-
 // ─── RENDER DAYS ──────────────────────────────────────────────────
 function renderDays() {
   const container = document.getElementById('daysContainer');
@@ -2119,7 +2086,6 @@ function timeSince(date) {
 // ─── RENDER ALL ───────────────────────────────────────────────────
 function render() {
   renderProgress();
-  renderStats();
   renderDays();
   if (mapInitialized) renderGPSTrack();
   if (document.getElementById('panel-photos').classList.contains('active')) {
