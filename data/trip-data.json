@@ -326,7 +326,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T15:42:23Z",
+  "lastUpdated" : "2026-07-12T15:46:26Z",
   "photos" : [
     {
       "activityName" : "Bridge Between Continents",
@@ -437,7 +437,7 @@
       "customEvents" : [
 
       ],
-      "gpsPointCount" : 167,
+      "gpsPointCount" : 170,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -1440,6 +1440,24 @@
           "lat" : 42.66677001744275,
           "lng" : -71.58973776345941,
           "ts" : "2026-07-12T15:40:58Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T15:45:58Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T15:45:58Z"
+        },
+        {
+          "acc" : 20.395014,
+          "lat" : 42.666758751467974,
+          "lng" : -71.5897613362088,
+          "ts" : "2026-07-12T15:45:58Z"
         }
       ],
       "hikesCompleted" : 0,
@@ -1455,7 +1473,7 @@
           "dayID" : -1,
           "itemName" : "World Cup with family",
           "key" : "d-1-s2",
-          "text" : "One game down...we were all rooting for Norway. Alas...\n\nThanks to the Coops for hosting game one and the Pepp for game 2! Will Switzerland hold out?!?!"
+          "text" : "One game down...we were all rooting for Norway. Alas...\n\nThanks to the Coops for hosting game 1 and the Pepp for game 2! Will Switzerland hold out?!?!"
         },
         {
           "dayID" : 1,
