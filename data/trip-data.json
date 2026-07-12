@@ -326,7 +326,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T15:30:41Z",
+  "lastUpdated" : "2026-07-12T15:33:35Z",
   "photos" : [
     {
       "activityName" : "Bridge Between Continents",
@@ -423,7 +423,7 @@
       "customEvents" : [
 
       ],
-      "gpsPointCount" : 158,
+      "gpsPointCount" : 159,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -1372,6 +1372,12 @@
           "lat" : 42.66679717166019,
           "lng" : -71.58967319995485,
           "ts" : "2026-07-12T15:26:40Z"
+        },
+        {
+          "acc" : 4.748651530191761,
+          "lat" : 42.66678480856835,
+          "lng" : -71.5897799429113,
+          "ts" : "2026-07-12T15:31:39Z"
         }
       ],
       "hikesCompleted" : 0,
@@ -1419,6 +1425,12 @@
           "dayID" : -1,
           "itemName" : "World Cup with family",
           "key" : "d-1-s2",
+          "rating" : 5
+        },
+        {
+          "dayID" : 1,
+          "itemName" : "Sandholt Bakery",
+          "key" : "d1-f0",
           "rating" : 5
         }
       ],
