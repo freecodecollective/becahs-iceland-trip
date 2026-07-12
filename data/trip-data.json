@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T20:33:37Z",
+  "lastUpdated" : "2026-07-12T20:36:15Z",
   "photos" : [
 
   ],
@@ -564,9 +564,15 @@
         },
         {
           "dayID" : 0,
-          "itemName" : "custom-hike-7666B985-19D6-4937-8B38-1659089A4DB0",
-          "key" : "custom-hike-7666B985-19D6-4937-8B38-1659089A4DB0",
-          "timestamp" : "2026-07-12T18:23:28Z"
+          "itemName" : "custom-DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+          "key" : "custom-DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+          "timestamp" : "2026-07-12T20:34:24Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
+          "key" : "custom-hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
+          "timestamp" : "2026-07-12T20:34:49Z"
         },
         {
           "dayID" : -1,
@@ -620,12 +626,32 @@
           "name" : "Waterfall Test",
           "notes" : "Test waterfall",
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Waterfall",
+          "createdBy" : "Chris",
+          "dayID" : 0,
+          "id" : "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+          "latitude" : 42.702594609185006,
+          "longitude" : -71.43670547880501,
+          "name" : "Waterfall Test",
+          "notes" : "",
+          "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 0,
+          "id" : "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
+          "name" : "Test 434",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
 
       ],
-      "gpsPointCount" : 321,
+      "gpsPointCount" : 324,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -2552,6 +2578,24 @@
           "lat" : 42.702594609185006,
           "lng" : -71.43670547880501,
           "ts" : "2026-07-12T20:32:15Z"
+        },
+        {
+          "acc" : 7.984354404942343,
+          "lat" : 42.702398583565895,
+          "lng" : -71.43716075743387,
+          "ts" : "2026-07-12T20:34:49Z"
+        },
+        {
+          "acc" : 7.984354404942343,
+          "lat" : 42.702398583565895,
+          "lng" : -71.43716075743387,
+          "ts" : "2026-07-12T20:34:49Z"
+        },
+        {
+          "acc" : 8.095014,
+          "lat" : 42.702398583565895,
+          "lng" : -71.43716075743387,
+          "ts" : "2026-07-12T20:34:49Z"
         }
       ],
       "hikes" : [
@@ -2570,9 +2614,17 @@
           "pointCount" : 4,
           "source" : "gps",
           "startTime" : "2026-07-12T18:23:28Z"
+        },
+        {
+          "distanceKm" : 0,
+          "endTime" : "2026-07-12T20:34:51Z",
+          "name" : "Test 434",
+          "pointCount" : 3,
+          "source" : "gps",
+          "startTime" : "2026-07-12T20:34:49Z"
         }
       ],
-      "hikesCompleted" : 2,
+      "hikesCompleted" : 3,
       "name" : "Chris",
       "notes" : [
         {
@@ -2614,6 +2666,12 @@
           "rating" : 5
         },
         {
+          "dayID" : 0,
+          "itemName" : "custom-DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+          "key" : "custom-DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+          "rating" : 5
+        },
+        {
           "dayID" : -1,
           "itemName" : "Flight SFO to Boston",
           "key" : "d-1-a0",
@@ -2639,7 +2697,7 @@
         }
       ],
       "totalHikeDistanceKm" : 0,
-      "waterfallsVisited" : 1
+      "waterfallsVisited" : 2
     }
   ]
 }
