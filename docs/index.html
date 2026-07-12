@@ -2003,6 +2003,7 @@ function getScheduleInteractions(dayId) {
   var seen = {};
   var results = [];
   var prefix = 'd' + dayId + '-s';
+  var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
   for (var ti = 0; ti < syncData.travelers.length; ti++) {
     var t = syncData.travelers[ti];
     var checkIns = t.checkIns || [];
@@ -2010,7 +2011,12 @@ function getScheduleInteractions(dayId) {
       var c = checkIns[ci];
       if (c.key.indexOf(prefix) === 0 && !seen[c.key]) {
         seen[c.key] = true;
-        results.push({ key: c.key, itemName: c.itemName, timestamp: c.timestamp, travelerName: t.name });
+        var name = c.itemName;
+        if (name === c.key && day && day.schedule) {
+          var sm = c.key.match(/^d-?\d+-s(\d+)$/);
+          if (sm) { var si = parseInt(sm[1]); if (si < day.schedule.length) name = day.schedule[si].title; }
+        }
+        results.push({ key: c.key, itemName: name, timestamp: c.timestamp, travelerName: t.name });
       }
     }
   }
