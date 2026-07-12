@@ -549,9 +549,22 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T21:13:11Z",
+  "lastUpdated" : "2026-07-12T21:14:16Z",
   "photos" : [
-
+    {
+      "activityName" : "Flight SFO to Boston",
+      "dayID" : -1,
+      "filename" : "4F697389-AFDF-4817-B5C8-3EF0300848AB.jpg",
+      "key" : "d-1-a0",
+      "timestamp" : "2026-07-12T21:14:05Z"
+    },
+    {
+      "activityName" : "Flight SFO to Boston",
+      "dayID" : -1,
+      "filename" : "BC7EE9DD-B7CF-4FC3-88EE-C503A057A6A0.jpg",
+      "key" : "d-1-a0",
+      "timestamp" : "2026-07-12T21:14:06Z"
+    }
   ],
   "travelers" : [
     {
