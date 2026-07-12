@@ -423,7 +423,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T18:22:45Z",
+  "lastUpdated" : "2026-07-12T18:32:17Z",
   "photos" : [
     {
       "activityName" : "World Cup with family",
@@ -508,11 +508,30 @@
       "filename" : "BF22A6FD-10FB-4C5C-BFBB-DE35AC912623.jpg",
       "key" : "d-1-a1",
       "timestamp" : "2026-07-12T18:17:59Z"
+    },
+    {
+      "activityName" : "Waterfall Test",
+      "dayID" : 0,
+      "filename" : "099A825F-652B-4D16-914A-67BB70B8076A.jpg",
+      "key" : "custom-A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
+      "timestamp" : "2026-07-12T18:24:16Z"
     }
   ],
   "travelers" : [
     {
       "checkIns" : [
+        {
+          "dayID" : 0,
+          "itemName" : "custom-A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
+          "key" : "custom-A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
+          "timestamp" : "2026-07-12T18:24:16Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-hike-7666B985-19D6-4937-8B38-1659089A4DB0",
+          "key" : "custom-hike-7666B985-19D6-4937-8B38-1659089A4DB0",
+          "timestamp" : "2026-07-12T18:23:28Z"
+        },
         {
           "dayID" : -1,
           "itemName" : "Flight SFO to Boston",
@@ -552,12 +571,31 @@
       ],
       "colorHex" : "#B87A40",
       "customEvents" : [
-
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 0,
+          "id" : "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
+          "name" : "Test hike 223",
+          "notes" : "",
+          "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Waterfall",
+          "createdBy" : "Chris",
+          "dayID" : 0,
+          "id" : "A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
+          "latitude" : 42.6668148945583,
+          "longitude" : -71.58971426146856,
+          "name" : "Waterfall Test",
+          "notes" : "Test waterfall",
+          "type" : "Activity"
+        }
       ],
       "deletedEventIDs" : [
 
       ],
-      "gpsPointCount" : 263,
+      "gpsPointCount" : 277,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -2136,6 +2174,90 @@
           "lat" : 42.66675663110109,
           "lng" : -71.58976572848422,
           "ts" : "2026-07-12T18:19:05Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:23:28Z"
+        },
+        {
+          "acc" : 8.195014,
+          "lat" : 42.66675685258073,
+          "lng" : -71.58976527269022,
+          "ts" : "2026-07-12T18:23:28Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:23:28Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:23:28Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:24:42Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:24:42Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:24:42Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:24:42Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:25:26Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:25:26Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:25:26Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:25:26Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:30:25Z"
+        },
+        {
+          "acc" : 2.794530583892154,
+          "lat" : 42.6668148945583,
+          "lng" : -71.58971426146856,
+          "ts" : "2026-07-12T18:30:25Z"
         }
       ],
       "hikes" : [
@@ -2146,9 +2268,17 @@
           "pointCount" : 5,
           "source" : "gps",
           "startTime" : "2026-07-12T17:31:16Z"
+        },
+        {
+          "distanceKm" : 0.02,
+          "endTime" : "2026-07-12T18:23:37Z",
+          "name" : "Test hike 223",
+          "pointCount" : 4,
+          "source" : "gps",
+          "startTime" : "2026-07-12T18:23:28Z"
         }
       ],
-      "hikesCompleted" : 1,
+      "hikesCompleted" : 2,
       "name" : "Chris",
       "notes" : [
         {
@@ -2221,7 +2351,7 @@
         }
       ],
       "totalHikeDistanceKm" : 0,
-      "waterfallsVisited" : 0
+      "waterfallsVisited" : 1
     }
   ]
 }
