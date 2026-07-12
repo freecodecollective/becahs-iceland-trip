@@ -412,19 +412,15 @@ function removeHike(name, source, eventId) {
     deleteCustomEvent(eventId);
     return;
   }
-  if (source === 'manual') {
-    if (sharedStats && sharedStats.hikes) {
-      sharedStats.hikes = sharedStats.hikes.filter(function(h) { return h.name !== name; });
-    }
+  if (!sharedStats) {
+    sharedStats = { lastUpdated: '', hikes: [], totalHikeKm: 0, waterfallsVisited: 0, extraWaterfalls: [], hiddenHikes: [] };
   }
-  if (source === 'gps' || source === 'checkin') {
-    if (!sharedStats) {
-      sharedStats = { lastUpdated: '', hikes: [], totalHikeKm: 0, waterfallsVisited: 0, extraWaterfalls: [], hiddenHikes: [] };
-    }
-    if (!sharedStats.hiddenHikes) sharedStats.hiddenHikes = [];
-    if (sharedStats.hiddenHikes.indexOf(name) === -1) {
-      sharedStats.hiddenHikes.push(name);
-    }
+  if (sharedStats.hikes) {
+    sharedStats.hikes = sharedStats.hikes.filter(function(h) { return h.name !== name; });
+  }
+  if (!sharedStats.hiddenHikes) sharedStats.hiddenHikes = [];
+  if (sharedStats.hiddenHikes.indexOf(name) === -1) {
+    sharedStats.hiddenHikes.push(name);
   }
   hasChanges = true;
   document.getElementById('saveBar').classList.add('active');
