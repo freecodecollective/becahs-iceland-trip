@@ -101,7 +101,7 @@ function decodeB64(b64) {
 
 async function load() {
   try {
-    var res = await fetch(API + '/contents/data/trip-data.json?ref=main', { headers: headers() });
+    var res = await fetch(API + '/contents/data/trip-data.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
     var json = await res.json();
     tripDataSha = json.sha;
     syncData = JSON.parse(decodeB64(json.content));
@@ -209,33 +209,10 @@ function showToast(msg, isError) {
 
 async function deletePhotos(filenames) {
   var errors = [];
-  for (var i = 0; i < filenames.length; i++) {
-    var fn = filenames[i];
-    try {
-      var shaRes = await fetch(API + '/contents/data/photos/' + encodeURIComponent(fn) + '?ref=main', { headers: headers() });
-      if (shaRes.ok) {
-        var shaJson = await shaRes.json();
-        await fetch(API + '/contents/data/photos/' + encodeURIComponent(fn), {
-          method: 'DELETE',
-          headers: Object.assign({ 'Content-Type': 'application/json' }, headers()),
-          body: JSON.stringify({ message: 'Admin: delete photo ' + fn.substring(0, 8), sha: shaJson.sha, branch: 'main' })
-        });
-      }
-    } catch (e) { errors.push(fn); }
-  }
 
-  syncData.photos = syncData.photos.filter(function(p) { return filenames.indexOf(p.filename) === -1; });
-  var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(syncData, null, 2))));
+  // Step 1: Update deleted-photos.json FIRST — prevents iOS from re-uploading
   try {
-    await fetch(API + '/contents/data/trip-data.json', {
-      method: 'PUT',
-      headers: Object.assign({ 'Content-Type': 'application/json' }, headers()),
-      body: JSON.stringify({ message: 'Admin: remove ' + filenames.length + ' photo(s) from manifest', content: encoded, sha: tripDataSha, branch: 'main' })
-    }).then(function(r) { return r.json(); }).then(function(j) { if (j.content) tripDataSha = j.content.sha; });
-  } catch (e) { errors.push('trip-data.json'); }
-
-  try {
-    var delRes = await fetch(API + '/contents/data/deleted-photos.json?ref=main', { headers: headers() });
+    var delRes = await fetch(API + '/contents/data/deleted-photos.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
     var existingDeleted = [];
     var delSha = null;
     if (delRes.ok) {
@@ -254,6 +231,55 @@ async function deletePhotos(filenames) {
       body: JSON.stringify(delBody)
     });
   } catch (e) { console.error('Error tracking deleted photos', e); }
+
+  // Step 2: Update trip-data.json manifest (with 409 retry)
+  syncData.photos = syncData.photos.filter(function(p) { return filenames.indexOf(p.filename) === -1; });
+  var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(syncData, null, 2))));
+  try {
+    var putRes = await fetch(API + '/contents/data/trip-data.json', {
+      method: 'PUT',
+      headers: Object.assign({ 'Content-Type': 'application/json' }, headers()),
+      body: JSON.stringify({ message: 'Admin: remove ' + filenames.length + ' photo(s) from manifest', content: encoded, sha: tripDataSha, branch: 'main' })
+    });
+    var putJson = await putRes.json();
+    if (putRes.status === 409) {
+      var refetch = await fetch(API + '/contents/data/trip-data.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' });
+      var refetchJson = await refetch.json();
+      tripDataSha = refetchJson.sha;
+      var freshData = JSON.parse(decodeB64(refetchJson.content));
+      freshData.photos = freshData.photos.filter(function(p) { return filenames.indexOf(p.filename) === -1; });
+      syncData = freshData;
+      var reEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(freshData, null, 2))));
+      var retryRes = await fetch(API + '/contents/data/trip-data.json', {
+        method: 'PUT',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, headers()),
+        body: JSON.stringify({ message: 'Admin: remove ' + filenames.length + ' photo(s) from manifest', content: reEncoded, sha: tripDataSha, branch: 'main' })
+      });
+      var retryJson = await retryRes.json();
+      if (retryJson.content) tripDataSha = retryJson.content.sha;
+      else errors.push('trip-data.json');
+    } else if (putJson.content) {
+      tripDataSha = putJson.content.sha;
+    } else {
+      errors.push('trip-data.json');
+    }
+  } catch (e) { errors.push('trip-data.json'); }
+
+  // Step 3: Delete photo files last
+  for (var i = 0; i < filenames.length; i++) {
+    var fn = filenames[i];
+    try {
+      var shaRes = await fetch(API + '/contents/data/photos/' + encodeURIComponent(fn) + '?ref=main', { headers: headers() });
+      if (shaRes.ok) {
+        var shaJson = await shaRes.json();
+        await fetch(API + '/contents/data/photos/' + encodeURIComponent(fn), {
+          method: 'DELETE',
+          headers: Object.assign({ 'Content-Type': 'application/json' }, headers()),
+          body: JSON.stringify({ message: 'Admin: delete photo ' + fn.substring(0, 8), sha: shaJson.sha, branch: 'main' })
+        });
+      }
+    } catch (e) { errors.push(fn); }
+  }
 
   return errors;
 }
