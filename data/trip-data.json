@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T22:56:01Z",
+  "lastUpdated" : "2026-07-12T23:00:48Z",
   "photos" : [
     {
       "activityName" : "World Cup with family",
@@ -694,13 +694,13 @@
         }
       ],
       "deletedEventIDs" : [
-        "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
-        "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
+        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
-        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
+        "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
+        "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 422,
+      "gpsPointCount" : 424,
       "gpsTrack" : [
         {
           "acc" : 14788.177814332172,
@@ -3233,6 +3233,18 @@
           "lat" : 42.66676509874512,
           "lng" : -71.5897970483974,
           "ts" : "2026-07-12T22:38:44Z"
+        },
+        {
+          "acc" : 12.660492102127343,
+          "lat" : 42.66676852875157,
+          "lng" : -71.58975477322748,
+          "ts" : "2026-07-12T22:56:01Z"
+        },
+        {
+          "acc" : 11.183529122638408,
+          "lat" : 42.66677162044248,
+          "lng" : -71.5897515661128,
+          "ts" : "2026-07-12T22:56:01Z"
         }
       ],
       "hikes" : [
