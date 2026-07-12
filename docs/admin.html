@@ -285,7 +285,7 @@ async function deletePhotos(filenames) {
 }
 
 async function deleteOne(filename) {
-  if (!confirm('Delete this photo from the dashboard?')) return;
+
   var btn = event.target;
   btn.disabled = true;
   btn.textContent = 'Deleting...';
@@ -297,7 +297,7 @@ async function deleteOne(filename) {
 
 async function deleteSelected() {
   if (selected.size === 0) return;
-  if (!confirm('Delete ' + selected.size + ' photo(s) from the dashboard?')) return;
+
   var filenames = Array.from(selected);
   selected.clear();
   var errors = await deletePhotos(filenames);
