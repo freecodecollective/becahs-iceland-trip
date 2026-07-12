@@ -326,7 +326,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-12T17:42:37Z",
+  "lastUpdated" : "2026-07-12T17:44:03Z",
   "photos" : [
     {
       "activityName" : "World Cup with family",
@@ -390,6 +390,27 @@
       "filename" : "EB860714-9767-41FE-9B9A-C0DA1E586E0A.jpg",
       "key" : "d-1-a0",
       "timestamp" : "2026-07-12T16:37:38Z"
+    },
+    {
+      "activityName" : "World Cup matches with family",
+      "dayID" : -1,
+      "filename" : "37121F7F-5D41-4B67-AD3A-A0FEAB110075.jpg",
+      "key" : "d-1-a1",
+      "timestamp" : "2026-07-12T17:43:10Z"
+    },
+    {
+      "activityName" : "World Cup matches with family",
+      "dayID" : -1,
+      "filename" : "339609D2-E977-4132-B4D8-FCF5CEAF0D0E.jpg",
+      "key" : "d-1-a1",
+      "timestamp" : "2026-07-12T17:43:10Z"
+    },
+    {
+      "activityName" : "World Cup matches with family",
+      "dayID" : -1,
+      "filename" : "8F674764-A933-4692-858D-441E4170884A.jpg",
+      "key" : "d-1-a1",
+      "timestamp" : "2026-07-12T17:43:10Z"
     }
   ],
   "travelers" : [
