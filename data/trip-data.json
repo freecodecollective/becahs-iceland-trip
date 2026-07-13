@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-13T15:04:35Z",
+  "lastUpdated" : "2026-07-13T15:13:58Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -954,7 +954,7 @@
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE"
       ],
-      "gpsPointCount" : 115,
+      "gpsPointCount" : 117,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -1645,6 +1645,18 @@
           "lat" : 64.1422269089183,
           "lng" : -21.92736755039493,
           "ts" : "2026-07-13T15:04:08Z"
+        },
+        {
+          "acc" : 2.1091148819614385,
+          "lat" : 64.1425111510528,
+          "lng" : -21.927553247835668,
+          "ts" : "2026-07-13T15:05:08Z"
+        },
+        {
+          "acc" : 6.737510349857147,
+          "lat" : 64.14407199619342,
+          "lng" : -21.920770478884503,
+          "ts" : "2026-07-13T15:13:55Z"
         }
       ],
       "hikes" : [
@@ -1653,6 +1665,12 @@
       "hikesCompleted" : 0,
       "name" : "Chris",
       "notes" : [
+        {
+          "dayID" : 0,
+          "itemName" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+          "key" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+          "text" : "Love me a church. So stark! "
+        },
         {
           "dayID" : 0,
           "itemName" : "custom-FEF4A851-70D3-47A3-B6CD-91B82F2BF2D3",
