@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-13T02:49:51Z",
+  "lastUpdated" : "2026-07-13T03:01:58Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -655,17 +655,25 @@
       ],
       "colorHex" : "#3180A8",
       "customEvents" : [
-
+        {
+          "createdBy" : "Chris",
+          "dayID" : 2,
+          "id" : "AF7482C2-208D-4491-8769-4995975659A9",
+          "name" : "Efstidalur II Ice Cream",
+          "notes" : "",
+          "scheduleAfterIndex" : 7,
+          "type" : "Food"
+        }
       ],
       "deletedEventIDs" : [
-        "72F18AEC-99EF-4D55-B498-448DE505E501",
-        "54A846B9-6D87-40D2-995B-E807631D15DF",
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "9AFBE53F-E79A-4105-9E91-89F7A2AF3B1A",
+        "72F18AEC-99EF-4D55-B498-448DE505E501",
+        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
         "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
-        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
+        "54A846B9-6D87-40D2-995B-E807631D15DF"
       ],
       "gpsPointCount" : 1,
       "gpsTrack" : [
