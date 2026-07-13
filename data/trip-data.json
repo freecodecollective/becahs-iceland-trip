@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-13T10:07:54Z",
+  "lastUpdated" : "2026-07-13T10:15:06Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -571,6 +571,27 @@
       "filename" : "44B8920D-E266-406B-95CE-2A346C4C4700.jpg",
       "key" : "custom-C4D9106A-E668-4776-BC85-DB53A48976A3",
       "timestamp" : "2026-07-13T09:26:57Z"
+    },
+    {
+      "activityName" : "Bridge Between Continents",
+      "dayID" : 1,
+      "filename" : "21D80CD2-CA07-4F3A-8139-1634DA3D80A4.jpg",
+      "key" : "d1-a0",
+      "timestamp" : "2026-07-13T10:08:34Z"
+    },
+    {
+      "activityName" : "Bridge Between Continents",
+      "dayID" : 1,
+      "filename" : "5AF76C84-51B0-4EFC-B0FD-98338509DB8E.jpg",
+      "key" : "d1-a0",
+      "timestamp" : "2026-07-13T10:08:34Z"
+    },
+    {
+      "activityName" : "Bridge Between Continents",
+      "dayID" : 1,
+      "filename" : "3F949689-4023-4271-B860-4CEACF4077BF.jpg",
+      "key" : "d1-a0",
+      "timestamp" : "2026-07-13T10:08:34Z"
     },
     {
       "activityName" : "Fly Boston to Iceland",
@@ -666,6 +687,12 @@
           "dayID" : 0,
           "itemName" : "Flight Boston to Reykjavík",
           "key" : "d0-a0",
+          "rating" : 5
+        },
+        {
+          "dayID" : 1,
+          "itemName" : "Bridge Between Continents",
+          "key" : "d1-a0",
           "rating" : 5
         }
       ],
