@@ -558,9 +558,16 @@ body {
 @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
 
 .photo-card { opacity: 0; transform: translateY(10px); animation: slideIn 0.4s ease forwards; }
+
+/* Wallpaper */
+#wallpaperCanvas {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1; pointer-events: none;
+}
 </style>
 </head>
 <body>
+<canvas id="wallpaperCanvas"></canvas>
 <div class="app">
   <div class="header">
     <div class="flag">&#127470;&#127480;</div>
@@ -2293,6 +2300,84 @@ window.addEventListener('hashchange', function() {
   var h = location.hash.replace('#', '');
   if (['itinerary', 'map', 'photos'].indexOf(h) !== -1) switchTab(h, true);
 });
+
+// ─── ICELANDIC WALLPAPER ─────────────────────────────────────────
+(function() {
+  var ICON_NAMES = ['church','fish','geyser','horse','house','iceland','puffin','sheep','sweater','viking','whale'];
+  var canvas = document.getElementById('wallpaperCanvas');
+  var ctx = canvas.getContext('2d');
+  var images = {};
+  var loaded = 0;
+
+  function hashInt(seed) {
+    var h = Math.imul(seed | 0, 2654435761) | 0;
+    h = h ^ (h >>> 16);
+    h = Math.imul(h, 2246822519) | 0;
+    h = h ^ (h >>> 13);
+    return (h < 0 ? h + 4294967296 : h);
+  }
+  function rand(seed, lo, hi) {
+    return lo + (hashInt(seed) % 10000) / 10000.0 * (hi - lo);
+  }
+
+  var MIN_SZ = 40, MAX_SZ = 76;
+  var ALPHA_LO = 0.18, ALPHA_HI = 0.50;
+  var COLS = 4;
+
+  function draw() {
+    var dpr = window.devicePixelRatio || 1;
+    var w = window.innerWidth, h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var cellW = w / COLS;
+    if (cellW <= 0) return;
+    var rows = Math.ceil(h / cellW) + 1;
+    var cellH = h / Math.max(rows, 1);
+    var total = rows * COLS;
+
+    for (var i = 0; i < total; i++) {
+      var col = i % COLS;
+      var row = Math.floor(i / COLS);
+      var sz = rand(i * 7 + 3, MIN_SZ, MAX_SZ);
+      var rot = rand(i * 13 + 5, -25, 25) * Math.PI / 180;
+      var offX = rand(i * 17 + 11, -cellW * 0.3, cellW * 0.3);
+      var offY = rand(i * 23 + 7, -cellH * 0.3, cellH * 0.3);
+      var alpha = rand(i * 31 + 19, ALPHA_LO, ALPHA_HI);
+
+      var x = cellW * (col + 0.5) + offX;
+      var y = cellH * (row + 0.5) + offY;
+
+      var iconIdx = hashInt(i * 3 + 7) % ICON_NAMES.length;
+      var img = images[ICON_NAMES[iconIdx]];
+      if (!img) continue;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      ctx.drawImage(img, -sz / 2, -sz / 2, sz, sz);
+      ctx.restore();
+    }
+  }
+
+  ICON_NAMES.forEach(function(name) {
+    var img = new Image();
+    img.onload = function() {
+      images[name] = img;
+      loaded++;
+      if (loaded === ICON_NAMES.length) {
+        draw();
+        window.addEventListener('resize', draw);
+      }
+    };
+    img.src = 'icons/' + name + '.png';
+  });
+})();
 </script>
 </body>
 </html>
