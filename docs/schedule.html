@@ -20,6 +20,7 @@ h1 { font-size: 1.4rem; margin-bottom: 4px; }
 .stat b.amber { color: #fbbf24; }
 .stat b.red { color: #f87171; }
 .stat b.purple { color: #a78bfa; }
+.stat b.teal { color: #2dd4bf; }
 
 .search-bar { margin-bottom: 20px; }
 .search-bar input { width: 100%; max-width: 400px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; padding: 8px 14px; font-size: 0.85rem; }
@@ -47,6 +48,7 @@ h1 { font-size: 1.4rem; margin-bottom: 4px; }
 .badge-waterfall { background: #164e63; color: #22d3ee; }
 .badge-custom { background: #2e1065; color: #a78bfa; }
 .badge-stay { background: #78350f; color: #fbbf24; }
+.badge-added { background: #0d3b2e; color: #2dd4bf; }
 
 .event-name { flex: 1; font-size: 0.85rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .event-duration { font-size: 0.75rem; color: #64748b; white-space: nowrap; flex-shrink: 0; }
@@ -58,13 +60,33 @@ h1 { font-size: 1.4rem; margin-bottom: 4px; }
 .btn-icon.delete:hover { color: #f87171; background: #3f1515; }
 .btn-icon.restore:hover { color: #4ade80; background: #0a3520; }
 
-.edit-row { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #0f172a; border-top: 1px solid #1a2332; }
-.edit-input { flex: 1; background: #1e293b; border: 1px solid #60a5fa; border-radius: 6px; color: #f1f5f9; padding: 6px 10px; font-size: 0.85rem; }
-.edit-input:focus { outline: none; border-color: #93c5fd; }
+.edit-form { padding: 12px 16px; background: #0f172a; border-top: 1px solid #1a2332; }
+.edit-form-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.edit-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.edit-form-field { display: flex; flex-direction: column; gap: 4px; }
+.edit-form-field.full-width { grid-column: 1 / -1; }
+.edit-form-field label { font-size: 0.72rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+.edit-form-field input[type="text"],
+.edit-form-field input[type="number"] { background: #1e293b; border: 1px solid #334155; border-radius: 6px; color: #f1f5f9; padding: 6px 10px; font-size: 0.85rem; }
+.edit-form-field input[type="text"]:focus,
+.edit-form-field input[type="number"]:focus { border-color: #60a5fa; outline: none; }
+.edit-form-field input[type="text"]::placeholder,
+.edit-form-field input[type="number"]::placeholder { color: #475569; }
+.edit-form-checks { display: flex; gap: 16px; padding-top: 4px; }
+.edit-form-checks label { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #cbd5e1; cursor: pointer; text-transform: none; letter-spacing: normal; }
+.edit-form-checks input[type="checkbox"] { accent-color: #60a5fa; width: 16px; height: 16px; cursor: pointer; }
+.edit-form-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
 .btn-save { padding: 5px 12px; border-radius: 6px; border: none; background: #166534; color: #4ade80; font-weight: 600; font-size: 0.78rem; cursor: pointer; }
 .btn-save:hover { background: #15803d; }
 .btn-cancel { padding: 5px 12px; border-radius: 6px; border: none; background: #334155; color: #94a3b8; font-weight: 600; font-size: 0.78rem; cursor: pointer; }
 .btn-cancel:hover { background: #475569; }
+
+.btn-add { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px; background: none; border: none; border-top: 1px dashed #334155; color: #64748b; font-size: 0.82rem; cursor: pointer; transition: all 0.15s; }
+.btn-add:hover { color: #60a5fa; background: #0f1b2d; }
+
+.rename-indicator { font-size: 0.6rem; color: #fbbf24; margin-left: 4px; vertical-align: super; }
+.override-indicator { font-size: 0.6rem; color: #60a5fa; margin-left: 4px; vertical-align: super; }
 
 .hidden-section { margin-top: 24px; }
 .hidden-section h2 { font-size: 1rem; color: #94a3b8; margin-bottom: 10px; }
@@ -76,21 +98,6 @@ h1 { font-size: 1.4rem; margin-bottom: 4px; }
 .loading { text-align: center; padding: 60px; color: #94a3b8; }
 .empty { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
 
-.rename-indicator { font-size: 0.6rem; color: #fbbf24; margin-left: 4px; vertical-align: super; }
-.override-indicator { font-size: 0.6rem; color: #60a5fa; margin-left: 4px; vertical-align: super; }
-.added-indicator { font-size: 0.6rem; color: #4ade80; margin-left: 4px; vertical-align: super; }
-
-.edit-form { padding: 12px 16px; background: #0f172a; border-top: 1px solid #1a2332; }
-.edit-form .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.edit-form .form-full { grid-column: 1 / -1; }
-.edit-form label { display: block; font-size: 0.7rem; color: #94a3b8; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
-.edit-form input[type="text"], .edit-form input[type="number"] { width: 100%; background: #1e293b; border: 1px solid #334155; border-radius: 6px; color: #f1f5f9; padding: 6px 10px; font-size: 0.85rem; }
-.edit-form input:focus { outline: none; border-color: #60a5fa; }
-.edit-form .check-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
-.edit-form .check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: #60a5fa; }
-.edit-form .check-row label { margin: 0; font-size: 0.82rem; color: #f1f5f9; text-transform: none; letter-spacing: 0; }
-.edit-form .form-actions { display: flex; gap: 8px; }
-
 @media (max-width: 640px) {
   body { padding: 12px; padding-bottom: 80px; }
   .event-row { flex-wrap: wrap; gap: 6px; padding: 10px 12px; }
@@ -99,6 +106,8 @@ h1 { font-size: 1.4rem; margin-bottom: 4px; }
   .event-duration { order: 2; }
   .event-creator { order: 3; }
   .event-actions { order: 4; margin-left: auto; }
+  .edit-form-grid { grid-template-columns: 1fr; }
+  .edit-form-field.full-width { grid-column: 1; }
 }
 </style>
 </head>
@@ -112,7 +121,7 @@ h1 { font-size: 1.4rem; margin-bottom: 4px; }
 </nav>
 
 <h1>Schedule Admin</h1>
-<p class="subtitle">Edit activities, add new ones, or remove events. Changes sync to the app and dashboard.</p>
+<p class="subtitle">Edit, add, or remove events. Custom events from the app appear automatically after sync.</p>
 
 <div class="stats" id="stats"></div>
 
@@ -152,13 +161,34 @@ function decodeB64(b64) {
   return new TextDecoder().decode(bytes);
 }
 
+function generateId() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return 'admin-' + crypto.randomUUID();
+  return 'admin-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function escAttr(s) {
+  if (!s) return '';
+  return s.replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 async function load() {
   try {
-    var [tripRes, adminRes, delEvRes] = await Promise.all([
+    var results = await Promise.all([
       fetch(API + '/contents/data/trip-data.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' }),
       fetch(API + '/contents/data/schedule-admin.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' }),
       fetch(API + '/contents/data/admin-deleted-events.json?ref=main&_t=' + Date.now(), { headers: headers(), cache: 'no-store' })
     ]);
+
+    var tripRes = results[0];
+    var adminRes = results[1];
+    var delEvRes = results[2];
 
     var tripJson = await tripRes.json();
     tripData = JSON.parse(decodeB64(tripJson.content));
@@ -170,7 +200,7 @@ async function load() {
       if (!adminData.renames) adminData.renames = {};
       if (!adminData.hidden) adminData.hidden = [];
       if (!adminData.overrides) adminData.overrides = {};
-      if (!adminData.additions) adminData.additions = [];
+      if (!Array.isArray(adminData.additions)) adminData.additions = [];
     }
 
     if (delEvRes.ok) {
@@ -202,7 +232,11 @@ function getAllEvents() {
         dayDate: day.date,
         dayTitle: day.title,
         duration: 'Accommodation',
-        isCustom: false
+        isCustom: false,
+        isAdminAdded: false,
+        isHike: false,
+        isWaterfall: false,
+        hikeKm: null
       });
     }
 
@@ -220,8 +254,11 @@ function getAllEvents() {
         dayDate: day.date,
         dayTitle: day.title,
         duration: a.duration,
-        hikeKm: a.hikeDistanceKm,
-        isCustom: false
+        isCustom: false,
+        isAdminAdded: false,
+        isHike: !!a.isHike,
+        isWaterfall: !!a.isWaterfall,
+        hikeKm: a.hikeDistanceKm != null ? a.hikeDistanceKm : null
       });
     });
   });
@@ -250,34 +287,105 @@ function getAllEvents() {
           duration: '',
           createdBy: e.createdBy || t.name,
           notes: e.notes,
-          isCustom: true
+          isCustom: true,
+          isAdminAdded: false,
+          isHike: cat === 'hiking',
+          isWaterfall: cat === 'waterfall',
+          hikeKm: null
         });
       });
     });
   }
 
   if (adminData.additions) {
-    adminData.additions.forEach(function(added) {
-      var dayInfo = tripData.itinerary.find(function(d) { return d.id === added.dayId; });
+    adminData.additions.forEach(function(a) {
       var aType = 'activity';
-      if (added.isHike) aType = 'hike';
-      else if (added.isWaterfall) aType = 'waterfall';
+      if (a.isHike && a.isWaterfall) aType = 'hike';
+      else if (a.isHike) aType = 'hike';
+      else if (a.isWaterfall) aType = 'waterfall';
+
+      var dayInfo = tripData.itinerary.find(function(d) { return d.id === a.dayId; });
+
       events.push({
-        key: added.id,
-        name: added.name,
+        key: a.id,
+        name: a.name,
         type: aType,
-        dayId: added.dayId,
+        dayId: a.dayId,
         dayDate: dayInfo ? dayInfo.date : '',
-        dayTitle: dayInfo ? dayInfo.title : 'Day ' + added.dayId,
-        duration: added.duration,
-        hikeKm: added.hikeDistanceKm,
+        dayTitle: dayInfo ? dayInfo.title : 'Day ' + a.dayId,
+        duration: a.duration || '',
         isCustom: false,
-        isAdminAdded: true
+        isAdminAdded: true,
+        isHike: !!a.isHike,
+        isWaterfall: !!a.isWaterfall,
+        hikeKm: a.hikeDistanceKm != null ? a.hikeDistanceKm : null
       });
     });
   }
 
   return events;
+}
+
+function getDisplayData(e) {
+  if (e.isAdminAdded) {
+    return {
+      name: e.name,
+      duration: e.duration || '',
+      type: e.type,
+      isHike: !!e.isHike,
+      isWaterfall: !!e.isWaterfall,
+      hikeKm: e.hikeKm,
+      isOverridden: false,
+      isRenamed: false
+    };
+  }
+
+  var override = adminData.overrides ? adminData.overrides[e.key] : null;
+  if (!override) {
+    return {
+      name: adminData.renames[e.key] || e.name,
+      duration: e.duration || '',
+      type: e.type,
+      isHike: !!e.isHike,
+      isWaterfall: !!e.isWaterfall,
+      hikeKm: e.hikeKm,
+      isOverridden: false,
+      isRenamed: !!adminData.renames[e.key]
+    };
+  }
+
+  var isHike = override.isHike !== undefined ? override.isHike : !!e.isHike;
+  var isWaterfall = override.isWaterfall !== undefined ? override.isWaterfall : !!e.isWaterfall;
+  var hikeKm = override.hikeDistanceKm !== undefined ? override.hikeDistanceKm : e.hikeKm;
+
+  var baseType;
+  if (e.type === 'stay') baseType = 'stay';
+  else if (e.isCustom) baseType = 'custom';
+  else baseType = 'activity';
+
+  var type;
+  if (isHike) type = 'hike';
+  else if (isWaterfall) type = 'waterfall';
+  else type = baseType;
+
+  return {
+    name: override.name !== undefined ? override.name : (adminData.renames[e.key] || e.name),
+    duration: override.duration !== undefined ? override.duration : (e.duration || ''),
+    type: type,
+    isHike: isHike,
+    isWaterfall: isWaterfall,
+    hikeKm: hikeKm,
+    isOverridden: true,
+    isRenamed: false
+  };
+}
+
+function typeLabel(type) {
+  if (type === 'hike') return 'Hike';
+  if (type === 'waterfall') return 'Waterfall';
+  if (type === 'stay') return 'Stay';
+  if (type === 'custom') return 'Custom';
+  return 'Activity';
 }
 
 function render() {
@@ -293,10 +401,10 @@ function render() {
 
   if (query) {
     visibleEvents = visibleEvents.filter(function(e) {
-      var displayName = adminData.renames[e.key] || e.name;
-      return displayName.toLowerCase().indexOf(query) !== -1 ||
+      var dd = getDisplayData(e);
+      return dd.name.toLowerCase().indexOf(query) !== -1 ||
              e.dayTitle.toLowerCase().indexOf(query) !== -1 ||
-             (e.type && e.type.toLowerCase().indexOf(query) !== -1);
+             (dd.type && dd.type.toLowerCase().indexOf(query) !== -1);
     });
   }
 
@@ -305,17 +413,19 @@ function render() {
   var totalWaterfalls = events.filter(function(e) { return e.type === 'waterfall'; }).length;
   var totalCustom = events.filter(function(e) { return e.isCustom; }).length;
   var totalHidden = hiddenEvents.length;
-  var totalRenamed = Object.keys(adminData.renames).length;
+  var totalRenamed = Object.keys(adminData.renames).filter(function(k) {
+    return !adminData.overrides[k];
+  }).length;
   var totalOverrides = Object.keys(adminData.overrides).length;
-  var totalAdded = adminData.additions.length;
+  var totalAdditions = adminData.additions.length;
 
   document.getElementById('stats').innerHTML =
     '<div class="stat"><b>' + totalActs + '</b> activities</div>' +
     '<div class="stat"><b class="green">' + totalHikes + '</b> hikes</div>' +
     '<div class="stat"><b class="amber">' + totalWaterfalls + '</b> waterfalls</div>' +
     '<div class="stat"><b class="purple">' + totalCustom + '</b> custom</div>' +
-    (totalAdded ? '<div class="stat"><b class="green">' + totalAdded + '</b> added</div>' : '') +
-    (totalOverrides ? '<div class="stat"><b class="amber">' + totalOverrides + '</b> edited</div>' : '') +
+    (totalAdditions ? '<div class="stat"><b class="teal">' + totalAdditions + '</b> added</div>' : '') +
+    (totalOverrides ? '<div class="stat"><b>' + totalOverrides + '</b> modified</div>' : '') +
     (totalRenamed ? '<div class="stat"><b class="amber">' + totalRenamed + '</b> renamed</div>' : '') +
     (totalHidden ? '<div class="stat"><b class="red">' + totalHidden + '</b> hidden</div>' : '');
 
@@ -328,6 +438,16 @@ function render() {
     }
     byDay[e.dayId].events.push(e);
   });
+
+  // Ensure all itinerary days appear even if empty (so add button is reachable)
+  if (!query && tripData && tripData.itinerary) {
+    tripData.itinerary.forEach(function(day) {
+      if (!byDay[day.id]) {
+        byDay[day.id] = { id: day.id, date: day.date, title: day.title, events: [] };
+        dayOrder.push(day.id);
+      }
+    });
+  }
 
   dayOrder.sort(function(a, b) { return a - b; });
 
@@ -343,11 +463,11 @@ function render() {
       html += '<div class="day-card">';
       html += '<div class="day-header" onclick="toggleDay(' + dayId + ')">';
       html += '<div>';
-      html += '<div class="day-title">' + escHtml(day.date) + ' — ' + escHtml(day.title) + '</div>';
+      html += '<div class="day-title">' + escHtml(day.date) + ' &mdash; ' + escHtml(day.title) + '</div>';
       html += '</div>';
       html += '<div style="display:flex;align-items:center;gap:8px;">';
       html += '<span class="day-badge">' + count + ' event' + (count !== 1 ? 's' : '') + '</span>';
-      html += '<span class="day-chevron' + (isOpen ? ' open' : '') + '">▶</span>';
+      html += '<span class="day-chevron' + (isOpen ? ' open' : '') + '">&blacktriangleright;</span>';
       html += '</div>';
       html += '</div>';
 
@@ -355,37 +475,40 @@ function render() {
         html += '<div class="event-list">';
         day.events.forEach(function(e) {
           if (editingKey === e.key) {
-            html += renderEditRow(e);
+            html += renderEditForm(e);
           } else {
             html += renderEventRow(e);
           }
         });
-        if (addingToDay === dayId) {
-          html += renderAddForm(dayId);
-        } else {
-          html += '<div style="padding:8px 16px;border-top:1px solid #1a2332">';
-          html += '<button class="btn-save" style="background:#1e3a5f;color:#60a5fa;font-size:0.75rem" onclick="startAdd(' + dayId + ')">+ Add Activity</button>';
-          html += '</div>';
-        }
         html += '</div>';
+
+        // Add Activity button / form (only when not searching)
+        if (!query) {
+          if (addingToDay === dayId) {
+            html += renderAddForm(dayId);
+          } else {
+            html += '<button class="btn-add" onclick="startAdd(' + dayId + ')">+ Add Activity</button>';
+          }
+        }
       }
       html += '</div>';
     });
     document.getElementById('content').innerHTML = html;
   }
 
+  // Hidden events section
   if (hiddenEvents.length > 0 && !query) {
     var hHtml = '<div class="hidden-section">';
     hHtml += '<h2>Hidden Events (' + hiddenEvents.length + ')</h2>';
     hHtml += '<div class="day-card"><div class="event-list">';
     hiddenEvents.forEach(function(e) {
-      var displayName = adminData.renames[e.key] || e.name;
+      var dd = getDisplayData(e);
       hHtml += '<div class="event-row hidden-item">';
-      hHtml += '<span class="badge badge-' + e.type + '">' + typeLabel(e) + '</span>';
-      hHtml += '<span class="event-name">' + escHtml(displayName) + '</span>';
+      hHtml += '<span class="badge badge-' + dd.type + '">' + typeLabel(dd.type) + '</span>';
+      hHtml += '<span class="event-name">' + escHtml(dd.name) + '</span>';
       hHtml += '<span class="event-duration">' + escHtml(e.dayDate) + '</span>';
       hHtml += '<div class="event-actions">';
-      hHtml += '<button class="btn-icon restore" onclick="restoreEvent(\'' + escAttr(e.key) + '\')" title="Restore">↩</button>';
+      hHtml += '<button class="btn-icon restore" onclick="restoreEvent(\'' + escAttr(e.key) + '\')" title="Restore">&hookleftarrow;</button>';
       hHtml += '</div>';
       hHtml += '</div>';
     });
@@ -394,83 +517,104 @@ function render() {
   } else {
     document.getElementById('hiddenSection').innerHTML = '';
   }
-}
 
-function getEffectiveValues(e) {
-  var ov = adminData.overrides[e.key] || {};
-  return {
-    name: ov.name || adminData.renames[e.key] || e.name,
-    duration: ov.duration || e.duration || '',
-    isHike: ov.isHike !== undefined ? ov.isHike : (e.type === 'hike'),
-    isWaterfall: ov.isWaterfall !== undefined ? ov.isWaterfall : (e.type === 'waterfall'),
-    hikeKm: ov.hikeDistanceKm !== undefined ? ov.hikeDistanceKm : (e.hikeKm || 0)
-  };
+  // Focus inputs after render
+  if (editingKey) {
+    var editInput = document.getElementById('edit-name');
+    if (editInput) { editInput.focus(); editInput.select(); }
+  }
+  if (addingToDay !== null) {
+    var addInput = document.getElementById('add-name');
+    if (addInput) addInput.focus();
+  }
 }
 
 function renderEventRow(e) {
-  var eff = getEffectiveValues(e);
-  var hasOverride = adminData.overrides[e.key] !== undefined;
-  var isRenamed = adminData.renames[e.key] !== undefined;
+  var dd = getDisplayData(e);
   var html = '<div class="event-row">';
-  html += '<span class="badge badge-' + e.type + '">' + typeLabel(e) + '</span>';
-  html += '<span class="event-name">' + escHtml(eff.name);
-  if (e.isAdminAdded) html += '<span class="added-indicator" title="Admin added">★</span>';
-  else if (hasOverride) html += '<span class="override-indicator" title="Edited">✎</span>';
-  else if (isRenamed) html += '<span class="rename-indicator" title="Original: ' + escAttr(e.name) + '">✎</span>';
+  html += '<span class="badge badge-' + dd.type + '">' + typeLabel(dd.type) + '</span>';
+  if (e.isAdminAdded) html += '<span class="badge badge-added">Added</span>';
+  html += '<span class="event-name">' + escHtml(dd.name);
+  if (dd.isOverridden) html += '<span class="override-indicator" title="Modified (originally: ' + escAttr(e.name) + ')">&#9998;</span>';
+  else if (dd.isRenamed) html += '<span class="rename-indicator" title="Original: ' + escAttr(e.name) + '">&#9998;</span>';
   html += '</span>';
-  if (eff.duration) html += '<span class="event-duration">' + escHtml(eff.duration) + '</span>';
+  if (dd.duration) html += '<span class="event-duration">' + escHtml(dd.duration) + '</span>';
   if (e.createdBy) html += '<span class="event-creator">' + escHtml(e.createdBy) + '</span>';
   html += '<div class="event-actions">';
-  if (!e.isCustom) html += '<button class="btn-icon" onclick="startEdit(\'' + escAttr(e.key) + '\')" title="Edit">✏️</button>';
-  html += '<button class="btn-icon delete" onclick="hideEvent(\'' + escAttr(e.key) + '\')" title="Remove">✕</button>';
+  html += '<button class="btn-icon" onclick="startEdit(\'' + escAttr(e.key) + '\')" title="Edit">&#9999;&#65039;</button>';
+  html += '<button class="btn-icon delete" onclick="hideEvent(\'' + escAttr(e.key) + '\')" title="Remove">&#10005;</button>';
   html += '</div>';
   html += '</div>';
   return html;
 }
 
-function renderEditRow(e) {
-  var eff = getEffectiveValues(e);
-  var html = '<div class="edit-form">';
-  html += '<div class="form-grid">';
-  html += '<div class="form-full"><label>Name</label><input type="text" id="ef-name" value="' + escAttr(eff.name) + '"></div>';
-  html += '<div><label>Duration</label><input type="text" id="ef-duration" value="' + escAttr(eff.duration) + '" placeholder="e.g. 2 hrs"></div>';
-  html += '<div><label>Hike Distance (km)</label><input type="number" id="ef-hikekm" value="' + (eff.hikeKm || '') + '" step="0.1" min="0" placeholder="0"></div>';
-  html += '<div class="check-row"><input type="checkbox" id="ef-ishike"' + (eff.isHike ? ' checked' : '') + '><label for="ef-ishike">Hike</label></div>';
-  html += '<div class="check-row"><input type="checkbox" id="ef-iswaterfall"' + (eff.isWaterfall ? ' checked' : '') + '><label for="ef-iswaterfall">Waterfall</label></div>';
+function renderEditForm(e) {
+  var dd = getDisplayData(e);
+
+  var html = '<div class="edit-form" onkeydown="editFormKeydown(event, \'' + escAttr(e.key) + '\')">';
+  html += '<div class="edit-form-header">';
+  html += '<span class="badge badge-' + dd.type + '">' + typeLabel(dd.type) + '</span>';
+  if (e.isAdminAdded) html += '<span class="badge badge-added">Added</span>';
+  html += '<span style="color:#94a3b8;font-size:0.82rem;">Edit Event</span>';
   html += '</div>';
-  html += '<div class="form-actions">';
-  html += '<button class="btn-save" onclick="saveEdit(\'' + escAttr(e.key) + '\', \'' + escAttr(e.name) + '\')">Save</button>';
+
+  html += '<div class="edit-form-grid">';
+  html += '<div class="edit-form-field"><label>Name</label>';
+  html += '<input type="text" id="edit-name" value="' + escAttr(dd.name) + '"></div>';
+  html += '<div class="edit-form-field"><label>Duration</label>';
+  html += '<input type="text" id="edit-duration" value="' + escAttr(dd.duration) + '" placeholder="e.g. 2 hrs, 45 min"></div>';
+
+  html += '<div class="edit-form-field full-width"><div class="edit-form-checks">';
+  html += '<label><input type="checkbox" id="edit-isHike"' + (dd.isHike ? ' checked' : '') + ' onchange="toggleHikeField(\'edit\')"> Is Hike</label>';
+  html += '<label><input type="checkbox" id="edit-isWaterfall"' + (dd.isWaterfall ? ' checked' : '') + '> Is Waterfall</label>';
+  html += '</div></div>';
+
+  html += '<div class="edit-form-field" id="edit-hikeKm-field" style="' + (dd.isHike ? '' : 'display:none;') + '">';
+  html += '<label>Hike Distance (km)</label>';
+  html += '<input type="number" id="edit-hikeKm" step="0.1" min="0" value="' + (dd.hikeKm != null ? dd.hikeKm : '') + '">';
+  html += '</div>';
+
+  html += '</div>';
+
+  html += '<div class="edit-form-actions">';
+  html += '<button class="btn-save" onclick="saveFullEdit(\'' + escAttr(e.key) + '\')">Save</button>';
   html += '<button class="btn-cancel" onclick="cancelEdit()">Cancel</button>';
-  if (adminData.overrides[e.key]) html += '<button class="btn-cancel" style="color:#f87171" onclick="resetOverride(\'' + escAttr(e.key) + '\')">Reset</button>';
   html += '</div>';
   html += '</div>';
   return html;
 }
 
 function renderAddForm(dayId) {
-  var html = '<div class="edit-form">';
-  html += '<div style="font-size:0.82rem;font-weight:600;margin-bottom:8px;color:#60a5fa">Add New Activity</div>';
-  html += '<div class="form-grid">';
-  html += '<div class="form-full"><label>Name</label><input type="text" id="af-name" value="" placeholder="Activity name"></div>';
-  html += '<div><label>Duration</label><input type="text" id="af-duration" value="" placeholder="e.g. 1 hr"></div>';
-  html += '<div><label>Hike Distance (km)</label><input type="number" id="af-hikekm" value="" step="0.1" min="0" placeholder="0"></div>';
-  html += '<div class="check-row"><input type="checkbox" id="af-ishike"><label for="af-ishike">Hike</label></div>';
-  html += '<div class="check-row"><input type="checkbox" id="af-iswaterfall"><label for="af-iswaterfall">Waterfall</label></div>';
+  var html = '<div class="edit-form" onkeydown="addFormKeydown(event, ' + dayId + ')">';
+  html += '<div class="edit-form-header">';
+  html += '<span class="badge badge-added">New</span>';
+  html += '<span style="color:#94a3b8;font-size:0.82rem;">Add Activity</span>';
   html += '</div>';
-  html += '<div class="form-actions">';
-  html += '<button class="btn-save" onclick="saveAdd(' + dayId + ')">Add</button>';
+
+  html += '<div class="edit-form-grid">';
+  html += '<div class="edit-form-field"><label>Name</label>';
+  html += '<input type="text" id="add-name" placeholder="Activity name"></div>';
+  html += '<div class="edit-form-field"><label>Duration</label>';
+  html += '<input type="text" id="add-duration" placeholder="e.g. 2 hrs, 45 min"></div>';
+
+  html += '<div class="edit-form-field full-width"><div class="edit-form-checks">';
+  html += '<label><input type="checkbox" id="add-isHike" onchange="toggleHikeField(\'add\')"> Is Hike</label>';
+  html += '<label><input type="checkbox" id="add-isWaterfall"> Is Waterfall</label>';
+  html += '</div></div>';
+
+  html += '<div class="edit-form-field" id="add-hikeKm-field" style="display:none;">';
+  html += '<label>Hike Distance (km)</label>';
+  html += '<input type="number" id="add-hikeKm" step="0.1" min="0">';
+  html += '</div>';
+
+  html += '</div>';
+
+  html += '<div class="edit-form-actions">';
+  html += '<button class="btn-save" onclick="saveAddition(' + dayId + ')">Add</button>';
   html += '<button class="btn-cancel" onclick="cancelAdd()">Cancel</button>';
   html += '</div>';
   html += '</div>';
   return html;
-}
-
-function typeLabel(e) {
-  if (e.type === 'hike') return 'Hike';
-  if (e.type === 'waterfall') return 'Waterfall';
-  if (e.type === 'stay') return 'Stay';
-  if (e.isCustom) return 'Custom';
-  return 'Activity';
 }
 
 function toggleDay(dayId) {
@@ -482,8 +626,6 @@ function startEdit(key) {
   editingKey = key;
   addingToDay = null;
   render();
-  var input = document.getElementById('ef-name');
-  if (input) { input.focus(); input.select(); }
 }
 
 function cancelEdit() {
@@ -495,8 +637,6 @@ function startAdd(dayId) {
   addingToDay = dayId;
   editingKey = null;
   render();
-  var input = document.getElementById('af-name');
-  if (input) input.focus();
 }
 
 function cancelAdd() {
@@ -504,103 +644,151 @@ function cancelAdd() {
   render();
 }
 
-async function saveEdit(key, originalName) {
-  var nameEl = document.getElementById('ef-name');
-  var durEl = document.getElementById('ef-duration');
-  var hikeEl = document.getElementById('ef-ishike');
-  var waterfallEl = document.getElementById('ef-iswaterfall');
-  var hikeKmEl = document.getElementById('ef-hikekm');
-  if (!nameEl) return;
+function toggleHikeField(prefix) {
+  var cb = document.getElementById(prefix + '-isHike');
+  var field = document.getElementById(prefix + '-hikeKm-field');
+  if (field) field.style.display = cb && cb.checked ? '' : 'none';
+}
 
-  var newName = nameEl.value.trim();
-  if (!newName) return;
+function editFormKeydown(event, key) {
+  if (event.key === 'Enter' && event.target.type !== 'checkbox') {
+    event.preventDefault();
+    saveFullEdit(key);
+  }
+  if (event.key === 'Escape') cancelEdit();
+}
 
-  var isAdminAdded = adminData.additions.some(function(a) { return a.id === key; });
+function addFormKeydown(event, dayId) {
+  if (event.key === 'Enter' && event.target.type !== 'checkbox') {
+    event.preventDefault();
+    saveAddition(dayId);
+  }
+  if (event.key === 'Escape') cancelAdd();
+}
 
-  if (isAdminAdded) {
-    adminData.additions = adminData.additions.map(function(a) {
-      if (a.id !== key) return a;
-      return Object.assign({}, a, {
-        name: newName,
-        duration: durEl.value.trim(),
-        isHike: hikeEl.checked,
-        isWaterfall: waterfallEl.checked,
-        hikeDistanceKm: hikeEl.checked && hikeKmEl.value ? parseFloat(hikeKmEl.value) : null
-      });
-    });
+async function saveFullEdit(key) {
+  var nameEl = document.getElementById('edit-name');
+  var durationEl = document.getElementById('edit-duration');
+  var isHikeEl = document.getElementById('edit-isHike');
+  var isWaterfallEl = document.getElementById('edit-isWaterfall');
+  var hikeKmEl = document.getElementById('edit-hikeKm');
+
+  var nameVal = nameEl ? nameEl.value.trim() : '';
+  var durationVal = durationEl ? durationEl.value.trim() : '';
+  var isHikeVal = isHikeEl ? isHikeEl.checked : false;
+  var isWaterfallVal = isWaterfallEl ? isWaterfallEl.checked : false;
+  var hikeKmVal = hikeKmEl ? hikeKmEl.value : '';
+
+  if (!nameVal) { showToast('Name is required', true); return; }
+
+  // Check if this is an admin-added activity
+  var addIdx = -1;
+  for (var i = 0; i < adminData.additions.length; i++) {
+    if (adminData.additions[i].id === key) { addIdx = i; break; }
+  }
+
+  if (addIdx !== -1) {
+    // Update the addition directly
+    adminData.additions[addIdx].name = nameVal;
+    adminData.additions[addIdx].duration = durationVal || null;
+    adminData.additions[addIdx].isHike = isHikeVal;
+    adminData.additions[addIdx].isWaterfall = isWaterfallVal;
+    adminData.additions[addIdx].hikeDistanceKm = isHikeVal && hikeKmVal ? parseFloat(hikeKmVal) : null;
+    editingKey = null;
+    render();
+    await saveAdminData();
+    showToast('Updated');
+    return;
+  }
+
+  // Base or custom event: compute diff against original
+  var events = getAllEvents();
+  var baseEvent = null;
+  for (var j = 0; j < events.length; j++) {
+    if (events[j].key === key) { baseEvent = events[j]; break; }
+  }
+  if (!baseEvent) { cancelEdit(); return; }
+
+  var override = {};
+  if (nameVal !== baseEvent.name) override.name = nameVal;
+  if (durationVal !== (baseEvent.duration || '')) override.duration = durationVal;
+  if (isHikeVal !== !!baseEvent.isHike) override.isHike = isHikeVal;
+  if (isWaterfallVal !== !!baseEvent.isWaterfall) override.isWaterfall = isWaterfallVal;
+
+  var km = isHikeVal && hikeKmVal ? parseFloat(hikeKmVal) : null;
+  var baseKm = baseEvent.hikeKm != null ? baseEvent.hikeKm : null;
+  if (km !== baseKm) override.hikeDistanceKm = km;
+
+  if (Object.keys(override).length > 0) {
+    adminData.overrides[key] = override;
   } else {
-    var ov = {};
-    if (newName !== originalName) ov.name = newName;
-    if (durEl.value.trim()) ov.duration = durEl.value.trim();
-    ov.isHike = hikeEl.checked;
-    ov.isWaterfall = waterfallEl.checked;
-    if (hikeEl.checked && hikeKmEl.value) ov.hikeDistanceKm = parseFloat(hikeKmEl.value);
+    delete adminData.overrides[key];
+  }
 
-    if (Object.keys(ov).length > 0) {
-      adminData.overrides[key] = ov;
-    }
-    if (newName !== originalName) {
-      adminData.renames[key] = newName;
-    } else {
-      delete adminData.renames[key];
-    }
+  // Backward compat: sync name to renames
+  if (override.name) {
+    adminData.renames[key] = override.name;
+  } else {
+    delete adminData.renames[key];
   }
 
   editingKey = null;
   render();
   await saveAdminData();
-  showToast('Saved');
+  showToast('Updated');
 }
 
-async function saveAdd(dayId) {
-  var nameEl = document.getElementById('af-name');
-  var durEl = document.getElementById('af-duration');
-  var hikeEl = document.getElementById('af-ishike');
-  var waterfallEl = document.getElementById('af-iswaterfall');
-  var hikeKmEl = document.getElementById('af-hikekm');
-  if (!nameEl || !nameEl.value.trim()) { showToast('Name is required', true); return; }
+async function saveAddition(dayId) {
+  var nameEl = document.getElementById('add-name');
+  var durationEl = document.getElementById('add-duration');
+  var isHikeEl = document.getElementById('add-isHike');
+  var isWaterfallEl = document.getElementById('add-isWaterfall');
+  var hikeKmEl = document.getElementById('add-hikeKm');
 
-  var newAct = {
-    id: 'admin-' + crypto.randomUUID().substring(0, 8),
+  var nameVal = nameEl ? nameEl.value.trim() : '';
+  var durationVal = durationEl ? durationEl.value.trim() : '';
+  var isHikeVal = isHikeEl ? isHikeEl.checked : false;
+  var isWaterfallVal = isWaterfallEl ? isWaterfallEl.checked : false;
+  var hikeKmVal = hikeKmEl ? hikeKmEl.value : '';
+
+  if (!nameVal) { showToast('Name is required', true); return; }
+
+  var addition = {
+    id: generateId(),
     dayId: dayId,
-    name: nameEl.value.trim(),
-    duration: durEl.value.trim() || '',
-    isHike: hikeEl.checked,
-    isWaterfall: waterfallEl.checked,
-    hikeDistanceKm: hikeEl.checked && hikeKmEl.value ? parseFloat(hikeKmEl.value) : null,
+    name: nameVal,
+    duration: durationVal || null,
+    isHike: isHikeVal,
+    isWaterfall: isWaterfallVal,
+    hikeDistanceKm: isHikeVal && hikeKmVal ? parseFloat(hikeKmVal) : null,
     addedAt: new Date().toISOString()
   };
-  adminData.additions.push(newAct);
 
+  adminData.additions.push(addition);
   addingToDay = null;
   render();
   await saveAdminData();
   showToast('Activity added');
 }
 
-async function resetOverride(key) {
-  delete adminData.overrides[key];
-  delete adminData.renames[key];
-  editingKey = null;
-  render();
-  await saveAdminData();
-  showToast('Reset to original');
-}
-
 async function hideEvent(key) {
   var events = getAllEvents();
-  var ev = events.find(function(e) { return e.key === key; });
+  var ev = null;
+  for (var i = 0; i < events.length; i++) {
+    if (events[i].key === key) { ev = events[i]; break; }
+  }
 
+  // Admin-added events: remove from additions entirely
   if (ev && ev.isAdminAdded) {
     adminData.additions = adminData.additions.filter(function(a) { return a.id !== key; });
     delete adminData.overrides[key];
-    delete adminData.renames[key];
     render();
     await saveAdminData();
-    showToast('Removed admin activity');
+    showToast('Removed added activity');
     return;
   }
 
+  // Custom events: persist deletion to admin-deleted-events.json
   if (ev && ev.isCustom) {
     if (adminDeletedEvents.indexOf(key) === -1) {
       adminDeletedEvents.push(key);
@@ -622,6 +810,7 @@ async function hideEvent(key) {
     return;
   }
 
+  // Base events: add to hidden list
   if (adminData.hidden.indexOf(key) === -1) {
     adminData.hidden.push(key);
   }
@@ -668,18 +857,6 @@ function showToast(msg, isError) {
   t.className = 'toast ' + (isError ? 'error' : 'success');
   t.style.display = 'block';
   setTimeout(function() { t.style.display = 'none'; }, 3000);
-}
-
-function escHtml(s) {
-  if (!s) return '';
-  var d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
-
-function escAttr(s) {
-  if (!s) return '';
-  return s.replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 load();
