@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-13T14:43:45Z",
+  "lastUpdated" : "2026-07-13T14:45:34Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -736,9 +736,30 @@
     {
       "activityName" : "Krýsuvík \/ Seltún geothermal",
       "dayID" : 1,
+      "filename" : "6E51451B-884C-4ADB-AC8F-3FCE92ADAE63_thumb.jpg",
+      "key" : "d1-a3",
+      "timestamp" : "2026-07-13T13:17:39Z"
+    },
+    {
+      "activityName" : "Krýsuvík \/ Seltún geothermal",
+      "dayID" : 1,
+      "filename" : "3EA8FB46-3652-4673-882E-EE79581268C9_thumb.jpg",
+      "key" : "d1-a3",
+      "timestamp" : "2026-07-13T13:17:39Z"
+    },
+    {
+      "activityName" : "Krýsuvík \/ Seltún geothermal",
+      "dayID" : 1,
       "filename" : "8ADAC8AC-44DE-413A-9230-D74F351BA262.jpg",
       "key" : "d1-a3",
       "timestamp" : "2026-07-13T13:17:51Z"
+    },
+    {
+      "activityName" : "Krýsuvík \/ Seltún geothermal",
+      "dayID" : 1,
+      "filename" : "59625666-FF93-4226-B131-75DC36502458_thumb.jpg",
+      "key" : "d1-a3",
+      "timestamp" : "2026-07-13T14:45:18Z"
     },
     {
       "activityName" : "Fly Boston to Iceland",
@@ -893,7 +914,7 @@
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
         "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE"
       ],
-      "gpsPointCount" : 71,
+      "gpsPointCount" : 74,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -1320,6 +1341,24 @@
           "lat" : 64.14137586306187,
           "lng" : -21.93715290867977,
           "ts" : "2026-07-13T14:43:45Z"
+        },
+        {
+          "acc" : 14.726202636473635,
+          "lat" : 64.14137608243783,
+          "lng" : -21.937033390093863,
+          "ts" : "2026-07-13T14:44:45Z"
+        },
+        {
+          "acc" : 14.726202636473635,
+          "lat" : 64.14137608243783,
+          "lng" : -21.937033390093863,
+          "ts" : "2026-07-13T14:44:45Z"
+        },
+        {
+          "acc" : 11.595014,
+          "lat" : 64.14137339782488,
+          "lng" : -21.93703077360447,
+          "ts" : "2026-07-13T14:44:45Z"
         }
       ],
       "hikes" : [
@@ -1406,7 +1445,7 @@
           "dayID" : 1,
           "itemName" : "Krýsuvík \/ Seltún geothermal",
           "key" : "d1-a3",
-          "rating" : 3
+          "rating" : 4
         },
         {
           "dayID" : 1,
