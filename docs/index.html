@@ -1935,9 +1935,14 @@ function renderDayBody(day) {
   if (customEvents.length > 0) {
     html += '<div class="section-title">&#127775; Custom Events</div>';
     for (const ce of customEvents) {
+      let schedBadge = '';
+      if (ce.scheduleAfterIndex != null && day.schedule) {
+        const afterTitle = ce.scheduleAfterIndex === -1 ? 'start of day' : (day.schedule[ce.scheduleAfterIndex] ? day.schedule[ce.scheduleAfterIndex].title : '');
+        if (afterTitle) schedBadge = '<span class="badge badge-blue" style="font-size:0.6rem;margin-left:4px">&#128197; After ' + escHtml(afterTitle) + '</span>';
+      }
       html += '<div class="custom-event">' +
         '<span class="ce-icon">' + (ce.type === 'Activity' ? '&#127939;' : ce.type === 'Food' ? '&#127860;' : '&#128204;') + '</span>' +
-        '<span class="ce-name">' + escHtml(ce.name) + '</span>' +
+        '<span class="ce-name">' + escHtml(ce.name) + schedBadge + '</span>' +
         (ce.notes ? '<span class="ce-notes">' + escHtml(ce.notes) + '</span>' : '') +
         '<span style="font-size:0.7rem;color:var(--text3)">' + escHtml(ce.travelerName) + '</span></div>';
     }
