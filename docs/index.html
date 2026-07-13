@@ -1603,59 +1603,65 @@ function renderGPSTrack() {
   }
 }
 
-function snapTrackToRoads(rawPoints, gpsTrack) {
+async function snapTrackToRoads(rawPoints, gpsTrack) {
   if (gpsTrackLayer) tripMap.removeLayer(gpsTrackLayer);
   gpsTrackLayer = L.polyline(rawPoints, {
     color: '#3b82f6', weight: 2, opacity: 0.3,
     dashArray: '6,8', lineCap: 'round', lineJoin: 'round'
   }).addTo(tripMap);
 
-  var CHUNK = 80;
+  var CHUNK = 25;
   var chunks = [];
   for (var i = 0; i < rawPoints.length; i += CHUNK - 1) {
     chunks.push(rawPoints.slice(i, i + CHUNK));
   }
   var allCoords = [];
-  var pending = chunks.length;
 
-  chunks.forEach(function(chunk, ci) {
-    if (chunk.length < 2) { allCoords[ci] = chunk; pending--; return; }
-    var coords = chunk.map(function(p) { return p[1] + ',' + p[0]; }).join(';');
-    var url = 'https://router.project-osrm.org/route/v1/driving/' + coords +
-      '?overview=full&geometries=geojson';
+  for (var ci = 0; ci < chunks.length; ci++) {
+    var chunk = chunks[ci];
+    if (chunk.length < 2) { allCoords.push(chunk); continue; }
 
-    fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+    if (ci > 0) await new Promise(function(r) { setTimeout(r, 500); });
+
+    var routed = await fetchChunkWithRetry(chunk, 2);
+    allCoords.push(routed || chunk);
+  }
+
+  var merged = [];
+  for (var k = 0; k < allCoords.length; k++) {
+    var seg = allCoords[k];
+    if (merged.length > 0 && seg.length > 0) {
+      var lastPt = merged[merged.length - 1];
+      var firstPt = seg[0];
+      if (Math.abs(lastPt[0] - firstPt[0]) < 0.0001 && Math.abs(lastPt[1] - firstPt[1]) < 0.0001) {
+        seg = seg.slice(1);
+      }
+    }
+    merged = merged.concat(seg);
+  }
+  if (gpsTrackLayer) tripMap.removeLayer(gpsTrackLayer);
+  gpsTrackLayer = L.polyline(merged, {
+    color: '#3b82f6', weight: 3.5, opacity: 0.85,
+    lineCap: 'round', lineJoin: 'round'
+  }).addTo(tripMap);
+}
+
+async function fetchChunkWithRetry(chunk, retries) {
+  var coords = chunk.map(function(p) { return p[1] + ',' + p[0]; }).join(';');
+  var url = 'https://router.project-osrm.org/route/v1/driving/' + coords +
+    '?overview=full&geometries=geojson';
+
+  for (var attempt = 0; attempt <= retries; attempt++) {
+    if (attempt > 0) await new Promise(function(r) { setTimeout(r, attempt * 1000); });
+    try {
+      var resp = await fetch(url);
+      var data = await resp.json();
       if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
-        var routed = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
-        allCoords[ci] = routed;
-      } else {
-        allCoords[ci] = chunk;
+        return data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
       }
-    }).catch(function() {
-      allCoords[ci] = chunk;
-    }).finally(function() {
-      pending--;
-      if (pending === 0) {
-        var merged = [];
-        for (var k = 0; k < chunks.length; k++) {
-          var seg = allCoords[k] || chunks[k];
-          if (merged.length > 0 && seg.length > 0) {
-            var lastPt = merged[merged.length - 1];
-            var firstPt = seg[0];
-            if (Math.abs(lastPt[0] - firstPt[0]) < 0.0001 && Math.abs(lastPt[1] - firstPt[1]) < 0.0001) {
-              seg = seg.slice(1);
-            }
-          }
-          merged = merged.concat(seg);
-        }
-        if (gpsTrackLayer) tripMap.removeLayer(gpsTrackLayer);
-        gpsTrackLayer = L.polyline(merged, {
-          color: '#3b82f6', weight: 3.5, opacity: 0.85,
-          lineCap: 'round', lineJoin: 'round'
-        }).addTo(tripMap);
-      }
-    });
-  });
+    } catch (e) { /* retry */ }
+  }
+  return null;
 }
 
 function resolveKeyCoords(key) {
