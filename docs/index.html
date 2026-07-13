@@ -1772,6 +1772,10 @@ function renderPhotos() {
   for (const day of TRIP_DATA) {
     const dayPhotos = photosByDay[day.id];
     if (!dayPhotos || dayPhotos.length === 0) continue;
+    dayPhotos.sort(function(a, b) {
+      var ta = a.photo.timestamp || '', tb = b.photo.timestamp || '';
+      return ta < tb ? -1 : ta > tb ? 1 : 0;
+    });
 
     const photoBadge = day.id < 1 ? '&#9992;' : day.id;
     html += '<div class="photos-day-section">' +
