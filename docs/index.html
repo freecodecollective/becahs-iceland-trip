@@ -519,6 +519,7 @@ body {
 }
 .lightbox.open { display: flex; }
 .lightbox img { max-width: 92%; max-height: 92%; object-fit: contain; border-radius: 8px; }
+.lightbox video { max-width: 92%; max-height: 92%; border-radius: 8px; }
 
 /* Responsive */
 @media (max-width: 600px) {
@@ -609,6 +610,7 @@ body {
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightboxImg" src="" alt="Photo">
+  <video id="lightboxVideo" src="" controls autoplay style="display:none" onclick="event.stopPropagation()"></video>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -1148,7 +1150,7 @@ function renderRatingNotesPhotos(key) {
     html += '<div class="photos-grid">';
     for (const p of photos) {
       const url = PHOTO_BASE + encodeURIComponent(p.filename);
-      html += `<img class="photo-thumb" src="${url}" alt="${escHtml(p.activityName || '')}" onclick="openLightbox('${url}')" loading="lazy">`;
+      html += `<img class="photo-thumb" src="${url}" alt="${escHtml(p.activityName || '')}" onclick="${lightboxCall(url, p)}" loading="lazy">`;
     }
     html += '</div>';
   } else {
@@ -1164,13 +1166,27 @@ function escHtml(s) {
 }
 
 // ─── LIGHTBOX ─────────────────────────────────────────────────────
-function openLightbox(url) {
+function openLightbox(url, videoUrl) {
   if (event) event.stopPropagation();
-  document.getElementById('lightboxImg').src = url;
+  var img = document.getElementById('lightboxImg');
+  var vid = document.getElementById('lightboxVideo');
+  if (videoUrl) {
+    img.style.display = 'none';
+    vid.src = videoUrl;
+    vid.style.display = 'block';
+  } else {
+    vid.style.display = 'none';
+    vid.pause(); vid.src = '';
+    img.src = url;
+    img.style.display = 'block';
+  }
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
+  var vid = document.getElementById('lightboxVideo');
+  vid.pause(); vid.src = ''; vid.style.display = 'none';
+  document.getElementById('lightboxImg').style.display = 'block';
 }
 
 // ─── TAB SWITCHING ────────────────────────────────────────────────
@@ -1266,7 +1282,7 @@ function mapPopupContent(name, dayTitle, desc, duration, lat, lng, key) {
     html += '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
     for (var p of photos) {
       var url = PHOTO_BASE + encodeURIComponent(p.filename);
-      html += '<img src="' + url + '" style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="openLightbox(\'' + url + '\')" loading="lazy">';
+      html += '<img src="' + url + '" style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="' + lightboxCall(url, p) + '" loading="lazy">';
     }
     html += '</div>';
   }
@@ -1775,6 +1791,15 @@ function setPhotoSize(size, btn) {
 function videoBadge(filename) {
   return filename.indexOf('_thumb.') !== -1 ? '<span class="video-badge">Video</span>' : '';
 }
+function videoClickUrl(photo) {
+  if (photo.videoFilename) return PHOTO_BASE + photo.videoFilename;
+  return null;
+}
+function lightboxCall(thumbUrl, photo) {
+  var vUrl = videoClickUrl(photo);
+  if (vUrl) return "openLightbox('" + thumbUrl + "','" + vUrl + "')";
+  return "openLightbox('" + thumbUrl + "')";
+}
 
 function renderPhotos() {
   const container = document.getElementById('photosContainer');
@@ -1839,7 +1864,7 @@ function renderPhotos() {
         if (!sName && sParsed.stay) sName = sParsed.stay.name;
         if (!sName && sParsed.schedule) sName = sParsed.schedule.title;
         var sUrl = PHOTO_BASE + encodeURIComponent(sPhoto.filename);
-        html += '<div class="photo-card-sm" onclick="openLightbox(\'' + sUrl + '\')">' +
+        html += '<div class="photo-card-sm" onclick="' + lightboxCall(sUrl, sPhoto) + '">' +
           '<img src="' + sUrl + '" alt="' + escHtml(sName) + '" loading="lazy" onerror="handlePhotoError(this)">' +
           videoBadge(sPhoto.filename) +
           '<div class="sm-label">' + escHtml(sName) + '</div></div>';
@@ -1856,7 +1881,7 @@ function renderPhotos() {
         if (!mName && mParsed.schedule) mName = mParsed.schedule.title;
         var mUrl = PHOTO_BASE + encodeURIComponent(mPhoto.filename);
         html += '<div class="photo-card-md">' +
-          '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="openLightbox(\'' + mUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
+          '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="' + lightboxCall(mUrl, mPhoto) + '" loading="lazy" onerror="handlePhotoError(this)">' +
           videoBadge(mPhoto.filename) +
           '<div class="md-info"><div class="md-place">📍 ' + escHtml(mName) + '</div>' +
           '<div class="md-day">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div></div></div>';
@@ -1894,7 +1919,7 @@ function renderPhotos() {
           '<span class="photo-card-place">' + escHtml(placeName) + '</span>' +
           (traveler ? '<span class="photo-card-traveler">&#128248; ' + escHtml(traveler) + '</span>' : '') +
           '</div>' +
-          '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="openLightbox(\'' + photoUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
+          '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="' + lightboxCall(photoUrl, photo) + '" loading="lazy" onerror="handlePhotoError(this)">' +
           videoBadge(photo.filename) +
           '<div class="photo-card-footer">' +
           miniMapHtml(lat, lng) +
