@@ -1563,17 +1563,22 @@ function renderGPSTrack() {
     puffinTime = last.ts ? new Date(last.ts) : null;
     puffinName = traveler.name;
 
+    var segments = splitTrackAtGaps(rawPoints, 50);
     gpsDotsLayer = L.layerGroup();
-    var dotInterval = Math.max(1, Math.floor(filtered.length / 60));
-    for (var i = 0; i < filtered.length; i += dotInterval) {
-      L.circleMarker([filtered[i].lat, filtered[i].lng], {
-        radius: 2.5, fillColor: '#60a5fa', color: '#60a5fa',
-        weight: 0, fillOpacity: 0.5
-      }).addTo(gpsDotsLayer);
+    gpsTrackLayer = L.layerGroup();
+    for (var si = 0; si < segments.length; si++) {
+      var seg = segments[si];
+      var dotInterval = Math.max(1, Math.floor(seg.length / 30));
+      for (var di = 0; di < seg.length; di += dotInterval) {
+        L.circleMarker(seg[di], {
+          radius: 2.5, fillColor: '#60a5fa', color: '#60a5fa',
+          weight: 0, fillOpacity: 0.5
+        }).addTo(gpsDotsLayer);
+      }
+      if (seg.length >= 2) snapSegmentToRoads(seg, gpsTrackLayer);
     }
     gpsDotsLayer.addTo(tripMap);
-
-    snapTrackToRoads(rawPoints, filtered);
+    gpsTrackLayer.addTo(tripMap);
   }
 
   if (puffinLat === null) {
@@ -1603,26 +1608,46 @@ function renderGPSTrack() {
   }
 }
 
-async function snapTrackToRoads(rawPoints, gpsTrack) {
-  if (gpsTrackLayer) tripMap.removeLayer(gpsTrackLayer);
-  gpsTrackLayer = L.polyline(rawPoints, {
+function splitTrackAtGaps(points, maxGapKm) {
+  if (points.length < 2) return [points];
+  var segments = [], current = [points[0]];
+  for (var i = 1; i < points.length; i++) {
+    var d = haversineKm(points[i-1][0], points[i-1][1], points[i][0], points[i][1]);
+    if (d > maxGapKm) {
+      if (current.length >= 2) segments.push(current);
+      current = [points[i]];
+    } else {
+      current.push(points[i]);
+    }
+  }
+  if (current.length >= 2) segments.push(current);
+  return segments;
+}
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  var R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+  var a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+    Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+async function snapSegmentToRoads(points, layerGroup) {
+  var rawLine = L.polyline(points, {
     color: '#3b82f6', weight: 2, opacity: 0.3,
     dashArray: '6,8', lineCap: 'round', lineJoin: 'round'
-  }).addTo(tripMap);
+  }).addTo(layerGroup);
 
   var CHUNK = 25;
   var chunks = [];
-  for (var i = 0; i < rawPoints.length; i += CHUNK - 1) {
-    chunks.push(rawPoints.slice(i, i + CHUNK));
+  for (var i = 0; i < points.length; i += CHUNK - 1) {
+    chunks.push(points.slice(i, i + CHUNK));
   }
   var allCoords = [];
 
   for (var ci = 0; ci < chunks.length; ci++) {
     var chunk = chunks[ci];
     if (chunk.length < 2) { allCoords.push(chunk); continue; }
-
     if (ci > 0) await new Promise(function(r) { setTimeout(r, 500); });
-
     var routed = await fetchChunkWithRetry(chunk, 2);
     allCoords.push(routed || chunk);
   }
@@ -1639,11 +1664,11 @@ async function snapTrackToRoads(rawPoints, gpsTrack) {
     }
     merged = merged.concat(seg);
   }
-  if (gpsTrackLayer) tripMap.removeLayer(gpsTrackLayer);
-  gpsTrackLayer = L.polyline(merged, {
+  layerGroup.removeLayer(rawLine);
+  L.polyline(merged, {
     color: '#3b82f6', weight: 3.5, opacity: 0.85,
     lineCap: 'round', lineJoin: 'round'
-  }).addTo(tripMap);
+  }).addTo(layerGroup);
 }
 
 async function fetchChunkWithRetry(chunk, retries) {
