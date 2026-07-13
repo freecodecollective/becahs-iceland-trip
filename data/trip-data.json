@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-13T20:35:31Z",
+  "lastUpdated" : "2026-07-13T20:36:25Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -790,6 +790,13 @@
       "timestamp" : "2026-07-13T15:04:13Z"
     },
     {
+      "activityName" : "Blue Lagoon & LAVA Restaurant",
+      "dayID" : 1,
+      "filename" : "2725C631-D156-48F8-8194-51379647B373.jpg",
+      "key" : "d1-a5",
+      "timestamp" : "2026-07-13T20:36:15Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -897,6 +904,14 @@
           "latitude" : 63.820100873998946,
           "longitude" : -22.605889210037173,
           "timestamp" : "2026-07-13T11:49:13Z"
+        },
+        {
+          "dayID" : 1,
+          "itemName" : "Blue Lagoon & LAVA Restaurant",
+          "key" : "d1-a5",
+          "latitude" : 64.01316089307237,
+          "longitude" : -22.18119694075438,
+          "timestamp" : "2026-07-13T20:35:48Z"
         }
       ],
       "colorHex" : "#3180A8",
@@ -1871,6 +1886,12 @@
         },
         {
           "dayID" : 1,
+          "itemName" : "Blue Lagoon & LAVA Restaurant",
+          "key" : "d1-a5",
+          "text" : "Not so hot that you can't stay in for a while! "
+        },
+        {
+          "dayID" : 1,
           "itemName" : "Lunch Grindavík",
           "key" : "d1-f2",
           "text" : "Café Bryggjan\n\nLamb and lobster soup. \n\nThey were out of pickled herring and one of us was sad :(. But they had local beer so that made up for it. "
@@ -1929,6 +1950,12 @@
           "dayID" : 1,
           "itemName" : "Brimketill lava pool",
           "key" : "d1-a4",
+          "rating" : 5
+        },
+        {
+          "dayID" : 1,
+          "itemName" : "Blue Lagoon & LAVA Restaurant",
+          "key" : "d1-a5",
           "rating" : 5
         }
       ],
