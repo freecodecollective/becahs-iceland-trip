@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-13T15:03:11Z",
+  "lastUpdated" : "2026-07-13T15:04:35Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -762,6 +762,34 @@
       "timestamp" : "2026-07-13T14:45:18Z"
     },
     {
+      "activityName" : "Hallgrimalorkja Church",
+      "dayID" : 1,
+      "filename" : "F9A8541C-4A7D-416D-B803-D4D34286E157.jpg",
+      "key" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+      "timestamp" : "2026-07-13T15:04:13Z"
+    },
+    {
+      "activityName" : "Hallgrimalorkja Church",
+      "dayID" : 1,
+      "filename" : "3B5C74BD-6549-4E48-AC58-96065BA450D1.jpg",
+      "key" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+      "timestamp" : "2026-07-13T15:04:13Z"
+    },
+    {
+      "activityName" : "Hallgrimalorkja Church",
+      "dayID" : 1,
+      "filename" : "28A539C0-CE4D-4B35-A01B-6006D3259508.jpg",
+      "key" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+      "timestamp" : "2026-07-13T15:04:13Z"
+    },
+    {
+      "activityName" : "Hallgrimalorkja Church",
+      "dayID" : 1,
+      "filename" : "98833B12-52DA-4497-B1EA-26AC2D2AFB70.jpg",
+      "key" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+      "timestamp" : "2026-07-13T15:04:13Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -902,6 +930,18 @@
           "notes" : "",
           "scheduleAfterIndex" : 5,
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "General",
+          "createdBy" : "Chris",
+          "dayID" : 1,
+          "id" : "8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+          "latitude" : 64.1422269089183,
+          "longitude" : -21.92736755039493,
+          "name" : "Hallgrimalorkja Church",
+          "notes" : "Very stark! Love me a church.",
+          "scheduleAfterIndex" : 11,
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -914,7 +954,7 @@
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE"
       ],
-      "gpsPointCount" : 114,
+      "gpsPointCount" : 115,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -1599,6 +1639,12 @@
           "lat" : 64.14186380022113,
           "lng" : -21.92687442456413,
           "ts" : "2026-07-13T15:03:08Z"
+        },
+        {
+          "acc" : 2.6289684161996063,
+          "lat" : 64.1422269089183,
+          "lng" : -21.92736755039493,
+          "ts" : "2026-07-13T15:04:08Z"
         }
       ],
       "hikes" : [
@@ -1645,6 +1691,12 @@
         }
       ],
       "ratings" : [
+        {
+          "dayID" : 0,
+          "itemName" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+          "key" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
+          "rating" : 5
+        },
         {
           "dayID" : 0,
           "itemName" : "custom-C4D9106A-E668-4776-BC85-DB53A48976A3",
