@@ -507,6 +507,9 @@ body {
 .photo-card-meta .meta-line { font-size: 0.8rem; color: var(--text2); margin-bottom: 4px; }
 .photo-card-meta a { font-size: 0.75rem; color: var(--accent); text-decoration: none; }
 .photo-card-meta a:hover { text-decoration: underline; }
+.video-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; pointer-events: none; display: flex; align-items: center; gap: 4px; }
+.video-badge::before { content: '▶'; font-size: 0.6rem; }
+.photo-card-sm, .photo-card-md, .photo-card { position: relative; }
 
 /* Photo lightbox */
 .lightbox {
@@ -1762,6 +1765,10 @@ function setPhotoSize(size, btn) {
   renderPhotos();
 }
 
+function videoBadge(filename) {
+  return filename.indexOf('_thumb.') !== -1 ? '<span class="video-badge">Video</span>' : '';
+}
+
 function renderPhotos() {
   const container = document.getElementById('photosContainer');
 
@@ -1827,6 +1834,7 @@ function renderPhotos() {
         var sUrl = PHOTO_BASE + encodeURIComponent(sPhoto.filename);
         html += '<div class="photo-card-sm" onclick="openLightbox(\'' + sUrl + '\')">' +
           '<img src="' + sUrl + '" alt="' + escHtml(sName) + '" loading="lazy" onerror="handlePhotoError(this)">' +
+          videoBadge(sPhoto.filename) +
           '<div class="sm-label">' + escHtml(sName) + '</div></div>';
       }
       html += '</div>';
@@ -1842,6 +1850,7 @@ function renderPhotos() {
         var mUrl = PHOTO_BASE + encodeURIComponent(mPhoto.filename);
         html += '<div class="photo-card-md">' +
           '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="openLightbox(\'' + mUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
+          videoBadge(mPhoto.filename) +
           '<div class="md-info"><div class="md-place">📍 ' + escHtml(mName) + '</div>' +
           '<div class="md-day">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div></div></div>';
       }
@@ -1879,6 +1888,7 @@ function renderPhotos() {
           (traveler ? '<span class="photo-card-traveler">&#128248; ' + escHtml(traveler) + '</span>' : '') +
           '</div>' +
           '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="openLightbox(\'' + photoUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
+          videoBadge(photo.filename) +
           '<div class="photo-card-footer">' +
           miniMapHtml(lat, lng) +
           '<div class="photo-card-meta">' +
