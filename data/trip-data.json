@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-14T11:49:23Z",
+  "lastUpdated" : "2026-07-14T11:50:52Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -892,6 +892,12 @@
         },
         {
           "dayID" : 0,
+          "itemName" : "custom-hike-D43BD3B8-3548-475D-BBB1-F38BFBF83198",
+          "key" : "custom-hike-D43BD3B8-3548-475D-BBB1-F38BFBF83198",
+          "timestamp" : "2026-07-14T11:49:48Z"
+        },
+        {
+          "dayID" : 0,
           "itemName" : "Flight Boston to Reykjavík",
           "key" : "d0-a0",
           "timestamp" : "2026-07-13T02:25:24Z"
@@ -1001,6 +1007,15 @@
           "name" : "Thingvellir National Park Visitor Center Gestastofa Þingvalla á Haki",
           "notes" : "",
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 2,
+          "id" : "hike-D43BD3B8-3548-475D-BBB1-F38BFBF83198",
+          "name" : "Thingvellir National Park Visitor Center Gestastofa Þingvalla á Haki",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -1013,7 +1028,7 @@
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0"
       ],
-      "gpsPointCount" : 173,
+      "gpsPointCount" : 175,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -2052,6 +2067,18 @@
           "lat" : 64.25608163983094,
           "lng" : -21.135836130150206,
           "ts" : "2026-07-14T11:49:22Z"
+        },
+        {
+          "acc" : 1.9690096752429154,
+          "lat" : 64.25609293261144,
+          "lng" : -21.135699205931335,
+          "ts" : "2026-07-14T11:49:48Z"
+        },
+        {
+          "acc" : 4.748651530191787,
+          "lat" : 64.25580420774688,
+          "lng" : -21.134791509882056,
+          "ts" : "2026-07-14T11:50:48Z"
         }
       ],
       "hikes" : [
@@ -2062,6 +2089,13 @@
           "pointCount" : 4,
           "source" : "gps",
           "startTime" : "2026-07-14T11:30:01Z"
+        },
+        {
+          "distanceKm" : 0.05,
+          "name" : "Thingvellir National Park Visitor Center Gestastofa Þingvalla á Haki",
+          "pointCount" : 2,
+          "source" : "gps",
+          "startTime" : "2026-07-14T11:49:48Z"
         }
       ],
       "hikesCompleted" : 1,
@@ -2190,7 +2224,7 @@
           "rating" : 5
         }
       ],
-      "totalHikeDistanceKm" : 0,
+      "totalHikeDistanceKm" : 0.1,
       "waterfallsVisited" : 0
     },
     {
