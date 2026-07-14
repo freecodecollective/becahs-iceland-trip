@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-14T10:58:20Z",
+  "lastUpdated" : "2026-07-14T10:59:42Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -797,6 +797,13 @@
       "timestamp" : "2026-07-13T20:36:15Z"
     },
     {
+      "activityName" : "Silfra fissure snorkeling",
+      "dayID" : 2,
+      "filename" : "EEB8C471-7A75-4BB7-A107-D0012AB06E86.jpg",
+      "key" : "d2-a0",
+      "timestamp" : "2026-07-14T10:59:15Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -912,6 +919,14 @@
           "latitude" : 64.01316089307237,
           "longitude" : -22.18119694075438,
           "timestamp" : "2026-07-13T20:35:48Z"
+        },
+        {
+          "dayID" : 2,
+          "itemName" : "Silfra fissure snorkeling",
+          "key" : "d2-a0",
+          "latitude" : 64.25581634665427,
+          "longitude" : -21.117245555996966,
+          "timestamp" : "2026-07-14T10:58:43Z"
         }
       ],
       "colorHex" : "#3180A8",
@@ -969,7 +984,7 @@
         "9AFBE53F-E79A-4105-9E91-89F7A2AF3B1A",
         "54A846B9-6D87-40D2-995B-E807631D15DF"
       ],
-      "gpsPointCount" : 150,
+      "gpsPointCount" : 153,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -1870,6 +1885,24 @@
           "lat" : 64.25581634665427,
           "lng" : -21.117245555996966,
           "ts" : "2026-07-14T10:58:19Z"
+        },
+        {
+          "acc" : 4.748651530192101,
+          "lat" : 64.25589593217127,
+          "lng" : -21.120974890203637,
+          "ts" : "2026-07-14T10:59:19Z"
+        },
+        {
+          "acc" : 4.748651530192101,
+          "lat" : 64.25589593217127,
+          "lng" : -21.120974890203637,
+          "ts" : "2026-07-14T10:59:19Z"
+        },
+        {
+          "acc" : 25.595014,
+          "lat" : 64.25589892621909,
+          "lng" : -21.121108362160644,
+          "ts" : "2026-07-14T10:59:19Z"
         }
       ],
       "hikes" : [
@@ -1925,6 +1958,12 @@
           "itemName" : "Lunch Grindavík",
           "key" : "d1-f2",
           "text" : "Café Bryggjan\n\nLamb and lobster soup. \n\nThey were out of pickled herring and one of us was sad :(. But they had local beer so that made up for it. "
+        },
+        {
+          "dayID" : 2,
+          "itemName" : "Silfra fissure snorkeling",
+          "key" : "d2-a0",
+          "text" : "Snorkeling between tectonic plates!"
         }
       ],
       "ratings" : [
@@ -1986,6 +2025,12 @@
           "dayID" : 1,
           "itemName" : "Blue Lagoon & LAVA Restaurant",
           "key" : "d1-a5",
+          "rating" : 5
+        },
+        {
+          "dayID" : 2,
+          "itemName" : "Silfra fissure snorkeling",
+          "key" : "d2-a0",
           "rating" : 5
         }
       ],
