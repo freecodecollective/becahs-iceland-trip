@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-14T12:41:55Z",
+  "lastUpdated" : "2026-07-14T12:48:27Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -1071,7 +1071,7 @@
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0"
       ],
-      "gpsPointCount" : 211,
+      "gpsPointCount" : 214,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -2338,6 +2338,24 @@
           "lat" : 64.2709571457849,
           "lng" : -21.11004146269816,
           "ts" : "2026-07-14T12:27:38Z"
+        },
+        {
+          "acc" : 6.014398436732806,
+          "lat" : 64.26526953250698,
+          "lng" : -21.115626050021444,
+          "ts" : "2026-07-14T12:41:56Z"
+        },
+        {
+          "acc" : 94.08485801711916,
+          "lat" : 64.26486033525059,
+          "lng" : -21.119657288851847,
+          "ts" : "2026-07-14T12:45:27Z"
+        },
+        {
+          "acc" : 159.8413463387218,
+          "lat" : 64.26352872257642,
+          "lng" : -21.117918837035212,
+          "ts" : "2026-07-14T12:48:18Z"
         }
       ],
       "hikes" : [
@@ -2350,9 +2368,9 @@
           "startTime" : "2026-07-14T11:30:01Z"
         },
         {
-          "distanceKm" : 2.19,
+          "distanceKm" : 3.25,
           "name" : "Thingvellir National Park Visitor Center Gestastofa Þingvalla á Haki",
-          "pointCount" : 38,
+          "pointCount" : 41,
           "source" : "gps",
           "startTime" : "2026-07-14T11:49:48Z"
         }
@@ -2483,7 +2501,7 @@
           "rating" : 5
         }
       ],
-      "totalHikeDistanceKm" : 2.2,
+      "totalHikeDistanceKm" : 3.2,
       "waterfallsVisited" : 2
     },
     {
