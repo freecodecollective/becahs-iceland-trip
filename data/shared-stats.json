@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-14T13:17:39.787Z",
+  "lastUpdated": "2026-07-14T13:17:52.076Z",
   "hikes": [
     {
       "name": "Thingvellir National Park Visitor Center Gestastofa Þingvalla á Haki",
@@ -8,11 +8,11 @@
     },
     {
       "name": "Continues",
-      "distanceKm": 0.25,
+      "distanceKm": 0,
       "isOverride": false
     }
   ],
-  "totalHikeKm": 4,
+  "totalHikeKm": 3.8,
   "waterfallsVisited": 2,
   "extraWaterfalls": [],
   "hiddenWaterfalls": [
@@ -22,6 +22,7 @@
     "Test hike 223",
     "Svartifoss hike (Skaftafell)",
     "Test",
-    "Test 434"
+    "Test 434",
+    "Continues"
   ]
 }
