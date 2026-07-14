@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-14T12:53:56Z",
+  "lastUpdated" : "2026-07-14T12:55:59Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -1095,7 +1095,7 @@
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0"
       ],
-      "gpsPointCount" : 217,
+      "gpsPointCount" : 223,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -2398,6 +2398,42 @@
           "lat" : 64.26336334784993,
           "lng" : -21.117662302972803,
           "ts" : "2026-07-14T12:48:57Z"
+        },
+        {
+          "acc" : 8.137396781034582,
+          "lat" : 64.25955860994345,
+          "lng" : -21.117773189600992,
+          "ts" : "2026-07-14T12:53:56Z"
+        },
+        {
+          "acc" : 2.7056322187579718,
+          "lat" : 64.25936758710978,
+          "lng" : -21.117762815425596,
+          "ts" : "2026-07-14T12:54:06Z"
+        },
+        {
+          "acc" : 3.8499265101434745,
+          "lat" : 64.25871410432268,
+          "lng" : -21.11800035299005,
+          "ts" : "2026-07-14T12:55:06Z"
+        },
+        {
+          "acc" : 4.748651530191863,
+          "lat" : 64.25864257582444,
+          "lng" : -21.118064236124926,
+          "ts" : "2026-07-14T12:55:30Z"
+        },
+        {
+          "acc" : 4.748651530191863,
+          "lat" : 64.25864257582444,
+          "lng" : -21.118064236124926,
+          "ts" : "2026-07-14T12:55:30Z"
+        },
+        {
+          "acc" : 32.895013999999996,
+          "lat" : 64.25859207270622,
+          "lng" : -21.118115560582115,
+          "ts" : "2026-07-14T12:55:30Z"
         }
       ],
       "hikes" : [
@@ -2410,14 +2446,15 @@
           "startTime" : "2026-07-14T11:30:01Z"
         },
         {
-          "distanceKm" : 3.27,
+          "distanceKm" : 3.79,
+          "endTime" : "2026-07-14T12:55:30Z",
           "name" : "Thingvellir National Park Visitor Center Gestastofa Þingvalla á Haki",
-          "pointCount" : 44,
+          "pointCount" : 47,
           "source" : "gps",
           "startTime" : "2026-07-14T11:49:48Z"
         }
       ],
-      "hikesCompleted" : 1,
+      "hikesCompleted" : 2,
       "name" : "Chris",
       "notes" : [
         {
@@ -2543,7 +2580,7 @@
           "rating" : 5
         }
       ],
-      "totalHikeDistanceKm" : 3.3,
+      "totalHikeDistanceKm" : 3.8,
       "waterfallsVisited" : 2
     },
     {
