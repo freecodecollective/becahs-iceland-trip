@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-14T13:07:21Z",
+  "lastUpdated" : "2026-07-14T13:08:17Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -919,6 +919,12 @@
         },
         {
           "dayID" : 0,
+          "itemName" : "custom-hike-133611B1-BE0A-44EF-A487-E40BB3B80CE2",
+          "key" : "custom-hike-133611B1-BE0A-44EF-A487-E40BB3B80CE2",
+          "timestamp" : "2026-07-14T13:07:41Z"
+        },
+        {
+          "dayID" : 0,
           "itemName" : "custom-hike-8D402D3F-6C03-4A25-B3F8-0D6DED6D576C",
           "key" : "custom-hike-8D402D3F-6C03-4A25-B3F8-0D6DED6D576C",
           "timestamp" : "2026-07-14T11:30:01Z"
@@ -1083,6 +1089,15 @@
           "name" : "Nicest National Park Bathroom Eva",
           "notes" : "Amazing bathrooms but really a shame that you're not allowed to flush your apples.",
           "type" : "Rest"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 2,
+          "id" : "hike-133611B1-BE0A-44EF-A487-E40BB3B80CE2",
+          "name" : "Continues",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -1095,7 +1110,7 @@
         "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0"
       ],
-      "gpsPointCount" : 224,
+      "gpsPointCount" : 230,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -2440,6 +2455,42 @@
           "lat" : 64.25594427677308,
           "lng" : -21.126047448559117,
           "ts" : "2026-07-14T13:07:20Z"
+        },
+        {
+          "acc" : 4.7486515301917995,
+          "lat" : 64.25597097246467,
+          "lng" : -21.126120706019297,
+          "ts" : "2026-07-14T13:07:30Z"
+        },
+        {
+          "acc" : 4.7486515301917995,
+          "lat" : 64.25597097246467,
+          "lng" : -21.126120706019297,
+          "ts" : "2026-07-14T13:07:30Z"
+        },
+        {
+          "acc" : 4.7486515301917995,
+          "lat" : 64.25597097246467,
+          "lng" : -21.126120706019297,
+          "ts" : "2026-07-14T13:07:41Z"
+        },
+        {
+          "acc" : 4.7486515301917995,
+          "lat" : 64.25597097246467,
+          "lng" : -21.126120706019297,
+          "ts" : "2026-07-14T13:07:41Z"
+        },
+        {
+          "acc" : 11.495014000000001,
+          "lat" : 64.25601442009801,
+          "lng" : -21.126148919967395,
+          "ts" : "2026-07-14T13:07:41Z"
+        },
+        {
+          "acc" : 13.070481638276824,
+          "lat" : 64.25603638632943,
+          "lng" : -21.126157134921918,
+          "ts" : "2026-07-14T13:07:41Z"
         }
       ],
       "hikes" : [
@@ -2458,6 +2509,13 @@
           "pointCount" : 47,
           "source" : "gps",
           "startTime" : "2026-07-14T11:49:48Z"
+        },
+        {
+          "distanceKm" : 0.01,
+          "name" : "Continues",
+          "pointCount" : 4,
+          "source" : "gps",
+          "startTime" : "2026-07-14T13:07:41Z"
         }
       ],
       "hikesCompleted" : 2,
