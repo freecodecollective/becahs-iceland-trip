@@ -1607,15 +1607,46 @@ function renderGPSTrack() {
     gpsTrackLayer.addTo(tripMap);
   }
 
+  for (var ti = 0; ti < syncData.travelers.length; ti++) {
+    var t = syncData.travelers[ti];
+    if (t.checkIns) {
+      for (var ci = 0; ci < t.checkIns.length; ci++) {
+        var ck = t.checkIns[ci];
+        if (ck.latitude && ck.longitude && ck.timestamp) {
+          var ckTime = new Date(ck.timestamp);
+          if (!puffinTime || ckTime > puffinTime) {
+            puffinLat = ck.latitude; puffinLng = ck.longitude;
+            puffinTime = ckTime; puffinName = t.name;
+          }
+        }
+      }
+    }
+    if (t.customEvents) {
+      for (var ei = 0; ei < t.customEvents.length; ei++) {
+        var ev = t.customEvents[ei];
+        if (ev.latitude && ev.longitude) {
+          var evKey = 'custom-' + (ev.id || '');
+          var evCk = t.checkIns ? t.checkIns.find(function(c) { return c.key === evKey; }) : null;
+          if (evCk && evCk.timestamp) {
+            var evTime = new Date(evCk.timestamp);
+            if (!puffinTime || evTime > puffinTime) {
+              puffinLat = ev.latitude; puffinLng = ev.longitude;
+              puffinTime = evTime; puffinName = t.name;
+            }
+          }
+        }
+      }
+    }
+  }
   if (puffinLat === null) {
     var chris = syncData.travelers.find(function(t) { return t.name === 'Chris'; }) || syncData.travelers[0];
     if (chris && chris.checkIns && chris.checkIns.length > 0) {
       puffinName = chris.name;
       var sorted = chris.checkIns.slice().sort(function(a, b) { return a.timestamp < b.timestamp ? 1 : -1; });
-      for (var ci = 0; ci < sorted.length; ci++) {
-        var ck = sorted[ci];
-        var coords = resolveKeyCoords(ck.key);
-        if (coords) { puffinLat = coords[0]; puffinLng = coords[1]; puffinTime = ck.timestamp ? new Date(ck.timestamp) : null; break; }
+      for (var ci2 = 0; ci2 < sorted.length; ci2++) {
+        var ck2 = sorted[ci2];
+        var coords = resolveKeyCoords(ck2.key);
+        if (coords) { puffinLat = coords[0]; puffinLng = coords[1]; puffinTime = ck2.timestamp ? new Date(ck2.timestamp) : null; break; }
       }
     }
   }
