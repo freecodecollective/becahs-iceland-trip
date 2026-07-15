@@ -1932,6 +1932,30 @@ function renderPhotos() {
     html += '</div>';
   }
 
+  var tripDayIds = TRIP_DATA.map(function(d) { return d.id; });
+  var orphanIds = Object.keys(photosByDay).map(Number).filter(function(id) { return tripDayIds.indexOf(id) === -1; });
+  orphanIds.sort(function(a, b) { return b - a; });
+  for (var oi = 0; oi < orphanIds.length; oi++) {
+    var oId = orphanIds[oi];
+    var oDayPhotos = photosByDay[oId];
+    if (!oDayPhotos || oDayPhotos.length === 0) continue;
+    html += '<div class="photos-day-section"><div class="photos-day-header">' +
+      '<div class="photos-day-badge">' + oId + '</div>' +
+      '<div class="photos-day-info"><div class="photos-day-title">Day ' + oId + '</div>' +
+      '<div class="photos-day-date">' + oDayPhotos.length + ' photo' + (oDayPhotos.length !== 1 ? 's' : '') + '</div></div></div>' +
+      '<div class="photos-grid-small">';
+    for (var opi = 0; opi < oDayPhotos.length; opi++) {
+      var op = oDayPhotos[opi], oPhoto = op.photo;
+      var oName = oPhoto.activityName || 'Photo';
+      var oUrl = PHOTO_BASE + encodeURIComponent(oPhoto.filename);
+      html += '<div class="photo-card-sm" onclick="' + lightboxCall(oUrl, oPhoto) + '">' +
+        '<img src="' + oUrl + '" alt="' + escHtml(oName) + '" loading="lazy" onerror="handlePhotoError(this)">' +
+        videoBadge(oPhoto.filename) +
+        '<div class="sm-label">' + escHtml(oName) + '</div></div>';
+    }
+    html += '</div></div>';
+  }
+
   container.innerHTML = html;
 }
 
@@ -1940,7 +1964,7 @@ function parsePhotoKey(key, photo) {
   if (m) {
     var dayId = parseInt(m[1]);
     var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
-    if (!day) return null;
+    if (!day) day = { id: dayId, title: 'Day ' + dayId, date: '', activities: [], food: [], schedule: [] };
     if (m[3] !== undefined) return { day: day, activity: day.activities[parseInt(m[3])], type: 'activity' };
     if (m[4] !== undefined) return { day: day, food: day.food[parseInt(m[4])], type: 'food' };
     if (m[5] !== undefined) return { day: day, schedule: day.schedule ? day.schedule[parseInt(m[5])] : null, type: 'schedule' };
@@ -1951,7 +1975,10 @@ function parsePhotoKey(key, photo) {
     if (!cDay) cDay = { id: photo.dayID, title: 'Day ' + photo.dayID, date: '' };
     return { day: cDay, type: 'custom', customName: photo.activityName || 'Custom Event' };
   }
-  return null;
+  var fallbackDayId = photo && photo.dayID != null ? photo.dayID : 0;
+  var fallbackDay = TRIP_DATA.find(function(d) { return d.id === fallbackDayId; });
+  if (!fallbackDay) fallbackDay = { id: fallbackDayId, title: 'Day ' + fallbackDayId, date: '' };
+  return { day: fallbackDay, type: 'unknown', customName: photo ? (photo.activityName || 'Photo') : 'Photo' };
 }
 
 function findTravelerForPhoto(photo) {
