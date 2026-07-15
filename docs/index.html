@@ -1839,7 +1839,7 @@ function renderPhotos() {
     '<button class="photo-size-btn' + (photoSize === 'large' ? ' active' : '') + '" onclick="setPhotoSize(\'large\', this)">Large</button>' +
     '</div></div>';
 
-  for (const day of TRIP_DATA) {
+  for (const day of [...TRIP_DATA].reverse()) {
     const dayPhotos = photosByDay[day.id];
     if (!dayPhotos || dayPhotos.length === 0) continue;
     dayPhotos.sort(function(a, b) {
