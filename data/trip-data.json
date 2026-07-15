@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-15T10:23:27Z",
+  "lastUpdated" : "2026-07-15T10:26:33Z",
   "photos" : [
     {
       "activityName" : "Flight Boston to Reykjavík",
@@ -1309,7 +1309,7 @@
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
         "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE"
       ],
-      "gpsPointCount" : 310,
+      "gpsPointCount" : 313,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -3170,6 +3170,24 @@
           "lat" : 64.14142490219663,
           "lng" : -21.937305273663373,
           "ts" : "2026-07-15T10:22:39Z"
+        },
+        {
+          "acc" : 11.991870660116197,
+          "lat" : 64.14138372518467,
+          "lng" : -21.937066824613844,
+          "ts" : "2026-07-15T10:23:39Z"
+        },
+        {
+          "acc" : 7.464800387232155,
+          "lat" : 64.1413839127641,
+          "lng" : -21.937061107891648,
+          "ts" : "2026-07-15T10:24:39Z"
+        },
+        {
+          "acc" : 5.743274099110526,
+          "lat" : 64.14137299714132,
+          "lng" : -21.937074109720903,
+          "ts" : "2026-07-15T10:25:39Z"
         }
       ],
       "hikes" : [
@@ -3283,7 +3301,7 @@
           "dayID" : 2,
           "itemName" : "World Cup Semifinal 1",
           "key" : "d2-a5",
-          "text" : "Lebowski bar! Very dedicated to the movie. Sorry France didn't play better but vamos Spain! "
+          "text" : "Lebowski bar! Very dedicated to the movie. Sorry France didn't play better but vamos Spain! It"
         }
       ],
       "ratings" : [
