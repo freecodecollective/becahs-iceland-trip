@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-16T21:49:40Z",
+  "lastUpdated" : "2026-07-16T21:50:39Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805931138.859418,
@@ -594,12 +594,12 @@
       "sortOrder" : -2
     },
     "d3-a3" : {
-      "editedAt" : 805931220.975348,
+      "editedAt" : 805931404.646975,
       "movedToDayID" : 4,
       "sortOrder" : 4
     },
     "d4-a0" : {
-      "editedAt" : 805926985.609822,
+      "editedAt" : 805931387.330614,
       "sortOrder" : 12
     },
     "d4-a1" : {
@@ -905,6 +905,55 @@
       "filename" : "4D9D5E16-0D8D-48FA-A04F-5EC4B7D1E503.jpg",
       "key" : "d4-a0",
       "timestamp" : "2026-07-16T21:07:34Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "16DD5297-951B-4745-BBE3-6EB133398D26.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "2E5B16CA-AEEE-445D-BC64-2291A41580D1.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "77BEC3BE-B0B2-464E-8921-62FF8F768EC0.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "886A95A9-5F9D-4B72-8182-EF905A7E4C34.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "5BB6815D-3AD7-4BFC-BA20-08CBD19AB10C.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "46BA7D06-D3DC-4DC8-89EE-7BCF63D4B785.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
+    },
+    {
+      "activityName" : "Skógafoss",
+      "dayID" : 4,
+      "filename" : "9169ADDC-EC51-4809-BA57-7064C38AD585.jpg",
+      "key" : "d3-a3",
+      "timestamp" : "2026-07-16T21:50:39Z"
     },
     {
       "activityName" : "Flight Boston to Reykjavík",
