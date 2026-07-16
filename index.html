@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iceland Bound</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root {
+  --bg: #0f172a;
+  --bg2: #131c2e;
+  --card: #1e293b;
+  --card-hover: #243044;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --accent: #60a5fa;
+  --accent-bg: #1e3a5f;
+  --accent2: #22d3ee;
+  --accent2-bg: #164e63;
+  --green: #34d399;
+  --green-bg: #064e3b;
+  --orange: #fbbf24;
+  --orange-bg: #78350f;
+  --red: #f87171;
+  --red-bg: #7f1d1d;
+  --purple: #a78bfa;
+  --purple-bg: #2e1065;
+  --border: #334155;
+  --border2: #475569;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow2: 0 4px 12px rgba(0,0,0,0.4);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+  --tile-style: dark_all;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f1f5f9;
+    --bg2: #e8ecf1;
+    --card: #ffffff;
+    --card-hover: #f8fafc;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #94a3b8;
+    --accent: #2563eb;
+    --accent-bg: #dbeafe;
+    --accent2: #0891b2;
+    --accent2-bg: #cffafe;
+    --green: #059669;
+    --green-bg: #d1fae5;
+    --orange: #d97706;
+    --orange-bg: #fef3c7;
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+    --purple: #7c3aed;
+    --purple-bg: #ede9fe;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow2: 0 4px 12px rgba(0,0,0,0.08);
+    --tile-style: rastertiles/voyager;
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.app { max-width: 860px; margin: 0 auto; padding-bottom: 60px; }
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 32px 20px 24px;
+  background: linear-gradient(135deg, var(--accent-bg) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.header .flag { font-size: 2.2rem; margin-bottom: 6px; }
+.header h1 { font-size: 1.6rem; font-weight: 700; }
+.header .dates { color: var(--text2); font-size: 0.9rem; margin-top: 2px; }
+.sync-status {
+  display: inline-block; margin-top: 10px; padding: 3px 12px;
+  background: var(--card); border-radius: 20px; border: 1px solid var(--border);
+  font-size: 0.72rem; color: var(--text3);
+}
+.sync-status .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.sync-status .dot.live { background: var(--green); }
+.sync-status .dot.stale { background: var(--orange); }
+
+/* Tab Bar */
+.tab-bar {
+  display: flex; gap: 0;
+  background: var(--card);
+  border-bottom: 2px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.tab-btn {
+  flex: 1; padding: 12px 8px; background: none; border: none;
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  color: var(--text3); font-family: var(--font);
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; text-align: center;
+}
+.tab-btn:hover { color: var(--text2); background: var(--card-hover); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Tab Panels */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Progress */
+.progress-section {
+  margin: 16px 20px 0;
+  background: var(--card); border-radius: var(--radius); padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text2); margin-bottom: 6px; }
+.progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; transition: width 0.5s; }
+
+/* Day cards */
+.days-container { padding: 16px 20px 0; }
+.day-card {
+  background: var(--card); border-radius: var(--radius); margin-bottom: 12px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+.day-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer; transition: background 0.15s;
+  user-select: none;
+}
+.day-header:hover { background: var(--card-hover); }
+.day-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem; flex-shrink: 0; color: white;
+}
+.day-badge.past { background: var(--green); }
+.day-badge.today { background: var(--accent); animation: pulse 2s infinite; }
+.day-badge.future { background: var(--border2); color: var(--text3); }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0.4); } 50% { box-shadow: 0 0 0 6px rgba(96,165,250,0); } }
+.day-info { flex: 1; min-width: 0; }
+.day-title { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day-meta { font-size: 0.78rem; color: var(--text2); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.day-badges { display: flex; gap: 5px; flex-shrink: 0; flex-wrap: wrap; }
+.badge {
+  font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  white-space: nowrap;
+}
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-orange { background: var(--orange-bg); color: var(--orange); }
+.badge-accent { background: var(--accent-bg); color: var(--accent); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); }
+.chevron { color: var(--text3); font-size: 0.75rem; transition: transform 0.2s; flex-shrink: 0; }
+.chevron.open { transform: rotate(90deg); }
+
+.day-body { padding: 0 16px 16px; display: none; }
+.day-body.open { display: block; }
+
+/* Route bar */
+.route-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: var(--bg2); border-radius: var(--radius-sm); margin-bottom: 14px;
+  font-size: 0.8rem; color: var(--text2);
+}
+.route-bar .icon { font-size: 1rem; }
+
+/* Match bar */
+.match-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: var(--green-bg); border: 1px solid var(--green);
+  border-radius: var(--radius-sm); margin-bottom: 14px; font-size: 0.82rem;
+}
+.match-bar .ball { font-size: 1.1rem; }
+.match-bar .info { font-weight: 600; flex: 1; }
+.match-bar .time { color: var(--text2); font-size: 0.75rem; }
+
+/* Section titles */
+.section-title {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text3); margin: 18px 0 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.section-title:first-child { margin-top: 4px; }
+
+/* Activity cards */
+.activity-card {
+  background: var(--bg2); border-radius: var(--radius-sm); padding: 12px;
+  margin-bottom: 8px; border: 1px solid var(--border); cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.activity-card:hover { box-shadow: var(--shadow2); }
+.activity-card.expanded { background: var(--bg); }
+.act-top { display: flex; align-items: flex-start; gap: 8px; }
+.act-info { flex: 1; min-width: 0; }
+.act-name { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.act-meta { font-size: 0.75rem; color: var(--text2); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
+.act-brief { font-size: 0.82rem; color: var(--text2); margin-top: 4px; line-height: 1.4; }
+.act-links { display: flex; gap: 6px; flex-shrink: 0; align-items: flex-start; margin-top: 2px; }
+.map-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--accent-bg); color: var(--accent);
+  text-decoration: none; font-size: 0.75rem; flex-shrink: 0;
+}
+.map-link:hover { background: var(--accent); color: white; }
+.act-chevron { color: var(--text3); font-size: 0.7rem; transition: transform 0.2s; padding-top: 4px; }
+.activity-card.expanded .act-chevron { transform: rotate(90deg); }
+
+.act-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.activity-card.expanded .act-details { display: block; }
+.act-details p { font-size: 0.82rem; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+.hike-tag { display: inline-flex; align-items: center; gap: 3px; }
+
+/* Tips / Trivia / Safety callouts */
+.callout { border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 8px; font-size: 0.8rem; line-height: 1.45; }
+.callout-title { font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.callout-tips { background: var(--accent-bg); }
+.callout-tips .callout-title { color: var(--accent); }
+.callout-tips ul { list-style: none; padding: 0; }
+.callout-tips li { position: relative; padding-left: 14px; margin-top: 3px; }
+.callout-tips li::before { content: '\2022'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.callout-trivia { background: var(--purple-bg); }
+.callout-trivia .callout-title { color: var(--purple); }
+.callout-safety { background: var(--red-bg); border: 1px solid var(--red); }
+.callout-safety .callout-title { color: var(--red); }
+
+/* Ratings */
+.rating-row { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.rating-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; }
+.stars { display: flex; gap: 2px; }
+.star { font-size: 1rem; color: var(--border2); }
+.star.filled { color: var(--orange); }
+
+/* Notes */
+.notes-row { margin-top: 6px; }
+.notes-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; margin-bottom: 2px; }
+.notes-text { font-size: 0.82rem; color: var(--text2); font-style: italic; padding: 6px 10px; background: var(--card); border-radius: 6px; }
+.notes-empty { font-size: 0.78rem; color: var(--text3); font-style: italic; }
+
+/* Photos in itinerary */
+.photos-row { margin-top: 8px; }
+.photos-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; margin-bottom: 4px; }
+.photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+.photo-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); transition: transform 0.15s; }
+.photo-thumb:hover { transform: scale(1.05); }
+.photos-empty { font-size: 0.78rem; color: var(--text3); font-style: italic; }
+
+/* Food cards */
+.food-card {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 12px; background: var(--bg2); border-radius: var(--radius-sm);
+  margin-bottom: 6px; border: 1px solid var(--border); cursor: pointer;
+  transition: background 0.15s;
+}
+.food-card:hover { background: var(--card-hover); }
+.food-card.expanded { background: var(--bg); }
+.food-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.food-info { flex: 1; min-width: 0; }
+.food-name { font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.food-desc { font-size: 0.78rem; color: var(--text2); margin-top: 1px; }
+.food-details { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.food-card.expanded .food-details { display: block; }
+.gf-tag { background: var(--orange-bg); color: var(--orange); padding: 1px 6px; border-radius: 6px; font-size: 0.62rem; font-weight: 700; }
+
+/* Stay card */
+.stay-card {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px; background: var(--purple-bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--purple); cursor: pointer; transition: background 0.15s;
+}
+.stay-card:hover { opacity: 0.95; }
+.stay-card.expanded .stay-details { display: block; }
+.stay-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.stay-info { flex: 1; }
+.stay-info h4 { font-size: 0.88rem; font-weight: 600; }
+.stay-info .addr { font-size: 0.78rem; color: var(--text2); }
+.stay-info .checkin { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
+.stay-details { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* Custom events */
+.custom-event {
+  display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+  background: var(--accent2-bg); border-radius: var(--radius-sm);
+  border: 1px solid var(--accent2); margin-bottom: 6px; font-size: 0.82rem;
+}
+.custom-event .ce-icon { font-size: 1rem; }
+.custom-event .ce-name { font-weight: 600; flex: 1; }
+.custom-event .ce-notes { font-size: 0.75rem; color: var(--text2); }
+
+/* ─── MAP TAB ────────────────────────────────────────────────── */
+#mapContainer {
+  height: calc(100vh - 160px);
+  min-height: 400px;
+  border-radius: var(--radius);
+  margin: 16px 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.map-legend {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 10px 14px !important;
+  font-family: var(--font) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow2) !important;
+}
+.map-legend-title {
+  font-weight: 700; font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text3); margin-bottom: 6px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
+}
+.map-legend-item {
+  display: flex; align-items: center; gap: 7px; padding: 3px 0;
+  font-size: 0.75rem; color: var(--text2);
+}
+.map-legend-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.4);
+}
+.puffin-glow {
+  animation: puffin-pulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(96,165,250,0.7));
+}
+@keyframes puffin-pulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(96,165,250,0.7)); }
+  50% { filter: drop-shadow(0 0 14px rgba(96,165,250,1)) drop-shadow(0 0 24px rgba(34,211,238,0.5)); }
+}
+.gps-track-line { stroke: var(--accent); }
+.map-legend-line {
+  width: 20px; height: 3px; border-radius: 2px; flex-shrink: 0;
+}
+.map-legend-puffin {
+  width: 16px; height: 16px; flex-shrink: 0;
+}
+.flight-label {
+  background: none; border: none;
+  font-family: var(--font); font-size: 11px; font-weight: 700;
+  color: #fbbf24; text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.where-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--accent);
+  background: var(--accent-bg); color: var(--accent); font-size: 0.76rem; font-weight: 700;
+  cursor: pointer; font-family: var(--font); transition: all 0.2s;
+  animation: where-glow 2.5s ease-in-out infinite;
+}
+.where-btn:hover { background: var(--accent); color: white; }
+.where-btn img { width: 18px; height: 18px; }
+@keyframes where-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0.3); }
+  50% { box-shadow: 0 0 8px 2px rgba(96,165,250,0.4); }
+}
+.map-style-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text2); font-size: 0.76rem; font-weight: 600;
+  cursor: pointer; font-family: var(--font); transition: all 0.15s;
+}
+.map-style-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.map-style-toggle.active { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+.map-day-filter {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 20px 0; padding: 10px 14px;
+  background: var(--card); border-radius: var(--radius-sm); border: 1px solid var(--border);
+}
+.day-filter-btn {
+  padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg2); color: var(--text2); font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; font-family: var(--font); transition: all 0.15s;
+}
+.day-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.day-filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* ─── PHOTOS TAB ─────────────────────────────────────────────── */
+.photos-tab-header {
+  padding: 20px 20px 0;
+  text-align: center;
+}
+.photos-tab-header h2 {
+  font-size: 1.2rem; font-weight: 700; margin-bottom: 4px;
+}
+.photos-tab-header .photo-count {
+  font-size: 0.82rem; color: var(--text2);
+}
+.photo-size-toggle {
+  display: flex; justify-content: center; gap: 4px; margin-top: 12px;
+}
+.photo-size-btn {
+  padding: 5px 14px; border-radius: 16px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text2); font-size: 0.75rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.photo-size-btn.active {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+.photo-size-btn:hover:not(.active) { background: var(--card-hover); }
+
+/* Small photo grid */
+.photos-grid-small {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px; padding: 0 20px 16px;
+}
+.photos-grid-small .photo-card-sm {
+  position: relative; border-radius: var(--radius-sm); overflow: hidden;
+  aspect-ratio: 1; cursor: pointer; border: 1px solid var(--border);
+}
+.photos-grid-small .photo-card-sm img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.photos-grid-small .photo-card-sm .sm-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 4px 6px; background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: white; font-size: 0.65rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Medium photo grid */
+.photos-grid-medium {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px; padding: 0 20px 16px;
+}
+.photos-grid-medium .photo-card-md {
+  background: var(--card); border-radius: var(--radius-sm); overflow: hidden;
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+}
+.photos-grid-medium .photo-card-md img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; cursor: pointer;
+}
+.photos-grid-medium .photo-card-md .md-info {
+  padding: 8px 10px;
+}
+.photos-grid-medium .photo-card-md .md-info .md-place {
+  font-weight: 600; font-size: 0.78rem; margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.photos-grid-medium .photo-card-md .md-info .md-day {
+  font-size: 0.7rem; color: var(--text3);
+}
+.photos-tab-empty {
+  text-align: center; padding: 80px 20px; color: var(--text3);
+}
+.photos-tab-empty .empty-icon { font-size: 3.5rem; margin-bottom: 16px; opacity: 0.6; }
+.photos-tab-empty h3 { color: var(--text2); font-size: 1.1rem; margin-bottom: 8px; }
+.photos-tab-empty p { font-size: 0.88rem; line-height: 1.6; max-width: 340px; margin: 0 auto; }
+
+.photos-day-section { margin-bottom: 8px; }
+.photos-day-header {
+  display: flex; align-items: center; gap: 10px; padding: 24px 20px 12px;
+}
+.photos-day-badge {
+  width: 34px; height: 34px; border-radius: 9px; background: var(--accent);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.82rem; flex-shrink: 0;
+}
+.photos-day-info .photos-day-title { font-weight: 600; font-size: 0.95rem; }
+.photos-day-info .photos-day-date { font-size: 0.78rem; color: var(--text2); }
+
+.photo-card {
+  background: var(--card); border-radius: var(--radius); margin: 0 20px 16px;
+  border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow);
+}
+.photo-card-header {
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+}
+.photo-card-place-icon { font-size: 0.9rem; flex-shrink: 0; }
+.photo-card-place { font-weight: 600; font-size: 0.88rem; flex: 1; }
+.photo-card-traveler {
+  font-size: 0.72rem; color: var(--text3); background: var(--bg2);
+  padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+}
+
+.photo-card-img {
+  width: 100%; max-height: 560px; object-fit: contain;
+  background: var(--bg2); cursor: pointer; display: block;
+}
+
+.photo-card-footer {
+  padding: 12px 16px; display: flex; align-items: center; gap: 14px;
+  border-top: 1px solid var(--border);
+}
+.photo-minimap {
+  position: relative; width: 160px; height: 100px; overflow: hidden;
+  border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0;
+  background: var(--bg2);
+}
+.photo-minimap img { position: absolute; pointer-events: none; }
+.minimap-pin {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 12px; height: 12px; background: #ef4444; border: 2px solid white;
+  border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.5); z-index: 2;
+}
+.minimap-pin::after {
+  content: ''; position: absolute; top: -4px; left: -4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(239,68,68,0.2); z-index: -1;
+}
+.photo-card-meta { flex: 1; }
+.photo-card-meta .meta-line { font-size: 0.8rem; color: var(--text2); margin-bottom: 4px; }
+.photo-card-meta a { font-size: 0.75rem; color: var(--accent); text-decoration: none; }
+.photo-card-meta a:hover { text-decoration: underline; }
+
+/* Photo lightbox */
+.lightbox {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.92); z-index: 1000; justify-content: center; align-items: center;
+  cursor: pointer;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 92%; max-height: 92%; object-fit: contain; border-radius: 8px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .header h1 { font-size: 1.3rem; }
+  .header { padding: 24px 16px 20px; }
+  .tab-btn { font-size: 0.76rem; padding: 10px 4px; }
+  .days-container, .stats { padding-left: 12px; padding-right: 12px; }
+  .progress-section { margin-left: 12px; margin-right: 12px; }
+  .day-header { padding: 12px 14px; }
+  .day-body { padding: 0 14px 14px; }
+  .act-name { font-size: 0.85rem; }
+  .stats { margin-left: 12px; margin-right: 12px; }
+  #mapContainer { margin: 12px; height: calc(100vh - 150px); }
+  .map-day-filter { margin: 8px 12px 0; gap: 4px; padding: 8px 10px; }
+  .photo-card { margin: 0 12px 12px; }
+  .photos-day-header { padding: 20px 12px 10px; }
+  .photo-card-footer { flex-direction: column; align-items: flex-start; }
+  .photo-minimap { width: 100%; height: 120px; }
+  .photos-grid-small { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); padding: 0 12px 12px; }
+  .photos-grid-medium { grid-template-columns: 1fr; padding: 0 12px 12px; }
+}
+
+/* Scroll animation */
+.day-card { opacity: 0; transform: translateY(8px); animation: slideIn 0.3s ease forwards; }
+.day-card:nth-child(1) { animation-delay: 0.05s; }
+.day-card:nth-child(2) { animation-delay: 0.1s; }
+.day-card:nth-child(3) { animation-delay: 0.15s; }
+.day-card:nth-child(4) { animation-delay: 0.2s; }
+.day-card:nth-child(5) { animation-delay: 0.25s; }
+.day-card:nth-child(6) { animation-delay: 0.3s; }
+.day-card:nth-child(7) { animation-delay: 0.35s; }
+.day-card:nth-child(8) { animation-delay: 0.4s; }
+.day-card:nth-child(9) { animation-delay: 0.45s; }
+.day-card:nth-child(10) { animation-delay: 0.5s; }
+.day-card:nth-child(11) { animation-delay: 0.55s; }
+.day-card:nth-child(12) { animation-delay: 0.6s; }
+@keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
+
+.photo-card { opacity: 0; transform: translateY(10px); animation: slideIn 0.4s ease forwards; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="flag">&#127470;&#127480;</div>
+    <h1>Iceland Bound</h1>
+    <div class="dates">July 13 &ndash; 22, 2026</div>
+    <div class="sync-status" id="syncStatus">
+      <span class="dot stale"></span> Loading sync data&hellip;
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="itinerary" onclick="switchTab('itinerary')">&#128203; Itinerary</button>
+    <button class="tab-btn" data-tab="map" onclick="switchTab('map')">&#128506; Map</button>
+    <button class="tab-btn" data-tab="photos" onclick="switchTab('photos')">&#128248; Photos</button>
+  </div>
+
+  <div class="tab-panel active" id="panel-itinerary">
+    <div class="progress-section" id="progressSection"></div>
+    <div class="days-container" id="daysContainer"></div>
+  </div>
+
+  <div class="tab-panel" id="panel-map">
+    <div class="map-day-filter" id="mapDayFilter"></div>
+    <div style="margin:8px 20px 0;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;">
+      <div style="display:flex;gap:6px;">
+        <button class="map-style-toggle active" id="mapStyleStd" onclick="setMapStyle('standard', this)">🗺 Map</button>
+        <button class="map-style-toggle" id="mapStyleSat" onclick="setMapStyle('satellite', this)">🛰 Satellite</button>
+        <button class="map-style-toggle" id="mapStyleHyb" onclick="setMapStyle('hybrid', this)">🌐 Hybrid</button>
+      </div>
+      <button class="where-btn" onclick="whereAreTheyNow()"><img src="puffin.png"> Where are they now?</button>
+    </div>
+    <div id="mapContainer"></div>
+  </div>
+
+  <div class="tab-panel" id="panel-photos">
+    <div id="photosContainer"></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="Photo">
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ─── STATIC TRIP DATA ───────────────────────────────────────────
+const TRIP_DATA = [
+  {
+    id: -1, date: "Sat Jul 11", title: "Travel to Boston",
+    route: "SFO → Boston Logan", km: 0,
+    flightRoute: { from: [37.6213, -122.3790], to: [42.3656, -71.0096], label: "SFO → BOS" },
+    stay: null,
+    match: { event: "World Cup Quarterfinal", time: "Evening", note: "Watch with family in Boston" },
+    activities: [
+      { name: "Flight SFO to Boston", duration: "~5.5 hrs", booked: true, hikeKm: null,
+        brief: "Domestic flight to meet the family before Iceland.",
+        details: "Fly from San Francisco to Boston Logan to regroup with family before the overnight flight to Iceland.",
+        tips: ["Charge all devices for the long travel day ahead"],
+        trivia: null, safety: null, lat: 42.3656, lng: -71.0096 },
+      { name: "World Cup matches with family", duration: "Evening", booked: false, hikeKm: null,
+        brief: "Watch World Cup quarterfinal with the whole crew.",
+        details: "FIFA World Cup 2026 quarterfinal round. Get hyped with the family before the big trip.",
+        tips: [],
+        trivia: "The 2026 World Cup is the first with 48 teams, co-hosted by USA, Mexico, and Canada.",
+        safety: null, lat: null, lng: null }
+    ],
+    food: [],
+    logistics: ["Confirm Iceland flight for tomorrow", "Passports ready for everyone", "Check carry-on limits for Icelandair"]
+  },
+  {
+    id: 0, date: "Sun Jul 12", title: "Travel to Iceland",
+    route: "Boston Logan → Keflavik", km: 0,
+    flightRoute: { from: [42.3656, -71.0096], to: [63.9850, -22.6056], label: "BOS → KEF" },
+    stay: null,
+    match: null,
+    activities: [
+      { name: "Flight Boston to Reykjavik", duration: "~5 hrs", booked: true, hikeKm: null,
+        brief: "Overnight Icelandair flight across the Atlantic.",
+        details: "Icelandair FI632 from Boston Logan to Keflavik International. Overnight flight arriving 8:10 AM local time on Jul 13.",
+        tips: ["Set watches to Iceland time (GMT) on boarding", "Iceland is 4 hours ahead of Boston (EDT)", "Try to sleep — it's a short night"],
+        trivia: "Iceland straddles the Mid-Atlantic Ridge — you're flying to a country that sits on two tectonic plates.",
+        safety: null, lat: 63.9850, lng: -22.6056 }
+    ],
+    food: [],
+    logistics: ["Passports for all 4 travelers", "Print/download boarding passes", "Snacks for the flight", "Neck pillows + eye masks for red-eye"]
+  },
+  {
+    id: 1, date: "Mon Jul 13", title: "Arrival & Reykjanes",
+    route: "Keflavik → Reykjanes loop → Reykjavik", km: 80,
+    stay: { name: "Guesthouse Galtafell", address: "Laufasvegur 46, Reykjavik 101", checkin: "3:00 PM", lat: 64.1426, lng: -21.9101 },
+    match: null,
+    activities: [
+      { name: "Bridge Between Continents", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Walk between tectonic plates on a footbridge.",
+        details: "The Mid-Atlantic Ridge runs through Iceland. This footbridge marks where the North American and Eurasian plates pull apart. The rift widens ~2 cm/year.",
+        tips: ["Great first stop — quick, free, sets the geological tone", "The rift widens about 2 cm per year — the bridge has been extended since built"],
+        trivia: "Iceland sits on the Mid-Atlantic Ridge and is literally being torn in half.",
+        safety: null, lat: 63.8685, lng: -22.6760 },
+      { name: "Gunnuhver geothermal", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Bubbling mud pots and steam vents on boardwalk.",
+        details: "Named after the ghost Guðrún, trapped in the spring 400 years ago. Iceland's largest mud pool.",
+        tips: ["Stay on boardwalk — ground is thin crust over boiling water", "Less crowded than Geysir and arguably more dramatic"],
+        trivia: "In 2008 a new vent opened and destroyed part of the boardwalk overnight.",
+        safety: null, lat: 63.8193, lng: -22.6875 },
+      { name: "Reykjanesviti lighthouse", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Iceland's oldest lighthouse on sea cliffs.",
+        details: "Historic lighthouse on the southwestern tip of the Reykjanes Peninsula with dramatic coastal views.",
+        tips: ["Windy — hold onto hats", "Good photo looking back along coast"],
+        trivia: null, safety: null, lat: 63.8126, lng: -22.7095 },
+      { name: "Krysuvík / Seltún geothermal", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Colorful sulfurous landscape with boardwalks.",
+        details: "Vibrant geothermal area with boiling mud pots, fumaroles, and mineral-stained earth in reds, yellows, and greens.",
+        tips: ["Sulfur smell is normal", "Stay on marked paths — crust can be thin"],
+        trivia: null, safety: null, lat: 63.8919, lng: -22.0538 },
+      { name: "Brimketill lava pool", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Natural rock formation on lava shoreline carved by waves.",
+        details: "A natural rock pool carved by the Atlantic waves into the lava coast. Named after a giantess from local folklore.",
+        tips: ["Viewing platform only — sneaker waves are real"],
+        trivia: null, safety: null, lat: 63.8264, lng: -22.7178 },
+      { name: "Blue Lagoon & LAVA Restaurant", duration: "3 hrs", booked: true, hikeKm: null,
+        brief: "Iconic geothermal spa, silica-rich milky blue water 38–40°C.",
+        details: "Premium package includes drink and masks. LAVA Restaurant dinner reserved for 4. The silica-rich water is world-famous for its milky blue color and skin-healing properties.",
+        tips: ["Put conditioner in hair BEFORE — silica dries hair badly", "Don't wear contacts in water", "Head to far corners for fewer crowds"],
+        trivia: "The lagoon is man-made — formed from runoff of Svartsengi power plant in 1976. People discovered skin-healing properties.",
+        safety: null, lat: 63.8804, lng: -22.4495 }
+    ],
+    food: [
+      { name: "Sandholt Bakery", desc: "Famous Reykjavik bakery — sourdough + pastries", gf: true, lat: 64.1450, lng: -21.9264 },
+      { name: "LAVA Restaurant", desc: "Dinner at Blue Lagoon, reserved for 4", gf: true, lat: 63.8804, lng: -22.4495 }
+    ]
+  },
+  {
+    id: 2, date: "Tue Jul 14", title: "Golden Circle",
+    route: "Reykjavik → Silfra → Þingvellir → Geysir → Gullfoss → Kerið → Reykjavik", km: 200,
+    stay: { name: "Guesthouse Galtafell", address: "Laufasvegur 46, Reykjavik 101", checkin: null, lat: 64.1426, lng: -21.9101 },
+    match: { event: "World Cup Semifinal 1", time: "7:00 PM", note: "Find a sports bar in Reykjavik, arrive by 6:30" },
+    activities: [
+      { name: "Silfra fissure snorkeling", duration: "2 hrs", booked: true, hikeKm: null,
+        brief: "Snorkel between tectonic plates in crystal-clear glacial meltwater.",
+        details: "Visibility up to 100 m. Water filtered through lava rock for 30–50 years. Adventure Vikings provides dry suits + free photos.",
+        tips: ["Water is 2°C — dry suit keeps warm but face/hands feel it", "Wear warm layers under dry suit", "Hot chocolate afterward — bring change of warm socks", "Photos included free — check with Bjarki"],
+        trivia: "Water so pure you can drink it while snorkeling. Originates from Langjökull glacier, takes decades to filter through lava.",
+        safety: null, lat: 64.2563, lng: -21.1166 },
+      { name: "Þingvellir National Park", duration: "2 hrs", booked: false, hikeKm: null,
+        brief: "UNESCO World Heritage. Almannagjá gorge walk between tectonic plates.",
+        details: "Althingi parliament founded 930 AD — one of the oldest in the world. Walk through the Almannagjá rift valley where plates diverge.",
+        tips: ["Full Almannagjá walk 30–40 min one way — do the whole thing", "Þingvallakirkja church rebuilt 1859", "One parking ticket covers all lots"],
+        trivia: "In the Viking Age, a Lawspeaker stood at Lögberg and recited laws from memory. Disputes settled, alliances formed, outlaws declared for centuries.",
+        safety: null, lat: 64.2559, lng: -21.1299 },
+      { name: "Geysir & Strokkur", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Strokkur erupts every 6–10 min, 20–40 m high.",
+        details: "The original Geysir is mostly dormant. Strokkur is the reliable performer, shooting boiling water high into the air on a regular cycle.",
+        tips: ["Stand upwind to avoid steam", "Video in slow motion — blue bubble before blast is incredible", "Decent café and gift shop"],
+        trivia: "The word 'geyser' comes from this site. 'Geysir' from Old Norse 'geysa' meaning 'to gush.'",
+        safety: null, lat: 64.3103, lng: -20.3024 },
+      { name: "Gullfoss waterfall", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Massive two-tier waterfall, 32 m drop.",
+        details: "Up to 140 cubic meters/sec in summer. Two cascading tiers plunge into a rugged canyon.",
+        tips: ["Lower viewpoint for most dramatic angle", "You WILL get sprayed — bring rain jackets", "Look for rainbows in spray on sunny days"],
+        trivia: "Nearly dammed for hydroelectric. Sigríður Tómasdóttir threatened to throw herself into the falls. Now a national hero with monument at site.",
+        safety: null, lat: 64.3271, lng: -20.1199 },
+      { name: "Kerið crater lake", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Volcanic crater with aquamarine water, 3000 years old.",
+        details: "55 m deep, 170 m wide. A collapsed magma chamber filled with groundwater, creating a striking turquoise lake.",
+        tips: ["Small entrance fee ~500 ISK", "Walk full rim for best photos", "Quick stop fits well on drive back"],
+        trivia: null, safety: null, lat: 64.0413, lng: -20.8853 }
+    ],
+    food: [
+      { name: "Brauð & Co", desc: "Bakery — artisan bread and pastries", gf: false, lat: 64.1440, lng: -21.9261 },
+      { name: "Sandholt", desc: "Return visit for sourdough and pastries", gf: true, lat: 64.1450, lng: -21.9264 },
+      { name: "Omnom Chocolate Factory Store", desc: "Hólmaslóð 4 — pick up bars for Day 8 summit!", gf: false, lat: 64.1573, lng: -21.9407 },
+      { name: "The Sea Baron / Nonono", desc: "Dinner near harbor — seafood", gf: false, lat: 64.1509, lng: -21.9440 }
+    ]
+  },
+  {
+    id: 3, date: "Wed Jul 15", title: "Waterfalls & South Coast",
+    route: "Reykjavik → Hella → Seljalandsfoss → Skógafoss → Vík", km: 187,
+    stay: { name: "Vik House", address: "Brekkur 1, Vík 871", checkin: "5:00 PM", lat: 63.4186, lng: -19.0060 },
+    match: { event: "World Cup Semifinal 2", time: "7:00 PM", note: "Watch at bar in Vík or stream at house" },
+    activities: [
+      { name: "Lava Centre Hvolsvöllur", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "Interactive volcano museum with real-time earthquake monitoring.",
+        details: "Modern exhibit covering Iceland's volcanic geology with live seismic displays.",
+        tips: ["Optional — skip if tight on time for waterfall light", "Real-time seismic display is fascinating"],
+        trivia: "Iceland has ~130 volcanic mountains, 30 active. Sits on mantle plume right on Mid-Atlantic Ridge — unique double geological activity.",
+        safety: null, lat: 63.7512, lng: -20.2282 },
+      { name: "Gljúfrabúi", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Hidden waterfall in slot canyon — \"Dweller in the gorge.\"",
+        details: "Wade through stream into narrow chamber, 40 m falls above. Around solar noon (~1:30 PM July) sunlight shoots down the slot.",
+        tips: ["Do this FIRST before Seljalandsfoss — light is time-sensitive", "Wear water-friendly shoes — ankle to shin deep", "Waterproof phone case — spray intense inside", "Arrive by 12:00 for best light"],
+        trivia: "Most tourists miss it — all eyes on Seljalandsfoss next door. One of Iceland's best-kept open secrets.",
+        safety: null, lat: 63.6213, lng: -19.9885 },
+      { name: "Seljalandsfoss", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "60 m waterfall you walk behind — one of few in the world.",
+        details: "Full loop path behind the falls. One of few waterfalls in the world where you can walk completely behind the curtain of water.",
+        tips: ["Rain jackets mandatory — you will be drenched", "Path behind can be slippery — take your time", "Phone in ziplock behind the falls", "Go counterclockwise for best view progression"],
+        trivia: "The cliff is the old coastline of Iceland. Land south was reclaimed from sea by volcanic eruptions.",
+        safety: null, lat: 63.6156, lng: -19.9886 },
+      { name: "Skógafoss", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "60 m, 25 m-wide curtain of water. 527 steps to top viewpoint.",
+        details: "One of Iceland's biggest and most impressive waterfalls with an accessible staircase leading to panoramic river valley views.",
+        tips: ["Stairs to top worth it — stunning river valley view", "Double rainbows common on sunny days", "Skip climb if tired — can do Day 4 instead"],
+        trivia: "Legend says Viking settler Þrasi hid a gold chest behind the falls. A local boy found the chest, grabbed the ring, but the chest vanished. The ring was given to a church, now in Skógar Museum.",
+        safety: null, lat: 63.5321, lng: -19.5114 }
+    ],
+    food: [
+      { name: "Bónus supermarket", desc: "Stock up in Hvolsvöllur/Hella for the week", gf: false, lat: 63.7510, lng: -20.2260 },
+      { name: "Cook-in at Vík House", desc: "Light cooking night — kitchen available", gf: false, lat: null, lng: null }
+    ]
+  },
+  {
+    id: 4, date: "Thu Jul 16", title: "Vík Explorer Day",
+    route: "Vík area", km: 80,
+    stay: { name: "Vik House", address: "Brekkur 1, Vík 871", checkin: null, lat: 63.4186, lng: -19.0060 },
+    match: null,
+    activities: [
+      { name: "Þakgil–Mælifell hike", duration: "~4 hrs", booked: false, hikeKm: 11.9,
+        brief: "7.4 mi, 1981 ft gain. Summit views of Mýrdalsjökull glacier and Katla volcano.",
+        details: "A substantial hike through dramatic terrain culminating in panoramic views of one of Iceland's most dangerous volcanic systems.",
+        tips: ["Start early for afternoon beach time", "Trail muddy — hiking boots essential", "Layers — exposed at summit"],
+        trivia: "Katla beneath Mýrdalsjökull erupts every 40–80 years, considered overdue. Glacial floods are catastrophic.",
+        safety: null, lat: 63.4522, lng: -19.0860 },
+      { name: "Reynisfjara black sand beach", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Jet-black sand, hexagonal basalt columns, Reynisdrangar sea stacks.",
+        details: "One of the most famous beaches in the world. Dramatic basalt column formations, a cave, and iconic sea stacks offshore.",
+        tips: ["Check safetravel.is morning of", "NEVER turn your back to the ocean", "Stay well above waterline — steep shelf pulls waves far up", "Basalt cave to the left facing ocean"],
+        trivia: "Reynisdrangar stacks are trolls caught by sunrise turned to stone. Basalt columns form when lava cools slowly, cracking into hexagons.",
+        safety: "Reynisfjara has killed tourists. Sneaker waves surge 50+ meters up beach unpredictably. Stay far from waterline.",
+        lat: 63.4047, lng: -19.0714 },
+      { name: "Dyrhólaey", duration: "1.5 hrs", booked: false, hikeKm: null,
+        brief: "120 m promontory with massive natural arch. Lighthouse, panoramic views.",
+        details: "Summer puffin nesting site with stunning views. The natural arch is large enough for a small boat to pass through.",
+        tips: ["Evening 6–9 PM best for puffins", "Upper Dyrhólaey for best views + puffin vantage", "Bring binoculars", "July twilight = decent light until 10 PM"],
+        trivia: "\"Dyrhólaey\" means \"Door Hill Island.\" Puffins spend most of their lives at sea, come to land only to breed Apr–Aug. They fly 55 mph and dive to 60 m.",
+        safety: null, lat: 63.4019, lng: -19.1284 },
+      { name: "Hjörleifshöfði / Yoda Cave", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "Sea cave opening looks like Yoda's face.",
+        details: "A rock formation and sea cave that bears a striking resemblance to the Star Wars character, surrounded by black sand desert.",
+        tips: ["Drive sand road carefully — rough but passable", "Best with someone in entrance for scale"],
+        trivia: "Resemblance to Yoda went viral. Now one of Vík's quirky must-sees.",
+        safety: null, lat: 63.4228, lng: -18.7932 },
+      { name: "Reyniskirkja church", duration: "30 min", booked: false, hikeKm: null,
+        brief: "White wooden church on hill overlooking Vík and sea stacks.",
+        details: "A charming white church perched on the hillside above Vík with commanding views of the coastline and Reynisdrangar stacks.",
+        tips: ["Walk up for the view even if closed — panorama is the point"],
+        trivia: null, safety: null, lat: 63.4189, lng: -19.0075 }
+    ],
+    food: [
+      { name: "Suður-Vík", desc: "Lunch in Vík", gf: false, lat: 63.4175, lng: -19.0085 },
+      { name: "Smiðjan Brugghús", desc: "Brewpub — pizza + beer", gf: false, lat: 63.4188, lng: -19.0050 },
+      { name: "Black Crust Pizzeria", desc: "Pizza restaurant in Vík", gf: false, lat: 63.4189, lng: -18.9985 }
+    ]
+  },
+  {
+    id: 5, date: "Fri Jul 17", title: "Glaciers & Icebergs",
+    route: "Vík → Fjaðrárgljúfur → Skaftafell → Fjallsárlón → Jökulsárlón → Höfn", km: 270,
+    stay: { name: "Fosshotel Vatnajökull", address: "Lindarbakki, Höfn 781", checkin: null, lat: 64.2529, lng: -15.2107 },
+    match: null,
+    activities: [
+      { name: "Fjaðrárgljúfur canyon", duration: "45 min", booked: false, hikeKm: null,
+        brief: "100 m deep, 2 km long serpentine canyon with green moss walls.",
+        details: "A dramatic winding canyon carved over millennia by the Fjaðrá river. Lush green moss covers the sheer walls.",
+        tips: ["Walk full rim path for highlights", "Early start beats crowds"],
+        trivia: "Went viral after Justin Bieber's 'I'll Show You' video 2015. Tourist surge caused temporary closures.",
+        safety: null, lat: 63.7713, lng: -18.1722 },
+      { name: "Svartifoss hike (Skaftafell)", duration: "2 hrs", booked: false, hikeKm: 5.5,
+        brief: "\"Black Falls\" — waterfall framed by dark basalt columns. 5.5 km round trip.",
+        details: "An easy-to-moderate hike through Skaftafell in Vatnajökull National Park to a waterfall dramatically framed by hexagonal basalt columns.",
+        tips: ["Well-marked trail", "Last stretch steepest", "Hit Skaftafellsjökull viewpoint on way back"],
+        trivia: "Inspired design of Hallgrímskirkja church in Reykjavik. The architect modeled the façade after these columns.",
+        safety: null, lat: 64.0148, lng: -16.9757 },
+      { name: "Fjallsárlón Glacier Hike & Boat Tour", duration: "3 hrs", booked: true, hikeKm: null,
+        brief: "Hike on Vatnajökull outlet + zodiac among icebergs.",
+        details: "More intimate than Jökulsárlón. Guided glacier walk followed by a zodiac boat tour through icebergs calving from the glacier front.",
+        tips: ["All equipment provided", "Dress warmly in layers", "Meet at Fjallsárlón road, Öræfi 785"],
+        trivia: "Vatnajökull is Europe's largest glacier — covers ~8% of Iceland, up to 1000 m thick. Several active volcanoes beneath.",
+        safety: null, lat: 64.0171, lng: -16.3741 },
+      { name: "Jökulsárlón glacier lagoon", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Icebergs calve from glacier, seals on ice. Iceland's deepest lake at 248 m.",
+        details: "Growing since the 1930s as the glacier retreats. Massive icebergs drift through the lagoon toward the sea.",
+        tips: ["Walking shore and bridge is plenty — you have the boat tour", "Look for seals on ice", "Icebergs can be blue, white, or black with ash"],
+        trivia: "Featured in two Bond films, Batman Begins, Tomb Raider, Interstellar. Didn't exist before 1935 — entirely from glacial retreat.",
+        safety: null, lat: 64.0784, lng: -16.2306 },
+      { name: "Diamond Beach", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Glacier ice chunks on jet-black sand.",
+        details: "Chunks of glacial ice wash up on the volcanic black sand beach, glittering like diamonds in the light.",
+        tips: ["Smaller in July vs winter but still beautiful", "Evening light especially dramatic", "Don't climb large ice near water"],
+        trivia: "Some ice chunks up to 1000 years old. Break off icebergs, flow to sea, wash back on beach.",
+        safety: null, lat: 64.0779, lng: -16.2182 },
+      { name: "Vestrahorn / Stokksnes", duration: "1.5 hrs", booked: false, hikeKm: null,
+        brief: "454 m horn-shaped mountain on black sand. Mirror reflections at low tide.",
+        details: "One of Iceland's most photographed mountains. The dramatic peak rises from flat black sand, creating stunning reflections when conditions are right.",
+        tips: ["Pay 900 ISK at Viking Café to access", "Evening light post-9 PM can be extraordinary", "Check tide times for reflections", "Photography pilgrimage site — bring best camera"],
+        trivia: "Made of gabbro rock (not volcanic like most Icelandic mountains). An igneous intrusion — magma cooled slowly underground, exposed by erosion.",
+        safety: null, lat: 64.2559, lng: -15.0068 }
+    ],
+    food: [
+      { name: "Pakkhús", desc: "Langoustine in Höfn harbor — book 8 PM", gf: true, lat: 64.2539, lng: -15.2108 },
+      { name: "Humarhöfnin", desc: "Alternative langoustine restaurant in Höfn", gf: true, lat: 64.2507, lng: -15.2052 },
+      { name: "Pack picnic for Skaftafell", desc: "No food in the park — bring everything", gf: false, lat: null, lng: null }
+    ]
+  },
+  {
+    id: 6, date: "Sat Jul 18", title: "Laki & the Highlands",
+    route: "Höfn → Klaustur → Laki via F206 → Klaustur", km: 200,
+    stay: { name: "Stracta Apartments", address: "Orustastaðir, Kirkjubæjarklaustur 881", checkin: "~6:00 PM", lat: 63.7889, lng: -17.9862 },
+    match: null,
+    activities: [
+      { name: "Lómagnúpur viewpoint", duration: "5 min", booked: false, hikeKm: null,
+        brief: "700 m cliff face beside Route 1.",
+        details: "A massive sheer cliff visible from the Ring Road — one of the most dramatic roadside sights in south Iceland.",
+        tips: ["Pull over and gawk — 5 min is all you need"],
+        trivia: null, safety: null, lat: 63.8735, lng: -17.6978 },
+      { name: "Dverghamrar \"Dwarf Cliffs\"", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Columnar basalt right off Route 1.",
+        details: "Small but striking basalt column formation easily accessible from the Ring Road. Named for the elves believed to live here.",
+        tips: ["Quick stop, no hiking needed"],
+        trivia: "Icelanders take elf folklore seriously — construction rerouted to avoid elf habitats. 2007 survey: over half the population wouldn't deny elves exist.",
+        safety: null, lat: 63.8146, lng: -17.8890 },
+      { name: "Fagrifoss waterfall", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Dramatic waterfall on F206 en route to Laki.",
+        details: "A striking waterfall accessible by a short walk from the highland road, setting the tone for Laki.",
+        tips: ["Short walk from road", "Nice warm-up before Laki"],
+        trivia: null, safety: null, lat: 63.9216, lng: -18.2134 },
+      { name: "Laki / Lakagígar craters", duration: "4–5 hrs", booked: false, hikeKm: 8.0,
+        brief: "1783 eruption — one of largest lava flows recorded. 25 km crater row in vivid green moss.",
+        details: "The 1783 eruption lasted 8 months and was one of the most devastating volcanic events in recorded history. Summit climb has panoramic views. Tjarnargígur crater has a lake inside.",
+        tips: ["Summit climb is short but worth every step", "Bring lunch for summit — best picnic of the trip", "F206 requires 4x4 (Land Cruiser is set)", "Fill fuel in Klaustur before — no services on F-road", "Allow 1.5 hrs each way for F-road driving"],
+        trivia: "1783 eruption killed ~25% of Iceland's population from famine. SO₂ cloud reached Europe, ~6 million deaths worldwide. Benjamin Franklin in Paris wrote about 'dry fog' and correctly attributed it to Iceland. Some historians link resulting famine to French Revolution.",
+        safety: null, lat: 64.0693, lng: -18.2369 }
+    ],
+    food: [
+      { name: "N1 Klaustur", desc: "Fuel + lunch supplies before F-road", gf: false, lat: 63.7939, lng: -18.0397 },
+      { name: "Hotel Klausturhof", desc: "Dinner option in Kirkjubæjarklaustur", gf: false, lat: 63.7862, lng: -18.0598 },
+      { name: "Systrakaffi", desc: "Small café in Klaustur", gf: false, lat: 63.7860, lng: -18.0580 }
+    ]
+  },
+  {
+    id: 7, date: "Sun Jul 19", title: "Plane Wreck & Secret Lagoon",
+    route: "Klaustur → Sólheimasandur → Flúðir → Selfoss", km: 225,
+    stay: { name: "Heima Holiday Homes", address: "Smáratún 1, Selfoss 800", checkin: "~4:30 PM", lat: 63.9360, lng: -20.9942 },
+    match: { event: "World Cup Final", time: "7:00 PM", note: "Find somewhere in Selfoss to watch!" },
+    activities: [
+      { name: "DC-3 plane wreck Sólheimasandur", duration: "1.5 hrs", booked: false, hikeKm: null,
+        brief: "US Navy DC-3 crash-landed 1973 on black sand. All crew survived.",
+        details: "4 km walk each way across featureless black desert to reach the wreck of a US Navy Douglas DC-3.",
+        tips: ["4 km each way flat — allow 1.5 hrs total", "Exposed — bring water and windbreaker", "Marked parking off Route 1, no driving to wreck", "Best in overcast weather for dramatic photos"],
+        trivia: "Plane ran low on fuel, icing made instruments unreliable. Pilot crash-landed on beach rather than risk ocean. All 7 crew walked away. Navy stripped useful parts, left fuselage.",
+        safety: null, lat: 63.4590, lng: -19.3647 },
+      { name: "Secret Lagoon (Gamla Laugin)", duration: "1.5 hrs", booked: true, hikeKm: null,
+        brief: "Iceland's oldest natural geothermal pool dating to 1891. Water 38–40°C.",
+        details: "A beautiful natural hot spring pool with a mini geyser that erupts near the pool edge. Much more laid-back than Blue Lagoon.",
+        tips: ["Towels included", "Pre-swim shower mandatory (Icelandic custom)", "Watch mini-geyser near pool edge"],
+        trivia: "One of Iceland's oldest pools. In early 1900s women used it for laundry in the hot water.",
+        safety: null, lat: 64.1371, lng: -20.3093 },
+      { name: "Hjálparfoss", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Twin waterfalls with radial basalt in quiet valley. Off tourist trail.",
+        details: "A peaceful pair of waterfalls surrounded by unusual radial basalt formations in a lush green valley.",
+        tips: ["Easy access, short walk from parking", "One of the more peaceful stops"],
+        trivia: "\"Hjálparfoss\" means \"Help Waterfall\" — weary travelers found water and rest here after crossing the difficult highland interior.",
+        safety: null, lat: 64.1339, lng: -19.8144 }
+    ],
+    food: [
+      { name: "Bónus Selfoss", desc: "HEAVY stock: sandwiches, snacks, hot drinks, breakfast for tomorrow, dinner", gf: false, lat: 63.9356, lng: -21.0010 },
+      { name: "Pre-make sandwiches tonight", desc: "For Landmannalaugar — no food out there", gf: false, lat: null, lng: null }
+    ]
+  },
+  {
+    id: 8, date: "Mon Jul 20", title: "Landmannalaugar",
+    route: "Selfoss → F208 → Landmannalaugar → Selfoss", km: 400,
+    stay: { name: "Heima Holiday Homes", address: "Smáratún 1, Selfoss 800", checkin: null, lat: 63.9360, lng: -20.9942 },
+    match: null,
+    activities: [
+      { name: "Brennisteinsalda + Bláhnúkur loop", duration: "~5 hrs", booked: false, hikeKm: null,
+        brief: "Highlight of entire trip. Rainbow-colored rhyolite mountains with active fumaroles and obsidian fields.",
+        details: "Brennisteinsalda \"Sulphur Wave\" 855 m — one of the most colorful mountains on Earth. Active fumaroles on the slopes. Then Bláhnúkur \"Blue Peak\" 943 m through obsidian. Full loop ~5 hrs.",
+        tips: ["Bring layers, wind protection, sunscreen, lots of water", "Trekking poles very helpful on loose scree descent", "Head net recommended — midges thick near springs", "Omnom chocolate at Bláhnúkur summit is the planned treat!", "F208 north Sigalda approach has NO river crossings"],
+        trivia: "Rainbow colors from rhyolite — silica-rich rock. Iron oxides = red/yellow, sulfur = yellow-green, obsidian = blue-black. Only a few thousand years old.",
+        safety: "Bláhnúkur descent is steep loose scree — go slow, use poles. Hot springs at base are boiling in places — only soak in designated area.",
+        lat: 63.9930, lng: -19.0615 },
+      { name: "Landmannalaugar hot spring", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Natural geothermal pool 36–40°C where warm and cold streams mix.",
+        details: "The signature hot spring of the Icelandic highlands. Warm water mixes with a cold river, letting you find your ideal temperature.",
+        tips: ["Bring swimsuits + quick-dry towels!", "Move around to find right temperature", "Changing facilities basic — towel wrap", "Perfect post-hike reward"],
+        trivia: null, safety: null, lat: 63.9925, lng: -19.0580 },
+      { name: "Ljótipollur red crater lake (optional)", duration: "45 min add-on", booked: false, hikeKm: null,
+        brief: "Vivid red-rimmed crater with deep blue water.",
+        details: "An optional add-on only if the group has energy. A vivid red volcanic crater containing an intensely blue lake.",
+        tips: ["Only if everyone has energy after hike", "Adds 45 min", "Stunning red/blue contrast from rim"],
+        trivia: "\"Ljótipollur\" means \"Ugly Puddle\" — ironic because it's one of the most beautiful Highland sights.",
+        safety: null, lat: 63.9481, lng: -18.9984 }
+    ],
+    food: [
+      { name: "Pre-made sandwiches at Bláhnúkur summit + Omnom chocolate", desc: "Summit picnic with the good stuff", gf: false, lat: null, lng: null },
+      { name: "Grandkaffi Selfoss", desc: "Casual fast dinner after a long day", gf: false, lat: 63.9358, lng: -20.9975 }
+    ]
+  },
+  {
+    id: 9, date: "Tue Jul 21", title: "Snæfellsnes South",
+    route: "Selfoss → Borgarnes → Snæfellsnes south → Arnarstapi", km: 250,
+    stay: { name: "Arnarstapi Hotel", address: "Arnarstapi 350, IS-355", checkin: "~3:30 PM", lat: 64.7671, lng: -23.6307 },
+    match: null,
+    activities: [
+      { name: "Gerðuberg basalt columns", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Dramatic wall of perfectly formed hexagonal columns right off road.",
+        details: "One of the most symmetrical displays of columnar basalt in Iceland, easily accessible from the road.",
+        tips: ["Quick stop, easy access", "Symmetry of columns is remarkable"],
+        trivia: null, safety: null, lat: 64.8600, lng: -22.3708 },
+      { name: "Ytri Tunga seal beach", duration: "30 min", booked: false, hikeKm: null,
+        brief: "Small beach with resident harbor seal colony.",
+        details: "A golden-sand beach where harbor seals haul out to rest and bask in the sun year-round.",
+        tips: ["Bring binoculars!", "Keep respectful distance", "Mid-day best for viewing"],
+        trivia: "Harbor seals are one of two species in Iceland year-round. Can hold breath up to 30 minutes.",
+        safety: null, lat: 64.7974, lng: -23.4348 },
+      { name: "Búðakirkja black church", duration: "15 min", booked: false, hikeKm: null,
+        brief: "Jet-black church alone on lava field.",
+        details: "A strikingly photogenic jet-black church standing in solitary splendor on a moss-covered lava field.",
+        tips: ["Photo stop only — interior usually closed", "Lava field setting is otherworldly"],
+        trivia: "Original church here from 1703. Painted black to preserve wood — tar was traditional sealant.",
+        safety: null, lat: 64.8177, lng: -23.5093 },
+      { name: "Arnarstapi cliff walk to Hellnar", duration: "1.5 hrs", booked: false, hikeKm: 5.0,
+        brief: "Highlight of Day 9. 2.5 km one-way coastal trail with basalt arches and seabird colonies.",
+        details: "One of Iceland's most beautiful coastal walks. Basalt sea arches, columnar cliffs, seabird colonies, and the Bárður Snæfellsás sculpture at the start.",
+        tips: ["Walk slowly — something spectacular every 100 m", "Bárður statue at Arnarstapi end is great start", "Fjöruhúsið café at Hellnar end famous for fish soup", "Seabird colonies active in July"],
+        trivia: "Bárður Snæfellsás — half-troll, half-human from sagas who walked into Snæfellsjökull glacier and became its guardian spirit. Sculptor Ragnar Kjartansson created 1.5-ton statue in 1989.",
+        safety: null, lat: 64.7671, lng: -23.6307 }
+    ],
+    food: [
+      { name: "Geirabakari Kaffiúhús Borgarnes", desc: "Bakery — recovery lunch after Landmannalaugar", gf: false, lat: 64.5399, lng: -21.9071 },
+      { name: "Settlement Center café Borgarnes", desc: "Alternative lunch option", gf: false, lat: 64.5357, lng: -21.9232 },
+      { name: "Fjöruhúsið café Hellnar", desc: "Famous fish soup at end of cliff walk", gf: true, lat: 64.7517, lng: -23.6454 },
+      { name: "Arnarstapi Hotel restaurant", desc: "Dinner at hotel", gf: false, lat: 64.7691, lng: -23.6259 }
+    ]
+  },
+  {
+    id: 10, date: "Wed Jul 22", title: "Snæfellsnes North & Home",
+    route: "Arnarstapi → Snæfellsnes north → Borgarnes → Keflavik → Boston", km: 300,
+    stay: null,
+    match: null,
+    activities: [
+      { name: "Vatnshellir lava cave", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Guided tour into 8000-year-old lava tube, two levels, 35 m underground.",
+        details: "A fascinating guided descent into a prehistoric lava tube with two distinct levels and dramatic formations.",
+        tips: ["Book ahead ~$35/adult", "Wear warm layers — cool underground", "Headlamps provided, bring own for extra", "Good shoes with grip"],
+        trivia: "Jules Verne chose nearby Snæfellsjökull as the entrance to the center of the Earth in his novel. This cave gives a taste of what he imagined.",
+        safety: null, lat: 64.7501, lng: -23.8085 },
+      { name: "Djúpalónssandur black pebble beach", duration: "45 min", booked: false, hikeKm: null,
+        brief: "Black pebble beach with \"lifting stones\" and 1948 shipwreck remains.",
+        details: "A dramatic beach strewn with rounded black pebbles, remnants of a 1948 trawler wreck, and four historical lifting stones used to test fishermen's strength.",
+        tips: ["Try the stones! Fullsterkur=154 kg, Hálfsterkur=100 kg, Hálfdrættingur=54 kg, Amlóði=23 kg", "Don't remove pebbles — leave no trace"],
+        trivia: "If a fisherman couldn't lift hálfdrættingur (54 kg), he was deemed too weak for boat work.",
+        safety: null, lat: 64.7529, lng: -23.8981 },
+      { name: "Kirkjufell + Kirkjufellsfoss", duration: "1 hr", booked: false, hikeKm: null,
+        brief: "\"Church Mountain\" — most photographed mountain in Iceland with waterfall foreground.",
+        details: "The distinctive cone-shaped mountain near Grundarfjörður is Iceland's most iconic photography subject, with a picturesque waterfall completing the composition.",
+        tips: ["Classic photo from bridge near waterfall", "Morning light ideal, noon still works", "Don't climb — dangerous, no trail", "Grundarfjörður has decent restaurants"],
+        trivia: "Appeared in Game of Thrones as \"Arrowhead Mountain\" north of the Wall. About 463 m tall, ~7 million years old.",
+        safety: null, lat: 64.9426, lng: -23.3072 }
+    ],
+    food: [
+      { name: "Bjargarsteinn Mathús Grundarfjörður", desc: "Last Icelandic meal — make it count!", gf: true, lat: 64.9279, lng: -23.2618 },
+      { name: "Borgarnes gas stop", desc: "Snacks for the drive", gf: false, lat: 64.5437, lng: -21.9107 }
+    ]
+  }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────
+let syncData = null;
+let adminDeletedEvents = [];
+let lastFetchTime = null;
+let tripMap = null;
+let mapInitialized = false;
+let mapMarkers = [];
+let activeMapDay = 'all';
+let gpsTrackLayer = null;
+let gpsDotsLayer = null;
+let puffinMarker = null;
+let currentTileLayer = null;
+let currentLabelsLayer = null;
+let currentMapStyle = 'standard';
+
+const TRIP_START = new Date('2026-07-11T00:00:00');
+const TRIP_END = new Date('2026-07-22T23:59:59');
+const PHOTO_BASE = 'https://raw.githubusercontent.com/freecodecollective/iceland-bound/main/data/photos/';
+const SYNC_URL = 'https://raw.githubusercontent.com/freecodecollective/iceland-bound/main/data/trip-data.json';
+const DEL_EVENTS_URL = 'https://raw.githubusercontent.com/freecodecollective/iceland-bound/main/data/admin-deleted-events.json';
+
+// ─── HELPERS ──────────────────────────────────────────────────────
+function handlePhotoError(el) {
+  var card = el.closest('.photo-card') || el.closest('.photo-card-md') || el.closest('.photo-card-sm');
+  if (card) card.remove();
+}
+
+function getCurrentDayNum() {
+  const now = new Date();
+  if (now < TRIP_START) return -2;
+  if (now > TRIP_END) return 11;
+  const offset = Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24));
+  return offset - 1; // offset 0 = Jul 11 = Day -1, offset 1 = Jul 12 = Day 0, offset 2 = Jul 13 = Day 1, etc.
+}
+
+function getDayStatus(dayId) {
+  const current = getCurrentDayNum();
+  if (dayId < current) return 'past';
+  if (dayId === current) return 'today';
+  return 'future';
+}
+
+function mapsUrl(lat, lng) {
+  if (!lat || !lng) return null;
+  return `https://maps.google.com/?q=${lat},${lng}`;
+}
+
+function getTravelerData(key, type) {
+  if (!syncData || !syncData.travelers) return [];
+  const results = [];
+  for (const t of syncData.travelers) {
+    const arr = t[type] || [];
+    const match = arr.find(i => i.key === key);
+    if (match) results.push({ ...match, travelerName: t.name, travelerColor: t.colorHex });
+  }
+  return results;
+}
+
+function getPhotos(key) {
+  if (!syncData || !syncData.photos) return [];
+  return syncData.photos.filter(function(p) {
+    if (p.key !== key) return false;
+    if (p.key && p.key.indexOf('custom-') === 0) {
+      var evId = p.key.replace('custom-', '');
+      if (adminDeletedEvents.indexOf(evId) !== -1) return false;
+    }
+    return true;
+  });
+}
+
+function renderStars(rating) {
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="star ${i <= rating ? 'filled' : ''}">&#9733;</span>`;
+  }
+  return html;
+}
+
+function renderRatingNotesPhotos(key) {
+  const ratings = getTravelerData(key, 'ratings');
+  const notes = getTravelerData(key, 'notes');
+  const photos = getPhotos(key);
+  let html = '';
+
+  if (ratings.length > 0) {
+    for (const r of ratings) {
+      html += `<div class="rating-row">
+        <span class="rating-label">${escHtml(r.travelerName)}:</span>
+        <span class="stars">${renderStars(r.rating)}</span>
+      </div>`;
+    }
+  } else {
+    html += `<div class="rating-row"><span class="rating-label">Rating:</span>
+      <span class="stars">${renderStars(0)}</span></div>`;
+  }
+
+  if (notes.length > 0) {
+    html += '<div class="notes-row">';
+    for (const n of notes) {
+      html += `<div class="notes-label">${escHtml(n.travelerName)}'s note:</div>
+        <div class="notes-text">${escHtml(n.text)}</div>`;
+    }
+    html += '</div>';
+  } else {
+    html += '<div class="notes-row"><span class="notes-empty">No notes yet</span></div>';
+  }
+
+  html += '<div class="photos-row"><div class="photos-label">Photos</div>';
+  if (photos.length > 0) {
+    html += '<div class="photos-grid">';
+    for (const p of photos) {
+      const url = PHOTO_BASE + encodeURIComponent(p.filename);
+      html += `<img class="photo-thumb" src="${url}" alt="${escHtml(p.activityName || '')}" onclick="openLightbox('${url}')" loading="lazy">`;
+    }
+    html += '</div>';
+  } else {
+    html += '<span class="photos-empty">No photos yet</span>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── LIGHTBOX ─────────────────────────────────────────────────────
+function openLightbox(url) {
+  if (event) event.stopPropagation();
+  document.getElementById('lightboxImg').src = url;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ─── TAB SWITCHING ────────────────────────────────────────────────
+function switchTab(tabId, skipHash) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tabId}`).classList.add('active');
+  if (!skipHash) location.hash = tabId;
+
+  if (tabId === 'map') {
+    if (!mapInitialized) {
+      setTimeout(function() { initMap(); renderGPSTrack(); }, 80);
+      mapInitialized = true;
+    } else if (tripMap) {
+      tripMap.invalidateSize();
+    }
+  }
+  if (tabId === 'photos') {
+    renderPhotos();
+  }
+}
+
+// ─── ACTIVITY CATEGORIZATION (Northern Lights palette) ────────────
+function getActivityCategory(act) {
+  const name = act.name.toLowerCase();
+  const brief = (act.brief || '').toLowerCase();
+  const text = name + ' ' + brief;
+
+  if (text.includes('snorkel') || text.includes('silfra')) return { cat: 'Snorkeling', color: '#5EEAD4' };
+  if (text.includes('whale')) return { cat: 'Whale Watching', color: '#6366F1' };
+  if (text.includes('puffin')) return { cat: 'Puffin', color: '#FBBF24' };
+  if (text.includes('horse')) return { cat: 'Horseback', color: '#FCD34D' };
+  if (name.includes('foss') || text.includes('waterfall')) return { cat: 'Waterfall', color: '#22D3EE' };
+  if (act.hikeKm || text.includes('hike') || text.includes('cliff walk') || text.includes('loop')) return { cat: 'Hiking', color: '#4ADE80' };
+  if (text.includes('geothermal') || text.includes('hot spring') || text.includes('geyser') || text.includes('strokkur') || text.includes('lagoon') || text.includes('laugin') || text.includes('blue lagoon') || text.includes('secret lagoon')) return { cat: 'Geothermal', color: '#F43F5E' };
+  if (text.includes('glacier') || text.includes('iceberg') || text.includes('jökul') || text.includes('diamond beach')) return { cat: 'Glacier / Ice', color: '#7DD3FC' };
+  if (text.includes('cave') || text.includes('hellir') || text.includes('lava tube') || text.includes('yoda')) return { cat: 'Cave', color: '#E879F9' };
+  if (text.includes('museum') || text.includes('centre') || text.includes('center')) return { cat: 'Museum', color: '#C084FC' };
+  if (text.includes('beach') || text.includes('sand')) return { cat: 'Beach', color: '#38BDF8' };
+  if (text.includes('viewpoint') || text.includes('church') || text.includes('kirkja') || text.includes('lighthouse') || text.includes('column') || text.includes('crater') || text.includes('canyon') || text.includes('view')) return { cat: 'Viewpoint', color: '#2DD4BF' };
+  return { cat: 'Activity', color: '#FB7185' };
+}
+
+function getCustomEventCategory(cat) {
+  var map = {
+    'Waterfall': { cat: 'Waterfall', color: '#22D3EE' },
+    'Hiking': { cat: 'Hiking', color: '#4ADE80' },
+    'Snorkeling': { cat: 'Snorkeling', color: '#5EEAD4' },
+    'Whale Watching': { cat: 'Whale Watching', color: '#6366F1' },
+    'Puffins': { cat: 'Puffin', color: '#FBBF24' },
+    'Geothermal': { cat: 'Geothermal', color: '#F43F5E' },
+    'Glacier': { cat: 'Glacier / Ice', color: '#7DD3FC' },
+    'Cave': { cat: 'Cave', color: '#E879F9' },
+    'Museum': { cat: 'Museum', color: '#C084FC' },
+    'Viewpoint': { cat: 'Viewpoint', color: '#2DD4BF' },
+    'Swimming': { cat: 'Swimming', color: '#38BDF8' },
+    'Horseback': { cat: 'Horseback', color: '#FCD34D' },
+    'Food': { cat: 'Food', color: '#A3E635' },
+    'Sightseeing': { cat: 'Viewpoint', color: '#2DD4BF' }
+  };
+  return map[cat] || { cat: 'Activity', color: '#FB7185' };
+}
+
+// ─── MAP POPUP WITH SYNCED DATA ──────────────────────────────────
+function mapPopupContent(name, dayTitle, desc, duration, lat, lng, key) {
+  let html = '<div style="font-family:system-ui,sans-serif;min-width:180px;max-width:260px;">' +
+    '<div style="font-weight:700;font-size:0.9rem;margin-bottom:4px;">' + escHtml(name) + '</div>' +
+    '<div style="font-size:0.78rem;color:#888;margin-bottom:6px;">' + escHtml(dayTitle) + '</div>' +
+    '<div style="font-size:0.82rem;margin-bottom:8px;">' + escHtml(desc) + '</div>';
+
+  if (duration) html += '<div style="font-size:0.75rem;color:#aaa;margin-bottom:4px;">⏱ ' + escHtml(duration) + '</div>';
+
+  var ratings = getTravelerData(key, 'ratings');
+  if (ratings.length > 0) {
+    for (var r of ratings) {
+      html += '<div style="font-size:0.75rem;margin:2px 0;">' + escHtml(r.travelerName) + ': ';
+      for (var i = 1; i <= 5; i++) html += '<span style="color:' + (i <= r.rating ? '#fbbf24' : '#555') + '">★</span>';
+      html += '</div>';
+    }
+  }
+
+  var notes = getTravelerData(key, 'notes');
+  if (notes.length > 0) {
+    for (var n of notes) {
+      html += '<div style="font-size:0.75rem;margin:4px 0;padding:4px 6px;background:rgba(128,128,128,0.15);border-radius:4px;">' +
+        '<span style="font-weight:600;">' + escHtml(n.travelerName) + ':</span> ' + escHtml(n.text) + '</div>';
+    }
+  }
+
+  var photos = getPhotos(key);
+  if (photos.length > 0) {
+    html += '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
+    for (var p of photos) {
+      var url = PHOTO_BASE + encodeURIComponent(p.filename);
+      html += '<img src="' + url + '" style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="openLightbox(\'' + url + '\')" loading="lazy">';
+    }
+    html += '</div>';
+  }
+
+  if (lat && lng) html += '<a href="' + mapsUrl(lat, lng) + '" target="_blank" rel="noopener" style="font-size:0.75rem;display:block;margin-top:6px;">Open in Google Maps →</a>';
+  html += '</div>';
+  return html;
+}
+
+function buildGPSFallbacks() {
+  var fallbacks = {};
+  if (!syncData || !syncData.travelers) return fallbacks;
+  var allPoints = [];
+  for (var ti = 0; ti < syncData.travelers.length; ti++) {
+    var track = syncData.travelers[ti].gpsTrack || [];
+    for (var pi = 0; pi < track.length; pi++) allPoints.push(track[pi]);
+  }
+  if (allPoints.length === 0) return fallbacks;
+  var months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  var dayDateMap = {};
+  for (var di = 0; di < TRIP_DATA.length; di++) {
+    var d = TRIP_DATA[di];
+    var parts = d.date.split(' ');
+    var mon = months[parts[1]];
+    var dayNum = parseInt(parts[2]);
+    var dateKey = '2026-' + String(mon + 1).padStart(2, '0') + '-' + String(dayNum).padStart(2, '0');
+    dayDateMap[dateKey] = d.id;
+  }
+  for (var i = 0; i < allPoints.length; i++) {
+    var p = allPoints[i];
+    var dateStr = p.ts.substring(0, 10);
+    var dayId = dayDateMap[dateStr];
+    if (dayId !== undefined) {
+      fallbacks[dayId] = [p.lat, p.lng];
+    }
+  }
+  return fallbacks;
+}
+
+// ─── MAP INITIALIZATION ──────────────────────────────────────────
+function initMap() {
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const tileUrl = isDark
+    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+  tripMap = L.map('mapContainer', { zoomControl: true }).setView([64.5, -19.0], 6);
+  currentTileLayer = L.tileLayer(tileUrl, {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 18, subdomains: 'abcd'
+  }).addTo(tripMap);
+
+  const categories = {};
+  const gpsFallback = buildGPSFallbacks();
+
+  for (const day of TRIP_DATA) {
+    day.activities.forEach(function(act, idx) {
+      var lat = act.lat, lng = act.lng;
+      var key = 'd' + day.id + '-a' + idx;
+      if (!lat || !lng) {
+        var hasPhotos = syncData && syncData.photos && syncData.photos.some(function(p) { return p.key === key; });
+        var hasCheckIn = syncData && syncData.travelers && syncData.travelers.some(function(t) { return (t.checkIns || []).some(function(c) { return c.key === key; }); });
+        if ((hasPhotos || hasCheckIn) && gpsFallback[day.id]) {
+          lat = gpsFallback[day.id][0]; lng = gpsFallback[day.id][1];
+        } else { return; }
+      }
+      var cat = getActivityCategory(act);
+      if (!categories[cat.cat]) categories[cat.cat] = cat.color;
+
+      const marker = L.circleMarker([lat, lng], {
+        radius: 7, fillColor: cat.color, color: '#fff',
+        weight: 2, fillOpacity: 0.9
+      });
+      marker.bindPopup(function() { return mapPopupContent(act.name, dayLabel(day.id) + ': ' + day.title, act.brief, act.duration, lat, lng, key); }, { maxWidth: 280 });
+      marker._dayId = day.id;
+      marker._type = 'activity';
+      marker.addTo(tripMap);
+      mapMarkers.push(marker);
+    });
+
+    day.food.forEach(function(f, idx) {
+      if (!f.lat || !f.lng) return;
+      if (!categories['Food']) categories['Food'] = '#A3E635';
+      const key = 'd' + day.id + '-f' + idx;
+
+      const marker = L.circleMarker([f.lat, f.lng], {
+        radius: 5, fillColor: '#A3E635', color: '#fff',
+        weight: 1.5, fillOpacity: 0.8
+      });
+      marker.bindPopup(function() { return mapPopupContent('🍴 ' + f.name, dayLabel(day.id) + ': ' + day.title, f.desc, null, f.lat, f.lng, key); }, { maxWidth: 280 });
+      marker._dayId = day.id;
+      marker._type = 'food';
+      marker.addTo(tripMap);
+      mapMarkers.push(marker);
+    });
+
+    if (day.stay && day.stay.lat) {
+      if (!categories['Accommodation']) categories['Accommodation'] = '#818CF8';
+      const key = 'd' + day.id + '-stay';
+
+      const marker = L.circleMarker([day.stay.lat, day.stay.lng], {
+        radius: 8, fillColor: '#818CF8', color: '#fff',
+        weight: 2.5, fillOpacity: 0.9
+      });
+      marker.bindPopup(function() { return mapPopupContent('🏨 ' + day.stay.name, dayLabel(day.id) + ': ' + day.title, day.stay.address, null, day.stay.lat, day.stay.lng, key); }, { maxWidth: 280 });
+      marker._dayId = day.id;
+      marker._type = 'stay';
+      marker.addTo(tripMap);
+      mapMarkers.push(marker);
+    }
+  }
+
+  if (syncData && syncData.travelers) {
+    syncData.travelers.forEach(function(t) {
+      if (!t.customEvents) return;
+      t.customEvents.forEach(function(ev) {
+        if (!ev.latitude || !ev.longitude) return;
+        if (adminDeletedEvents.indexOf(ev.id) !== -1) return;
+        var cat = ev.activityCategory || ev.type || 'Activity';
+        var catInfo = getCustomEventCategory(cat);
+        if (!categories[catInfo.cat]) categories[catInfo.cat] = catInfo.color;
+        var marker = L.circleMarker([ev.latitude, ev.longitude], {
+          radius: 7, fillColor: catInfo.color, color: '#fff',
+          weight: 2, fillOpacity: 0.9
+        });
+        marker.bindPopup(function() { return mapPopupContent(ev.name, dayLabel(ev.dayID) + ' · ' + (t.name || 'Traveler'), ev.notes || '', null, ev.latitude, ev.longitude, ''); }, { maxWidth: 280 });
+        marker._dayId = ev.dayID;
+        marker._type = 'custom';
+        marker.addTo(tripMap);
+        mapMarkers.push(marker);
+      });
+    });
+  }
+
+  drawRoutes();
+  addMapLegend(categories);
+  renderMapDayFilter();
+}
+
+var routeLayers = [];
+
+function drawRoutes() {
+  routeLayers.forEach(function(l) { tripMap.removeLayer(l); });
+  routeLayers = [];
+
+  for (var di = 0; di < TRIP_DATA.length; di++) {
+    var day = TRIP_DATA[di];
+
+    if (day.flightRoute) {
+      var fr = day.flightRoute;
+      var arc = makeArc(fr.from, fr.to, 30);
+      var line = L.polyline(arc, {
+        color: '#fbbf24', weight: 2.5, opacity: 0.85,
+        dashArray: '6, 8', lineCap: 'round'
+      });
+      line._dayId = day.id;
+      line._routeType = 'flight';
+      line.addTo(tripMap);
+      routeLayers.push(line);
+
+      var mid = arc[Math.floor(arc.length / 2)];
+      var icon = L.divIcon({ className: 'flight-label', html: '✈ ' + fr.label, iconSize: [80, 16], iconAnchor: [40, 8] });
+      var lbl = L.marker(mid, { icon: icon, interactive: false });
+      lbl._dayId = day.id;
+      lbl._routeType = 'flight';
+      lbl.addTo(tripMap);
+      routeLayers.push(lbl);
+
+      [fr.from, fr.to].forEach(function(pt) {
+        var dot = L.circleMarker(pt, { radius: 4, fillColor: '#fbbf24', color: '#fff', weight: 1.5, fillOpacity: 0.9 });
+        dot._dayId = day.id;
+        dot._routeType = 'flight';
+        dot.addTo(tripMap);
+        routeLayers.push(dot);
+      });
+    }
+
+    if (day.km > 0) {
+      var pts = [];
+      day.activities.forEach(function(a) { if (a.lat && a.lng) pts.push([a.lat, a.lng]); });
+      day.food.forEach(function(f) { if (f.lat && f.lng) pts.push([f.lat, f.lng]); });
+      if (day.stay && day.stay.lat) pts.push([day.stay.lat, day.stay.lng]);
+      if (pts.length >= 2) {
+        var route = L.polyline(pts, {
+          color: '#94a3b8', weight: 2, opacity: 0.5,
+          dashArray: '4, 6', lineCap: 'round'
+        });
+        route._dayId = day.id;
+        route._routeType = 'drive';
+        route.addTo(tripMap);
+        routeLayers.push(route);
+      }
+    }
+  }
+}
+
+function makeArc(from, to, numPoints) {
+  var pts = [];
+  for (var i = 0; i <= numPoints; i++) {
+    var t = i / numPoints;
+    var lat = from[0] + (to[0] - from[0]) * t;
+    var lng = from[1] + (to[1] - from[1]) * t;
+    var bulge = Math.sin(t * Math.PI) * Math.abs(to[1] - from[1]) * 0.15;
+    lat += bulge;
+    pts.push([lat, lng]);
+  }
+  return pts;
+}
+
+function addMapLegend(categories) {
+  const legend = L.control({ position: 'bottomright' });
+  legend.onAdd = function() {
+    const div = L.DomUtil.create('div', 'map-legend');
+    let html = '<div class="map-legend-title">Legend</div>';
+    for (const [name, color] of Object.entries(categories)) {
+      html += '<div class="map-legend-item"><span class="map-legend-dot" style="background:' + color + '"></span>' + name + '</div>';
+    }
+    html += '<div class="map-legend-item"><span class="map-legend-line" style="background:#fbbf24;"></span> ✈ Flight</div>';
+    html += '<div class="map-legend-item"><span class="map-legend-line" style="background:#94a3b8;"></span> Driving Route</div>';
+    html += '<div class="map-legend-item"><span class="map-legend-line" style="background:linear-gradient(90deg,#60a5fa,#22d3ee);"></span> GPS Track</div>';
+    html += '<div class="map-legend-item"><img src="puffin.png" class="map-legend-puffin"> Current Position</div>';
+    div.innerHTML = html;
+    return div;
+  };
+  legend.addTo(tripMap);
+}
+
+function dayLabel(id) {
+  if (id === -1) return 'Pre-1';
+  if (id === 0) return 'Pre-2';
+  return 'Day ' + id;
+}
+
+function renderMapDayFilter() {
+  const container = document.getElementById('mapDayFilter');
+  let html = '<button class="day-filter-btn active" onclick="filterMapDay(\'all\', this)">All Days</button>';
+  for (const day of TRIP_DATA) {
+    html += '<button class="day-filter-btn" onclick="filterMapDay(' + day.id + ', this)">' + dayLabel(day.id) + '</button>';
+  }
+  container.innerHTML = html;
+}
+
+function filterMapDay(dayId, btn) {
+  activeMapDay = dayId;
+  document.querySelectorAll('.day-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const bounds = [];
+  for (const marker of mapMarkers) {
+    if (dayId === 'all' || marker._dayId === dayId) {
+      marker.setStyle({ opacity: 1, fillOpacity: 0.9 });
+      marker.setRadius(marker._type === 'stay' ? 8 : marker._type === 'food' ? 5 : 7);
+      bounds.push(marker.getLatLng());
+    } else {
+      marker.setStyle({ opacity: 0.15, fillOpacity: 0.1 });
+      marker.setRadius(3);
+    }
+  }
+
+  for (const rl of routeLayers) {
+    if (dayId === 'all' || rl._dayId === dayId) {
+      if (rl.setStyle) rl.setStyle({ opacity: rl._routeType === 'flight' ? 0.85 : 0.5 });
+      if (rl.getElement) { var el = rl.getElement(); if (el) el.style.opacity = '1'; }
+      if (rl.getLatLngs) rl.getLatLngs().forEach(function(ll) { bounds.push(ll); });
+      else if (rl.getLatLng) bounds.push(rl.getLatLng());
+    } else {
+      if (rl.setStyle) rl.setStyle({ opacity: 0.08 });
+      if (rl.getElement) { var el2 = rl.getElement(); if (el2) el2.style.opacity = '0.15'; }
+    }
+  }
+
+  if (dayId !== 'all' && bounds.length > 0) {
+    if (bounds.length === 1) {
+      tripMap.setView(bounds[0], 11);
+    } else {
+      tripMap.fitBounds(L.latLngBounds(bounds), { padding: [40, 40], maxZoom: 12 });
+    }
+  } else if (dayId === 'all') {
+    tripMap.setView([64.5, -19.0], 6);
+  }
+}
+
+// ─── GPS TRACK ──────────────────────────────────────────────────
+function renderGPSTrack() {
+  if (!tripMap || !syncData || !syncData.travelers) return;
+
+  if (gpsTrackLayer) { tripMap.removeLayer(gpsTrackLayer); gpsTrackLayer = null; }
+  if (gpsDotsLayer) { tripMap.removeLayer(gpsDotsLayer); gpsDotsLayer = null; }
+  if (puffinMarker) { tripMap.removeLayer(puffinMarker); puffinMarker = null; }
+
+  var traveler = syncData.travelers.find(function(t) { return t.name.toLowerCase() === 'chris' && t.gpsTrack && t.gpsTrack.length > 0; });
+
+  var puffinLat = null, puffinLng = null, puffinTime = null, puffinName = 'Chris';
+
+  if (traveler && traveler.gpsTrack && traveler.gpsTrack.length > 0) {
+    // Filter to only Iceland GPS points (lat > 63) to avoid the Boston→Iceland jump
+    var icelandPoints = traveler.gpsTrack.filter(function(p) { return p.lat > 63; });
+    var points = icelandPoints.map(function(p) { return [p.lat, p.lng]; });
+
+    // Show straight-line fallback immediately, then upgrade to road-snapped
+    gpsTrackLayer = L.layerGroup().addTo(tripMap);
+    var fallbackLine = L.polyline(points, {
+      color: '#60a5fa', weight: 3, opacity: 0.35,
+      dashArray: '4, 8', lineCap: 'round', lineJoin: 'round'
+    }).addTo(gpsTrackLayer);
+
+    // Snap GPS points to roads via OSRM in batches of up to 100
+    (function snapToRoads() {
+      var batchSize = 100;
+      var allSnapped = [];
+      var batches = [];
+      for (var b = 0; b < icelandPoints.length; b += batchSize) {
+        batches.push(icelandPoints.slice(b, b + batchSize));
+      }
+      // Overlap batches by 1 point for continuity
+      var processed = 0;
+      function doBatch(idx) {
+        if (idx >= batches.length) {
+          if (allSnapped.length > 1) {
+            gpsTrackLayer.removeLayer(fallbackLine);
+            L.polyline(allSnapped, {
+              color: '#60a5fa', weight: 3.5, opacity: 0.8,
+              lineCap: 'round', lineJoin: 'round'
+            }).addTo(gpsTrackLayer);
+          }
+          return;
+        }
+        var batch = batches[idx];
+        var coords = batch.map(function(p) { return p.lng + ',' + p.lat; }).join(';');
+        var radii = batch.map(function(p) { return Math.min(Math.max(Math.round(p.acc || 50), 20), 500); }).join(';');
+        var timestamps = batch.map(function(p) { return Math.round(new Date(p.ts).getTime() / 1000); }).join(';');
+        var url = 'https://router.project-osrm.org/match/v1/driving/' + coords +
+          '?overview=full&geometries=geojson&radiuses=' + radii + '&timestamps=' + timestamps;
+        fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+          if (data.matchings) {
+            for (var m = 0; m < data.matchings.length; m++) {
+              var geom = data.matchings[m].geometry.coordinates;
+              for (var g = 0; g < geom.length; g++) {
+                allSnapped.push([geom[g][1], geom[g][0]]);
+              }
+            }
+          }
+          doBatch(idx + 1);
+        }).catch(function() { doBatch(idx + 1); });
+      }
+      doBatch(0);
+    })();
+
+    gpsDotsLayer = L.layerGroup();
+    var dotInterval = Math.max(1, Math.floor(icelandPoints.length / 60));
+    for (var i = 0; i < icelandPoints.length; i += dotInterval) {
+      L.circleMarker([icelandPoints[i].lat, icelandPoints[i].lng], {
+        radius: 2.5, fillColor: '#60a5fa', color: '#60a5fa',
+        weight: 0, fillOpacity: 0.5
+      }).addTo(gpsDotsLayer);
+    }
+    gpsDotsLayer.addTo(tripMap);
+
+    var last = traveler.gpsTrack[traveler.gpsTrack.length - 1];
+    puffinLat = last.lat; puffinLng = last.lng;
+    puffinTime = last.ts ? new Date(last.ts) : null;
+    puffinName = traveler.name;
+  }
+
+  if (puffinLat === null) {
+    var chris = syncData.travelers.find(function(t) { return t.name.toLowerCase() === 'chris'; });
+    if (chris && chris.checkIns && chris.checkIns.length > 0) {
+      puffinName = chris.name;
+      var sorted = chris.checkIns.slice().sort(function(a, b) { return a.timestamp < b.timestamp ? 1 : -1; });
+      for (var ci = 0; ci < sorted.length; ci++) {
+        var ck = sorted[ci];
+        var coords = resolveKeyCoords(ck.key);
+        if (coords) { puffinLat = coords[0]; puffinLng = coords[1]; puffinTime = ck.timestamp ? new Date(ck.timestamp) : null; break; }
+      }
+    }
+  }
+
+  if (puffinLat !== null) {
+    var puffinIcon = L.divIcon({
+      className: 'puffin-glow',
+      html: '<img src="puffin.png" style="width:36px;height:36px;">',
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+      popupAnchor: [0, -20]
+    });
+    puffinMarker = L.marker([puffinLat, puffinLng], { icon: puffinIcon, zIndexOffset: 1000 }).addTo(tripMap);
+    var timeStr = puffinTime ? puffinTime.toLocaleString() : 'Unknown';
+    puffinMarker.bindPopup('<div style="text-align:center;font-family:var(--font);"><strong>' + puffinName + '\'s Location</strong><br><span style="font-size:0.8em;color:#94a3b8;">Last update: ' + timeStr + '</span></div>', { maxWidth: 200 });
+  }
+}
+
+function resolveKeyCoords(key) {
+  var m = key.match(/^d(-?\d+)/);
+  if (!m) return null;
+  var dayId = parseInt(m[1]);
+  var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
+  if (!day) return null;
+  if (key.indexOf('-a') !== -1) {
+    var ai = parseInt(key.split('-a')[1]);
+    if (!isNaN(ai) && day.activities[ai] && day.activities[ai].lat) return [day.activities[ai].lat, day.activities[ai].lng];
+  }
+  if (key.indexOf('-f') !== -1) {
+    var fi = parseInt(key.split('-f')[1]);
+    if (!isNaN(fi) && day.food[fi] && day.food[fi].lat) return [day.food[fi].lat, day.food[fi].lng];
+  }
+  if (key.indexOf('-stay') !== -1 && day.stay && day.stay.lat) return [day.stay.lat, day.stay.lng];
+  return null;
+}
+
+function setMapStyle(style, btn) {
+  if (!tripMap || style === currentMapStyle) return;
+  document.querySelectorAll('.map-style-toggle').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+
+  if (currentTileLayer) tripMap.removeLayer(currentTileLayer);
+  if (currentLabelsLayer) { tripMap.removeLayer(currentLabelsLayer); currentLabelsLayer = null; }
+  var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var url, attr;
+  if (style === 'satellite' || style === 'hybrid') {
+    url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+    attr = '© Esri, Maxar, Earthstar, USDA, USGS, AeroGRID';
+  } else {
+    url = isDark
+      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+    attr = '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>';
+  }
+  currentTileLayer = L.tileLayer(url, { attribution: attr, maxZoom: 18, subdomains: 'abcd' }).addTo(tripMap);
+  if (style === 'hybrid') {
+    currentLabelsLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+      maxZoom: 18, subdomains: 'abcd', pane: 'overlayPane'
+    }).addTo(tripMap);
+  }
+  currentMapStyle = style;
+}
+
+function whereAreTheyNow() {
+  if (!puffinMarker || !tripMap) return;
+  document.querySelectorAll('.day-filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.day-filter-btn')[0].classList.add('active');
+  activeMapDay = 'all';
+  for (const marker of mapMarkers) {
+    marker.setStyle({ opacity: 1, fillOpacity: 0.9 });
+    marker.setRadius(marker._type === 'stay' ? 8 : marker._type === 'food' ? 5 : 7);
+  }
+  for (const rl of routeLayers) {
+    if (rl.setStyle) rl.setStyle({ opacity: rl._routeType === 'flight' ? 0.85 : 0.5 });
+    if (rl.getElement) { var el = rl.getElement(); if (el) el.style.opacity = '1'; }
+  }
+  var ll = puffinMarker.getLatLng();
+  tripMap.setView(ll, 12, { animate: true });
+  setTimeout(function() { puffinMarker.openPopup(); }, 600);
+}
+
+// ─── PHOTOS TAB ──────────────────────────────────────────────────
+var photoSize = 'medium';
+
+function setPhotoSize(size, btn) {
+  photoSize = size;
+  document.querySelectorAll('.photo-size-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderPhotos();
+}
+
+function schedulePos(day, parsed) {
+  if (!day.schedule) return 999;
+  var name = '';
+  if (parsed.activity) name = parsed.activity.name;
+  else if (parsed.food) name = parsed.food.name;
+  else if (parsed.stay) return -1;
+  else if (parsed.schedule) name = parsed.schedule.title;
+  else if (parsed.customName) name = parsed.customName;
+  if (!name) return 999;
+  for (var i = 0; i < day.schedule.length; i++) {
+    if (day.schedule[i].title === name) return i;
+  }
+  return 999;
+}
+
+function renderPhotos() {
+  const container = document.getElementById('photosContainer');
+
+  if (!syncData || !syncData.photos || syncData.photos.length === 0) {
+    container.innerHTML =
+      '<div class="photos-tab-empty">' +
+      '<div class="empty-icon">&#128248;</div>' +
+      '<h3>No photos yet</h3>' +
+      '<p>Photos will appear here as the trip unfolds! They sync from the app day by day.</p>' +
+      '</div>';
+    return;
+  }
+
+  const photosByDay = {};
+  const filteredPhotos = syncData.photos.filter(function(p) {
+    if (p.key && p.key.indexOf('custom-') === 0) {
+      var evId = p.key.replace('custom-', '');
+      if (adminDeletedEvents.indexOf(evId) !== -1) return false;
+    }
+    return true;
+  });
+  for (const photo of filteredPhotos) {
+    const parsed = parsePhotoKey(photo.key, photo);
+    if (!parsed) continue;
+    const dayId = parsed.day.id;
+    if (!photosByDay[dayId]) photosByDay[dayId] = [];
+    photosByDay[dayId].push({ photo: photo, parsed: parsed });
+  }
+
+  let totalPhotos = filteredPhotos.length;
+  let html = '<div class="photos-tab-header"><h2>Trip Photos</h2>' +
+    '<div class="photo-count">' + totalPhotos + ' photo' + (totalPhotos !== 1 ? 's' : '') + ' captured</div>' +
+    '<div class="photo-size-toggle">' +
+    '<button class="photo-size-btn' + (photoSize === 'small' ? ' active' : '') + '" onclick="setPhotoSize(\'small\', this)">Small</button>' +
+    '<button class="photo-size-btn' + (photoSize === 'medium' ? ' active' : '') + '" onclick="setPhotoSize(\'medium\', this)">Medium</button>' +
+    '<button class="photo-size-btn' + (photoSize === 'large' ? ' active' : '') + '" onclick="setPhotoSize(\'large\', this)">Large</button>' +
+    '</div></div>';
+
+  var sortedDays = TRIP_DATA.slice().sort(function(a, b) { return b.id - a.id; });
+  for (const day of sortedDays) {
+    const dayPhotos = photosByDay[day.id];
+    if (!dayPhotos || dayPhotos.length === 0) continue;
+
+    dayPhotos.sort(function(a, b) {
+      return schedulePos(day, a.parsed) - schedulePos(day, b.parsed);
+    });
+
+    const photoBadge = day.id < 1 ? '&#9992;' : day.id;
+    html += '<div class="photos-day-section">' +
+      '<div class="photos-day-header">' +
+      '<div class="photos-day-badge">' + photoBadge + '</div>' +
+      '<div class="photos-day-info"><div class="photos-day-title">' + escHtml(day.title) + '</div>' +
+      '<div class="photos-day-date">' + escHtml(day.date) + ' &bull; ' + dayPhotos.length + ' photo' + (dayPhotos.length !== 1 ? 's' : '') + '</div></div></div>';
+
+    if (photoSize === 'small') {
+      html += '<div class="photos-grid-small">';
+      for (var si = 0; si < dayPhotos.length; si++) {
+        var sp = dayPhotos[si], sPhoto = sp.photo, sParsed = sp.parsed;
+        var sName = sPhoto.activityName || '';
+        if (!sName && sParsed.activity) sName = sParsed.activity.name;
+        if (!sName && sParsed.food) sName = sParsed.food.name;
+        if (!sName && sParsed.stay) sName = sParsed.stay.name;
+        if (!sName && sParsed.schedule) sName = sParsed.schedule.title;
+        var sUrl = PHOTO_BASE + encodeURIComponent(sPhoto.filename);
+        html += '<div class="photo-card-sm" onclick="openLightbox(\'' + sUrl + '\')">' +
+          '<img src="' + sUrl + '" alt="' + escHtml(sName) + '" loading="lazy" onerror="handlePhotoError(this)">' +
+          '<div class="sm-label">' + escHtml(sName) + '</div></div>';
+      }
+      html += '</div>';
+    } else if (photoSize === 'medium') {
+      html += '<div class="photos-grid-medium">';
+      for (var mi = 0; mi < dayPhotos.length; mi++) {
+        var mp = dayPhotos[mi], mPhoto = mp.photo, mParsed = mp.parsed;
+        var mName = mPhoto.activityName || '';
+        if (!mName && mParsed.activity) mName = mParsed.activity.name;
+        if (!mName && mParsed.food) mName = mParsed.food.name;
+        if (!mName && mParsed.stay) mName = mParsed.stay.name;
+        if (!mName && mParsed.schedule) mName = mParsed.schedule.title;
+        var mUrl = PHOTO_BASE + encodeURIComponent(mPhoto.filename);
+        html += '<div class="photo-card-md">' +
+          '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="openLightbox(\'' + mUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
+          '<div class="md-info"><div class="md-place">📍 ' + escHtml(mName) + '</div>' +
+          '<div class="md-day">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div></div></div>';
+      }
+      html += '</div>';
+    } else {
+      for (let i = 0; i < dayPhotos.length; i++) {
+        const item = dayPhotos[i];
+        const p = item.parsed;
+        const photo = item.photo;
+        let placeName = photo.activityName || '';
+        let lat = null, lng = null;
+
+        if (p.type === 'activity' && p.activity) {
+          placeName = placeName || p.activity.name;
+          lat = p.activity.lat; lng = p.activity.lng;
+        } else if (p.type === 'food' && p.food) {
+          placeName = placeName || p.food.name;
+          lat = p.food.lat; lng = p.food.lng;
+        } else if (p.type === 'stay' && p.stay) {
+          placeName = placeName || p.stay.name;
+          lat = p.stay.lat; lng = p.stay.lng;
+        } else if (p.type === 'schedule' && p.schedule) {
+          placeName = placeName || p.schedule.title;
+        } else if (p.type === 'custom') {
+          placeName = placeName || p.customName;
+        }
+
+        const photoUrl = PHOTO_BASE + encodeURIComponent(photo.filename);
+        const traveler = findTravelerForPhoto(photo);
+
+        html += '<div class="photo-card" style="animation-delay:' + (i * 0.08) + 's">' +
+          '<div class="photo-card-header">' +
+          '<span class="photo-card-place-icon">&#128205;</span>' +
+          '<span class="photo-card-place">' + escHtml(placeName) + '</span>' +
+          (traveler ? '<span class="photo-card-traveler">&#128248; ' + escHtml(traveler) + '</span>' : '') +
+          '</div>' +
+          '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="openLightbox(\'' + photoUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
+          '<div class="photo-card-footer">' +
+          miniMapHtml(lat, lng) +
+          '<div class="photo-card-meta">' +
+          '<div class="meta-line">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div>' +
+          (lat ? '<a href="' + mapsUrl(lat, lng) + '" target="_blank" rel="noopener">View on Google Maps &rarr;</a>' : '') +
+          '</div></div></div>';
+      }
+    }
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+function parsePhotoKey(key, photo) {
+  var m = key.match(/^d(-?\d+)-(a(\d+)|f(\d+)|s(\d+)|stay)$/);
+  if (m) {
+    var dayId = parseInt(m[1]);
+    var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
+    if (!day) return null;
+    if (m[3] !== undefined) return { day: day, activity: day.activities[parseInt(m[3])], type: 'activity' };
+    if (m[4] !== undefined) return { day: day, food: day.food[parseInt(m[4])], type: 'food' };
+    if (m[5] !== undefined) return { day: day, schedule: day.schedule ? day.schedule[parseInt(m[5])] : null, type: 'schedule' };
+    return { day: day, stay: day.stay, type: 'stay' };
+  }
+  if (key.startsWith('custom-') && photo) {
+    var cDay = TRIP_DATA.find(function(d) { return d.id === photo.dayID; });
+    if (!cDay) cDay = { id: photo.dayID, title: 'Day ' + photo.dayID, date: '' };
+    return { day: cDay, type: 'custom', customName: photo.activityName || 'Custom Event' };
+  }
+  return null;
+}
+
+function findTravelerForPhoto(photo) {
+  if (!syncData || !syncData.travelers) return null;
+  if (photo.travelerID) {
+    var t = syncData.travelers.find(function(tr) { return tr.id === photo.travelerID; });
+    return t ? t.name : null;
+  }
+  return null;
+}
+
+function miniMapHtml(lat, lng) {
+  if (!lat || !lng) return '';
+  var z = 9;
+  var n = Math.pow(2, z);
+  var latRad = lat * Math.PI / 180;
+
+  var fx = (lng + 180) / 360 * n;
+  var fy = (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n;
+
+  var tx = Math.floor(fx);
+  var ty = Math.floor(fy);
+  var px = (fx - tx) * 256;
+  var py = (fy - ty) * 256;
+
+  var sx = px < 128 ? tx - 1 : tx;
+  var sy = py < 128 ? ty - 1 : ty;
+
+  var gpx = (fx - sx) * 256;
+  var gpy = (fy - sy) * 256;
+
+  var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var style = isDark ? 'dark_all' : 'rastertiles/voyager';
+
+  var tiles = '';
+  for (var dy = 0; dy < 2; dy++) {
+    for (var dx = 0; dx < 2; dx++) {
+      var l = Math.round(80 - gpx + dx * 256);
+      var t = Math.round(50 - gpy + dy * 256);
+      tiles += '<img src="https://a.basemaps.cartocdn.com/' + style + '/' + z + '/' + (sx+dx) + '/' + (sy+dy) + '.png" style="position:absolute;left:' + l + 'px;top:' + t + 'px;width:256px;height:256px;" loading="lazy" alt="">';
+    }
+  }
+
+  return '<div class="photo-minimap">' + tiles + '<div class="minimap-pin"></div></div>';
+}
+
+// ─── RENDER PROGRESS ──────────────────────────────────────────────
+function renderProgress() {
+  const current = getCurrentDayNum();
+  let pct, label;
+  if (current < -1) { pct = 0; label = 'Trip starts Jul 11'; }
+  else if (current > 10) { pct = 100; label = 'Trip complete!'; }
+  else {
+    const idx = TRIP_DATA.findIndex(function(d) { return d.id === current; });
+    pct = idx >= 0 ? ((idx + 1) / TRIP_DATA.length) * 100 : 0;
+    if (current < 1) label = (current === -1 ? 'Travel to Boston' : 'Travel to Iceland');
+    else label = 'Day ' + current + ' of 10';
+  }
+
+  document.getElementById('progressSection').innerHTML =
+    '<div class="progress-label"><span>' + label + '</span><span>' + Math.round(pct) + '%</span></div>' +
+    '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>';
+}
+
+// ─── RENDER DAYS ──────────────────────────────────────────────────
+function renderDays() {
+  const container = document.getElementById('daysContainer');
+  const currentDay = getCurrentDayNum();
+  let html = '';
+
+  for (const day of TRIP_DATA) {
+    const status = getDayStatus(day.id);
+    const expanded = status === 'today';
+    const bookedCount = day.activities.filter(function(a) { return a.booked; }).length;
+    const hikeActivities = day.activities.filter(function(a) { return a.hikeKm; });
+
+    let badges = '';
+    if (bookedCount > 0) badges += '<span class="badge badge-green">&#10003; ' + bookedCount + ' booked</span>';
+    if (hikeActivities.length > 0) {
+      const totalKm = hikeActivities.reduce(function(s, a) { return s + a.hikeKm; }, 0);
+      badges += '<span class="badge badge-orange">&#129406; ' + totalKm + ' km</span>';
+    }
+    if (day.match) badges += '<span class="badge badge-accent">&#9917; Match</span>';
+
+    const badgeText = day.id < 1 ? '&#9992;' : day.id;
+    const kmText = day.km > 0 ? '<span>&#8226; ~' + day.km + ' km</span>' : '<span>&#8226; &#9992; Flight</span>';
+
+    html += '<div class="day-card" id="day-' + day.id + '">' +
+      '<div class="day-header" onclick="toggleDay(' + day.id + ')">' +
+      '<div class="day-badge ' + status + '">' + badgeText + '</div>' +
+      '<div class="day-info"><div class="day-title">' + escHtml(day.title) + '</div>' +
+      '<div class="day-meta"><span>' + day.date + '</span>' + kmText + '</div></div>' +
+      '<div class="day-badges">' + badges + '</div>' +
+      '<span class="chevron ' + (expanded ? 'open' : '') + '" id="chev-' + day.id + '">&#9654;</span></div>' +
+      '<div class="day-body ' + (expanded ? 'open' : '') + '" id="body-' + day.id + '">' +
+      renderDayBody(day) + '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+function renderDayBody(day) {
+  const routeIcon = day.km > 0 ? '&#128663;' : '&#9992;&#65039;';
+  const routeKm = day.km > 0 ? ' &bull; ~' + day.km + ' km' : '';
+  let html = '<div class="route-bar"><span class="icon">' + routeIcon + '</span><span>' + escHtml(day.route) + routeKm + '</span></div>';
+
+  if (day.match) {
+    html += '<div class="match-bar"><span class="ball">&#9917;</span>' +
+      '<span class="info">' + escHtml(day.match.event) + '</span>' +
+      '<span class="time">' + escHtml(day.match.time) + ' &mdash; ' + escHtml(day.match.note) + '</span></div>';
+  }
+
+  const customEvents = getCustomEventsForDay(day.id);
+  if (customEvents.length > 0) {
+    html += '<div class="section-title">&#127775; Custom Events</div>';
+    for (const ce of customEvents) {
+      html += '<div class="custom-event">' +
+        '<span class="ce-icon">' + (ce.type === 'Activity' ? '&#127939;' : ce.type === 'Food' ? '&#127860;' : '&#128204;') + '</span>' +
+        '<span class="ce-name">' + escHtml(ce.name) + '</span>' +
+        (ce.notes ? '<span class="ce-notes">' + escHtml(ce.notes) + '</span>' : '') +
+        '<span style="font-size:0.7rem;color:var(--text3)">' + escHtml(ce.travelerName) + '</span></div>';
+    }
+  }
+
+  var effectiveActs = getEffectiveActivities(day);
+  html += '<div class="section-title">&#128205; Activities (' + effectiveActs.length + ')</div>';
+  effectiveActs.forEach(function(item) {
+    html += renderActivityCard(item.act, item.key);
+  });
+
+  var effectiveFood = getEffectiveFood(day);
+  html += '<div class="section-title">&#127860; Food & Drink (' + effectiveFood.length + ')</div>';
+  effectiveFood.forEach(function(item) {
+    html += renderFoodCard(item.food, item.key);
+  });
+
+  var scheduleInteractions = getScheduleInteractions(day.id);
+  if (scheduleInteractions.length > 0) {
+    html += '<div class="section-title">&#9989; Your Check-ins</div>';
+    for (var sci = 0; sci < scheduleInteractions.length; sci++) {
+      var si = scheduleInteractions[sci];
+      html += '<div class="activity-card" onclick="toggleActivity(this)">' +
+        '<div class="act-top"><div class="act-info">' +
+        '<div class="act-name">' + escHtml(si.itemName) + ' <span class="badge badge-green">&#10003; Checked in</span></div>' +
+        '<div class="act-meta">' + escHtml(si.travelerName) + ' &bull; ' + new Date(si.timestamp).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"}) + '</div>' +
+        '</div><span class="act-chevron">&#9654;</span></div>' +
+        '<div class="act-details">' + renderRatingNotesPhotos(si.key) + '</div></div>';
+    }
+  }
+
+  if (day.stay) {
+    const stayMap = mapsUrl(day.stay.lat, day.stay.lng);
+    html += '<div class="section-title">&#127968; Accommodation</div>' +
+      '<div class="stay-card" onclick="toggleStay(this)"><div class="stay-icon">&#127968;</div><div class="stay-info">' +
+      '<h4>' + escHtml(day.stay.name) +
+      (stayMap ? ' <a href="' + stayMap + '" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="display:inline-flex;width:22px;height:22px;font-size:0.65rem;margin-left:6px;vertical-align:middle;">&#128205;</a>' : '') +
+      '</h4><div class="addr">' + escHtml(day.stay.address) + '</div>' +
+      (day.stay.checkin ? '<div class="checkin">Check-in: ' + escHtml(day.stay.checkin) + '</div>' : '') +
+      '<div class="stay-details">' + renderRatingNotesPhotos('d' + day.id + '-stay') + '</div></div></div>';
+  } else if (day.id === 10) {
+    html += '<div class="section-title">&#9992;&#65039; Flying home!</div>';
+  } else if (day.id < 1) {
+    html += '<div class="section-title">&#9992;&#65039; Travel day — no accommodation</div>';
+  }
+  return html;
+}
+
+function renderActivityCard(act, key) {
+  const mapLink = mapsUrl(act.lat, act.lng);
+  let metaParts = [];
+  if (act.duration) metaParts.push(act.duration);
+  if (act.hikeKm) metaParts.push('<span class="hike-tag badge badge-orange">&#129406; ' + act.hikeKm + ' km hike</span>');
+
+  let detailsHtml = '';
+  if (act.details) detailsHtml += '<p>' + escHtml(act.details) + '</p>';
+  if (act.tips && act.tips.length > 0) {
+    detailsHtml += '<div class="callout callout-tips"><div class="callout-title">&#128161; Tips</div><ul>' +
+      act.tips.map(function(t) { return '<li>' + escHtml(t) + '</li>'; }).join('') + '</ul></div>';
+  }
+  if (act.trivia) {
+    detailsHtml += '<div class="callout callout-trivia"><div class="callout-title">&#129504; Fun Fact</div>' + escHtml(act.trivia) + '</div>';
+  }
+  if (act.safety) {
+    detailsHtml += '<div class="callout callout-safety"><div class="callout-title">&#9888;&#65039; Safety Warning</div>' + escHtml(act.safety) + '</div>';
+  }
+  detailsHtml += renderRatingNotesPhotos(key);
+
+  return '<div class="activity-card" onclick="toggleActivity(this)">' +
+    '<div class="act-top"><div class="act-info">' +
+    '<div class="act-name">' + escHtml(act.name) + (act.booked ? ' <span class="badge badge-green">&#10003; Booked</span>' : '') + '</div>' +
+    '<div class="act-meta">' + metaParts.join(' &bull; ') + '</div>' +
+    '<div class="act-brief">' + escHtml(act.brief) + '</div></div>' +
+    '<div class="act-links">' +
+    (mapLink ? '<a href="' + mapLink + '" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" title="Open in Google Maps">&#128205;</a>' : '') +
+    '<span class="act-chevron">&#9654;</span></div></div>' +
+    '<div class="act-details">' + detailsHtml + '</div></div>';
+}
+
+function renderFoodCard(f, key) {
+  const mapLink = mapsUrl(f.lat, f.lng);
+  return '<div class="food-card" onclick="toggleFood(this)">' +
+    '<span class="food-icon">&#127860;</span><div class="food-info">' +
+    '<div class="food-name">' + escHtml(f.name) +
+    (f.gf ? ' <span class="gf-tag">GF OK</span>' : '') +
+    (mapLink ? ' <a href="' + mapLink + '" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="width:22px;height:22px;font-size:0.6rem;">&#128205;</a>' : '') +
+    '</div><div class="food-desc">' + escHtml(f.desc) + '</div>' +
+    '<div class="food-details">' + renderRatingNotesPhotos(key) + '</div></div></div>';
+}
+
+function getScheduleInteractions(dayId) {
+  if (!syncData || !syncData.travelers) return [];
+  var seen = {};
+  var results = [];
+  var prefix = 'd' + dayId + '-s';
+  var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
+  for (var ti = 0; ti < syncData.travelers.length; ti++) {
+    var t = syncData.travelers[ti];
+    var checkIns = t.checkIns || [];
+    for (var ci = 0; ci < checkIns.length; ci++) {
+      var c = checkIns[ci];
+      if (c.key.indexOf(prefix) === 0 && !seen[c.key]) {
+        seen[c.key] = true;
+        var name = c.itemName;
+        if (name === c.key && day && day.schedule) {
+          var sm = c.key.match(/^d-?\d+-s(\d+)$/);
+          if (sm) { var si = parseInt(sm[1]); if (si < day.schedule.length) name = day.schedule[si].title; }
+        }
+        results.push({ key: c.key, itemName: name, timestamp: c.timestamp, travelerName: t.name });
+      }
+    }
+  }
+  return results;
+}
+
+function getCustomEventsForDay(dayId) {
+  if (!syncData || !syncData.travelers) return [];
+  const events = [];
+  for (const t of syncData.travelers) {
+    for (const ce of (t.customEvents || [])) {
+      if (ce.dayID === dayId && adminDeletedEvents.indexOf(ce.id) === -1) {
+        events.push({ ...ce, travelerName: t.name });
+      }
+    }
+  }
+  return events;
+}
+
+// ─── LOCAL EDITS → EFFECTIVE DATA ────────────────────────────────
+function getLocalEdits() {
+  return (syncData && syncData.localEdits) || {};
+}
+
+function getEffectiveActivities(day) {
+  var edits = getLocalEdits();
+  var results = [];
+
+  day.activities.forEach(function(act, idx) {
+    var key = 'd' + day.id + '-a' + idx;
+    var edit = edits[key];
+    if (edit && edit.hidden) return;
+    if (edit && edit.movedToDayID != null && edit.movedToDayID !== day.id) return;
+    var effective = Object.assign({}, act);
+    if (edit) {
+      if (edit.name) effective.name = edit.name;
+      if (edit.duration) effective.duration = edit.duration;
+      if (edit.brief) effective.brief = edit.brief;
+    }
+    var order = (edit && edit.sortOrder != null) ? edit.sortOrder : idx * 2;
+    results.push({ act: effective, key: key, order: order });
+  });
+
+  TRIP_DATA.forEach(function(otherDay) {
+    if (otherDay.id === day.id) return;
+    otherDay.activities.forEach(function(act, idx) {
+      var key = 'd' + otherDay.id + '-a' + idx;
+      var edit = edits[key];
+      if (!edit || edit.movedToDayID !== day.id || edit.hidden) return;
+      var effective = Object.assign({}, act);
+      if (edit.name) effective.name = edit.name;
+      if (edit.duration) effective.duration = edit.duration;
+      if (edit.brief) effective.brief = edit.brief;
+      var order = (edit.sortOrder != null) ? edit.sortOrder : results.length * 2;
+      results.push({ act: effective, key: key, order: order });
+    });
+  });
+
+  results.sort(function(a, b) { return a.order - b.order; });
+  return results;
+}
+
+function getEffectiveFood(day) {
+  var edits = getLocalEdits();
+  var results = [];
+
+  day.food.forEach(function(f, idx) {
+    var key = 'd' + day.id + '-f' + idx;
+    var edit = edits[key];
+    if (edit && edit.hidden) return;
+    if (edit && edit.movedToDayID != null && edit.movedToDayID !== day.id) return;
+    var effective = Object.assign({}, f);
+    if (edit) {
+      if (edit.name) effective.name = edit.name;
+      if (edit.desc) effective.desc = edit.desc;
+    }
+    var order = (edit && edit.sortOrder != null) ? edit.sortOrder : idx * 2;
+    results.push({ food: effective, key: key, order: order });
+  });
+
+  TRIP_DATA.forEach(function(otherDay) {
+    if (otherDay.id === day.id) return;
+    otherDay.food.forEach(function(f, idx) {
+      var key = 'd' + otherDay.id + '-f' + idx;
+      var edit = edits[key];
+      if (!edit || edit.movedToDayID !== day.id || edit.hidden) return;
+      var effective = Object.assign({}, f);
+      if (edit.name) effective.name = edit.name;
+      if (edit.desc) effective.desc = edit.desc;
+      var order = (edit.sortOrder != null) ? edit.sortOrder : results.length * 2;
+      results.push({ food: effective, key: key, order: order });
+    });
+  });
+
+  results.sort(function(a, b) { return a.order - b.order; });
+  return results;
+}
+
+// ─── TOGGLES ──────────────────────────────────────────────────────
+function toggleDay(dayId) {
+  document.getElementById('body-' + dayId).classList.toggle('open');
+  document.getElementById('chev-' + dayId).classList.toggle('open');
+}
+function toggleActivity(el) { el.classList.toggle('expanded'); }
+function toggleFood(el) { el.classList.toggle('expanded'); }
+function toggleStay(el) { el.classList.toggle('expanded'); }
+
+// ─── SYNC FETCH ───────────────────────────────────────────────────
+async function fetchSyncData() {
+  try {
+    const [resp, delResp] = await Promise.all([
+      fetch(SYNC_URL + '?t=' + Date.now()),
+      fetch(DEL_EVENTS_URL + '?t=' + Date.now()).catch(function() { return { ok: false }; })
+    ]);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    syncData = await resp.json();
+    if (delResp.ok) {
+      try { adminDeletedEvents = await delResp.json(); } catch(e) { adminDeletedEvents = []; }
+    }
+    lastFetchTime = new Date();
+    updateSyncStatus(true);
+    render();
+  } catch (e) {
+    console.warn('Sync fetch failed:', e);
+    updateSyncStatus(false);
+  }
+}
+
+function updateSyncStatus(ok) {
+  const el = document.getElementById('syncStatus');
+  if (ok && syncData && syncData.lastUpdated) {
+    el.innerHTML = '<span class="dot live"></span> Synced ' + timeSince(new Date(syncData.lastUpdated)) + ' ago';
+  } else if (ok) {
+    el.innerHTML = '<span class="dot live"></span> Connected (no data yet)';
+  } else {
+    el.innerHTML = '<span class="dot stale"></span> Offline &mdash; showing static data';
+  }
+}
+
+function timeSince(date) {
+  const s = Math.floor((new Date() - date) / 1000);
+  if (s < 60) return s + 's';
+  if (s < 3600) return Math.floor(s / 60) + 'm';
+  if (s < 86400) return Math.floor(s / 3600) + 'h';
+  return Math.floor(s / 86400) + 'd';
+}
+
+// ─── RENDER ALL ───────────────────────────────────────────────────
+function render() {
+  renderProgress();
+  renderDays();
+  if (mapInitialized) renderGPSTrack();
+  if (document.getElementById('panel-photos').classList.contains('active')) {
+    renderPhotos();
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────
+render();
+fetchSyncData();
+setInterval(fetchSyncData, 5 * 60 * 1000);
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+var initHash = location.hash.replace('#', '');
+if (['itinerary', 'map', 'photos'].indexOf(initHash) !== -1) switchTab(initHash, true);
+window.addEventListener('hashchange', function() {
+  var h = location.hash.replace('#', '');
+  if (['itinerary', 'map', 'photos'].indexOf(h) !== -1) switchTab(h, true);
+});
+</script>
+</body>
+</html>
