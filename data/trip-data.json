@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-16T14:46:41Z",
+  "lastUpdated" : "2026-07-16T14:48:01Z",
   "localEdits" : {
     "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6" : {
       "sortOrder" : -2
@@ -1373,6 +1373,13 @@
       "timestamp" : "2026-07-16T14:14:34Z"
     },
     {
+      "activityName" : "2 More",
+      "dayID" : 4,
+      "filename" : "BECED33B-E265-4DC7-A65C-4A65AE6AD7B5.jpg",
+      "key" : "custom-28600F5C-1A53-466D-AAF0-491C85652217",
+      "timestamp" : "2026-07-16T14:47:51Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -1537,6 +1544,12 @@
   "travelers" : [
     {
       "checkIns" : [
+        {
+          "dayID" : 0,
+          "itemName" : "custom-28600F5C-1A53-466D-AAF0-491C85652217",
+          "key" : "custom-28600F5C-1A53-466D-AAF0-491C85652217",
+          "timestamp" : "2026-07-16T14:47:51Z"
+        },
         {
           "dayID" : 0,
           "itemName" : "custom-46297DCA-52A7-4E84-8125-15A7B83D3030",
@@ -2010,19 +2023,30 @@
           "name" : "Þakgil–Mælifell hike",
           "notes" : "",
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Waterfall",
+          "createdBy" : "Chris",
+          "dayID" : 4,
+          "id" : "28600F5C-1A53-466D-AAF0-491C85652217",
+          "latitude" : 63.53833289757515,
+          "longitude" : -18.929779208604995,
+          "name" : "2 More",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
-        "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
-        "9AFBE53F-E79A-4105-9E91-89F7A2AF3B1A",
-        "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
-        "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
-        "DA7494B6-485B-406D-8AA3-68DD6D0B24CE",
-        "54A846B9-6D87-40D2-995B-E807631D15DF",
         "72F18AEC-99EF-4D55-B498-448DE505E501",
-        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
+        "9AFBE53F-E79A-4105-9E91-89F7A2AF3B1A",
+        "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
+        "54A846B9-6D87-40D2-995B-E807631D15DF",
+        "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
+        "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0",
+        "A1FA3647-B0AE-4B53-B589-B9F10A0B035D",
+        "DA7494B6-485B-406D-8AA3-68DD6D0B24CE"
       ],
-      "gpsPointCount" : 1112,
+      "gpsPointCount" : 1117,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -5355,10 +5379,28 @@
           "ts" : "2026-07-16T14:19:05Z"
         },
         {
-          "acc" : 3.612352333916327,
-          "lat" : 63.53832837485942,
-          "lng" : -18.929794963826758,
-          "ts" : "2026-07-16T14:46:40Z"
+          "acc" : 4.747873923522548,
+          "lat" : 63.53833430143691,
+          "lng" : -18.929795124048745,
+          "ts" : "2026-07-16T14:47:01Z"
+        },
+        {
+          "acc" : 59.695014,
+          "lat" : 63.53833430143691,
+          "lng" : -18.929795124048745,
+          "ts" : "2026-07-16T14:47:01Z"
+        },
+        {
+          "acc" : 59.695014,
+          "lat" : 63.53833430143691,
+          "lng" : -18.929795124048745,
+          "ts" : "2026-07-16T14:47:11Z"
+        },
+        {
+          "acc" : 102.86263043748983,
+          "lat" : 63.53833289757515,
+          "lng" : -18.929779208604995,
+          "ts" : "2026-07-16T14:47:11Z"
         }
       ],
       "hikes" : [
@@ -5412,6 +5454,7 @@
         },
         {
           "distanceKm" : 0.33,
+          "endTime" : "2026-07-16T14:47:10Z",
           "name" : "Þakgil–Mælifell hike",
           "pointCount" : 5,
           "source" : "gps",
@@ -5425,7 +5468,7 @@
           "startTime" : "2026-07-16T12:47:24Z"
         }
       ],
-      "hikesCompleted" : 6,
+      "hikesCompleted" : 7,
       "name" : "Chris",
       "notes" : [
         {
@@ -5708,7 +5751,7 @@
         }
       ],
       "totalHikeDistanceKm" : 16.3,
-      "waterfallsVisited" : 8
+      "waterfallsVisited" : 9
     },
     {
       "checkIns" : [
