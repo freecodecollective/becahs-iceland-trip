@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-16T21:38:05Z",
+  "lastUpdated" : "2026-07-16T21:41:40Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "name" : "2 More waterfalls ",
@@ -616,15 +616,30 @@
       "name" : "Dinner at Black Crust Pizza ",
       "sortOrder" : 30
     },
+    "d6-a4" : {
+
+    },
+    "d6-f1" : {
+
+    },
     "d7-a0" : {
       "name" : "1DC-3 plane wreck Sólheimasandur",
       "sortOrder" : -1
+    },
+    "d7-a3" : {
+
     },
     "d7-f0" : {
       "desc" : "Relaxed start at Stracta2",
       "movedToDayID" : 8,
       "name" : "Breakfast2",
       "sortOrder" : 3
+    },
+    "d8-a3" : {
+
+    },
+    "d8-a4" : {
+
     },
     "d8-f0" : {
       "movedToDayID" : 7,
