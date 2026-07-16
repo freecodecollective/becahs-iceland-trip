@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-16T13:30:18Z",
+  "lastUpdated" : "2026-07-16T13:41:21Z",
   "localEdits" : {
     "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6" : {
       "sortOrder" : -2
@@ -1957,7 +1957,7 @@
         "hike-A81B1EE0-ED1E-4E9F-BDF7-E18C21F863EE",
         "9AFBE53F-E79A-4105-9E91-89F7A2AF3B1A"
       ],
-      "gpsPointCount" : 1091,
+      "gpsPointCount" : 1094,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -5234,6 +5234,12 @@
           "lat" : 63.53942246367129,
           "lng" : -18.903286403962166,
           "ts" : "2026-07-16T13:30:17Z"
+        },
+        {
+          "acc" : 154.987191014322,
+          "lat" : 63.54172591648271,
+          "lng" : -18.908403168790976,
+          "ts" : "2026-07-16T13:41:20Z"
         }
       ],
       "hikes" : [
