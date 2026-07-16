@@ -478,18 +478,6 @@ body {
   padding: 2px 8px; border-radius: 10px; white-space: nowrap;
 }
 
-.photo-card-notes {
-  padding: 0 16px 8px; font-size: 0.8rem;
-}
-.photo-card-note {
-  display: flex; align-items: baseline; gap: 6px; margin-top: 4px;
-}
-.photo-card-note-author {
-  font-weight: 600; font-size: 0.72rem; color: var(--text3); white-space: nowrap;
-}
-.photo-card-note-text {
-  font-style: italic; color: var(--text2); font-size: 0.8rem;
-}
 .photo-card-img {
   width: 100%; max-height: 560px; object-fit: contain;
   background: var(--bg2); cursor: pointer; display: block;
@@ -519,9 +507,6 @@ body {
 .photo-card-meta .meta-line { font-size: 0.8rem; color: var(--text2); margin-bottom: 4px; }
 .photo-card-meta a { font-size: 0.75rem; color: var(--accent); text-decoration: none; }
 .photo-card-meta a:hover { text-decoration: underline; }
-.video-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; pointer-events: none; display: flex; align-items: center; gap: 4px; }
-.video-badge::before { content: '▶'; font-size: 0.6rem; }
-.photo-card-sm, .photo-card-md, .photo-card { position: relative; }
 
 /* Photo lightbox */
 .lightbox {
@@ -531,7 +516,6 @@ body {
 }
 .lightbox.open { display: flex; }
 .lightbox img { max-width: 92%; max-height: 92%; object-fit: contain; border-radius: 8px; }
-.lightbox video { max-width: 92%; max-height: 92%; border-radius: 8px; }
 
 /* Responsive */
 @media (max-width: 600px) {
@@ -571,16 +555,9 @@ body {
 @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
 
 .photo-card { opacity: 0; transform: translateY(10px); animation: slideIn 0.4s ease forwards; }
-
-/* Wallpaper */
-#wallpaperCanvas {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: -1; pointer-events: none;
-}
 </style>
 </head>
 <body>
-<canvas id="wallpaperCanvas"></canvas>
 <div class="app">
   <div class="header">
     <div class="flag">&#127470;&#127480;</div>
@@ -622,7 +599,6 @@ body {
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightboxImg" src="" alt="Photo">
-  <video id="lightboxVideo" src="" controls autoplay style="display:none" onclick="event.stopPropagation()"></video>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -1066,12 +1042,8 @@ let currentMapStyle = 'standard';
 const TRIP_START = new Date('2026-07-11T00:00:00');
 const TRIP_END = new Date('2026-07-22T23:59:59');
 const PHOTO_BASE = 'https://raw.githubusercontent.com/freecodecollective/iceland-bound/main/data/photos/';
-const GH_TOKEN = atob(['Z2hwX3N1SERVT','TFLRkFCQk5Dcm9D','U1RtVjJEU3Z6U3V','NUDJKRlBzcQ=='].join(''));
-const API_BASE = 'https://api.github.com/repos/freecodecollective/iceland-bound/contents/data';
-const SYNC_URL = API_BASE + '/trip-data.json?ref=main';
-const DEL_EVENTS_URL = API_BASE + '/admin-deleted-events.json?ref=main';
-const SCHED_ADMIN_URL = API_BASE + '/schedule-admin.json?ref=main';
-var scheduleAdmin = null;
+const SYNC_URL = 'https://raw.githubusercontent.com/freecodecollective/iceland-bound/main/data/trip-data.json';
+const DEL_EVENTS_URL = 'https://raw.githubusercontent.com/freecodecollective/iceland-bound/main/data/admin-deleted-events.json';
 
 // ─── HELPERS ──────────────────────────────────────────────────────
 function handlePhotoError(el) {
@@ -1164,7 +1136,7 @@ function renderRatingNotesPhotos(key) {
     html += '<div class="photos-grid">';
     for (const p of photos) {
       const url = PHOTO_BASE + encodeURIComponent(p.filename);
-      html += `<img class="photo-thumb" src="${url}" alt="${escHtml(p.activityName || '')}" onclick="${lightboxCall(url, p)}" loading="lazy">`;
+      html += `<img class="photo-thumb" src="${url}" alt="${escHtml(p.activityName || '')}" onclick="openLightbox('${url}')" loading="lazy">`;
     }
     html += '</div>';
   } else {
@@ -1180,27 +1152,13 @@ function escHtml(s) {
 }
 
 // ─── LIGHTBOX ─────────────────────────────────────────────────────
-function openLightbox(url, videoUrl) {
+function openLightbox(url) {
   if (event) event.stopPropagation();
-  var img = document.getElementById('lightboxImg');
-  var vid = document.getElementById('lightboxVideo');
-  if (videoUrl) {
-    img.style.display = 'none';
-    vid.src = videoUrl;
-    vid.style.display = 'block';
-  } else {
-    vid.style.display = 'none';
-    vid.pause(); vid.src = '';
-    img.src = url;
-    img.style.display = 'block';
-  }
+  document.getElementById('lightboxImg').src = url;
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
-  var vid = document.getElementById('lightboxVideo');
-  vid.pause(); vid.src = ''; vid.style.display = 'none';
-  document.getElementById('lightboxImg').style.display = 'block';
 }
 
 // ─── TAB SWITCHING ────────────────────────────────────────────────
@@ -1296,7 +1254,7 @@ function mapPopupContent(name, dayTitle, desc, duration, lat, lng, key) {
     html += '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
     for (var p of photos) {
       var url = PHOTO_BASE + encodeURIComponent(p.filename);
-      html += '<img src="' + url + '" style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="' + lightboxCall(url, p) + '" loading="lazy">';
+      html += '<img src="' + url + '" style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;" onclick="openLightbox(\'' + url + '\')" loading="lazy">';
     }
     html += '</div>';
   }
@@ -1353,9 +1311,9 @@ function initMap() {
   const gpsFallback = buildGPSFallbacks();
 
   for (const day of TRIP_DATA) {
-    getEffectiveActivities(day).forEach(function(item) {
-      var act = item.act, key = item.key;
+    day.activities.forEach(function(act, idx) {
       var lat = act.lat, lng = act.lng;
+      var key = 'd' + day.id + '-a' + idx;
       if (!lat || !lng) {
         var hasPhotos = syncData && syncData.photos && syncData.photos.some(function(p) { return p.key === key; });
         var hasCheckIn = syncData && syncData.travelers && syncData.travelers.some(function(t) { return (t.checkIns || []).some(function(c) { return c.key === key; }); });
@@ -1595,72 +1553,38 @@ function renderGPSTrack() {
   var puffinLat = null, puffinLng = null, puffinTime = null, puffinName = 'Chris';
 
   if (traveler && traveler.gpsTrack && traveler.gpsTrack.length > 0) {
-    var filtered = traveler.gpsTrack.filter(function(p) { return !p.acc || p.acc < 200; });
-    if (filtered.length < 2) filtered = traveler.gpsTrack;
-    var rawPoints = filtered.map(function(p) { return [p.lat, p.lng]; });
-    var last = filtered[filtered.length - 1];
+    var points = traveler.gpsTrack.map(function(p) { return [p.lat, p.lng]; });
+
+    gpsTrackLayer = L.polyline(points, {
+      color: '#60a5fa', weight: 3, opacity: 0.7,
+      dashArray: '8, 6', lineCap: 'round', lineJoin: 'round'
+    }).addTo(tripMap);
+
+    gpsDotsLayer = L.layerGroup();
+    var dotInterval = Math.max(1, Math.floor(traveler.gpsTrack.length / 60));
+    for (var i = 0; i < traveler.gpsTrack.length; i += dotInterval) {
+      L.circleMarker([traveler.gpsTrack[i].lat, traveler.gpsTrack[i].lng], {
+        radius: 2.5, fillColor: '#60a5fa', color: '#60a5fa',
+        weight: 0, fillOpacity: 0.5
+      }).addTo(gpsDotsLayer);
+    }
+    gpsDotsLayer.addTo(tripMap);
+
+    var last = traveler.gpsTrack[traveler.gpsTrack.length - 1];
     puffinLat = last.lat; puffinLng = last.lng;
     puffinTime = last.ts ? new Date(last.ts) : null;
     puffinName = traveler.name;
-
-    var segments = splitTrackAtGaps(rawPoints, 50);
-    gpsDotsLayer = L.layerGroup();
-    gpsTrackLayer = L.layerGroup();
-    for (var si = 0; si < segments.length; si++) {
-      var seg = segments[si];
-      var dotInterval = Math.max(1, Math.floor(seg.length / 30));
-      for (var di = 0; di < seg.length; di += dotInterval) {
-        L.circleMarker(seg[di], {
-          radius: 2.5, fillColor: '#60a5fa', color: '#60a5fa',
-          weight: 0, fillOpacity: 0.5
-        }).addTo(gpsDotsLayer);
-      }
-      if (seg.length >= 2) snapSegmentToRoads(seg, gpsTrackLayer);
-    }
-    gpsDotsLayer.addTo(tripMap);
-    gpsTrackLayer.addTo(tripMap);
   }
 
-  for (var ti = 0; ti < syncData.travelers.length; ti++) {
-    var t = syncData.travelers[ti];
-    if (t.checkIns) {
-      for (var ci = 0; ci < t.checkIns.length; ci++) {
-        var ck = t.checkIns[ci];
-        if (ck.latitude && ck.longitude && ck.timestamp) {
-          var ckTime = new Date(ck.timestamp);
-          if (!puffinTime || ckTime > puffinTime) {
-            puffinLat = ck.latitude; puffinLng = ck.longitude;
-            puffinTime = ckTime; puffinName = t.name;
-          }
-        }
-      }
-    }
-    if (t.customEvents) {
-      for (var ei = 0; ei < t.customEvents.length; ei++) {
-        var ev = t.customEvents[ei];
-        if (ev.latitude && ev.longitude) {
-          var evKey = 'custom-' + (ev.id || '');
-          var evCk = t.checkIns ? t.checkIns.find(function(c) { return c.key === evKey; }) : null;
-          if (evCk && evCk.timestamp) {
-            var evTime = new Date(evCk.timestamp);
-            if (!puffinTime || evTime > puffinTime) {
-              puffinLat = ev.latitude; puffinLng = ev.longitude;
-              puffinTime = evTime; puffinName = t.name;
-            }
-          }
-        }
-      }
-    }
-  }
   if (puffinLat === null) {
     var chris = syncData.travelers.find(function(t) { return t.name === 'Chris'; }) || syncData.travelers[0];
     if (chris && chris.checkIns && chris.checkIns.length > 0) {
       puffinName = chris.name;
       var sorted = chris.checkIns.slice().sort(function(a, b) { return a.timestamp < b.timestamp ? 1 : -1; });
-      for (var ci2 = 0; ci2 < sorted.length; ci2++) {
-        var ck2 = sorted[ci2];
-        var coords = resolveKeyCoords(ck2.key);
-        if (coords) { puffinLat = coords[0]; puffinLng = coords[1]; puffinTime = ck2.timestamp ? new Date(ck2.timestamp) : null; break; }
+      for (var ci = 0; ci < sorted.length; ci++) {
+        var ck = sorted[ci];
+        var coords = resolveKeyCoords(ck.key);
+        if (coords) { puffinLat = coords[0]; puffinLng = coords[1]; puffinTime = ck.timestamp ? new Date(ck.timestamp) : null; break; }
       }
     }
   }
@@ -1677,87 +1601,6 @@ function renderGPSTrack() {
     var timeStr = puffinTime ? puffinTime.toLocaleString() : 'Unknown';
     puffinMarker.bindPopup('<div style="text-align:center;font-family:var(--font);"><strong>' + puffinName + '\'s Location</strong><br><span style="font-size:0.8em;color:#94a3b8;">Last update: ' + timeStr + '</span></div>', { maxWidth: 200 });
   }
-}
-
-function splitTrackAtGaps(points, maxGapKm) {
-  if (points.length < 2) return [points];
-  var segments = [], current = [points[0]];
-  for (var i = 1; i < points.length; i++) {
-    var d = haversineKm(points[i-1][0], points[i-1][1], points[i][0], points[i][1]);
-    if (d > maxGapKm) {
-      if (current.length >= 2) segments.push(current);
-      current = [points[i]];
-    } else {
-      current.push(points[i]);
-    }
-  }
-  if (current.length >= 2) segments.push(current);
-  return segments;
-}
-
-function haversineKm(lat1, lon1, lat2, lon2) {
-  var R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
-  var a = Math.sin(dLat/2)*Math.sin(dLat/2) +
-    Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
-async function snapSegmentToRoads(points, layerGroup) {
-  var rawLine = L.polyline(points, {
-    color: '#3b82f6', weight: 2, opacity: 0.3,
-    dashArray: '6,8', lineCap: 'round', lineJoin: 'round'
-  }).addTo(layerGroup);
-
-  var CHUNK = 25;
-  var chunks = [];
-  for (var i = 0; i < points.length; i += CHUNK - 1) {
-    chunks.push(points.slice(i, i + CHUNK));
-  }
-  var allCoords = [];
-
-  for (var ci = 0; ci < chunks.length; ci++) {
-    var chunk = chunks[ci];
-    if (chunk.length < 2) { allCoords.push(chunk); continue; }
-    if (ci > 0) await new Promise(function(r) { setTimeout(r, 500); });
-    var routed = await fetchChunkWithRetry(chunk, 2);
-    allCoords.push(routed || chunk);
-  }
-
-  var merged = [];
-  for (var k = 0; k < allCoords.length; k++) {
-    var seg = allCoords[k];
-    if (merged.length > 0 && seg.length > 0) {
-      var lastPt = merged[merged.length - 1];
-      var firstPt = seg[0];
-      if (Math.abs(lastPt[0] - firstPt[0]) < 0.0001 && Math.abs(lastPt[1] - firstPt[1]) < 0.0001) {
-        seg = seg.slice(1);
-      }
-    }
-    merged = merged.concat(seg);
-  }
-  layerGroup.removeLayer(rawLine);
-  L.polyline(merged, {
-    color: '#3b82f6', weight: 3.5, opacity: 0.85,
-    lineCap: 'round', lineJoin: 'round'
-  }).addTo(layerGroup);
-}
-
-async function fetchChunkWithRetry(chunk, retries) {
-  var coords = chunk.map(function(p) { return p[1] + ',' + p[0]; }).join(';');
-  var url = 'https://router.project-osrm.org/route/v1/driving/' + coords +
-    '?overview=full&geometries=geojson';
-
-  for (var attempt = 0; attempt <= retries; attempt++) {
-    if (attempt > 0) await new Promise(function(r) { setTimeout(r, attempt * 1000); });
-    try {
-      var resp = await fetch(url);
-      var data = await resp.json();
-      if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
-        return data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
-      }
-    } catch (e) { /* retry */ }
-  }
-  return null;
 }
 
 function resolveKeyCoords(key) {
@@ -1833,19 +1676,6 @@ function setPhotoSize(size, btn) {
   renderPhotos();
 }
 
-function videoBadge(filename) {
-  return filename.indexOf('_thumb.') !== -1 ? '<span class="video-badge">Video</span>' : '';
-}
-function videoClickUrl(photo) {
-  if (photo.videoFilename) return PHOTO_BASE + photo.videoFilename;
-  return null;
-}
-function lightboxCall(thumbUrl, photo) {
-  var vUrl = videoClickUrl(photo);
-  if (vUrl) return "openLightbox('" + thumbUrl + "','" + vUrl + "')";
-  return "openLightbox('" + thumbUrl + "')";
-}
-
 function renderPhotos() {
   const container = document.getElementById('photosContainer');
 
@@ -1884,13 +1714,9 @@ function renderPhotos() {
     '<button class="photo-size-btn' + (photoSize === 'large' ? ' active' : '') + '" onclick="setPhotoSize(\'large\', this)">Large</button>' +
     '</div></div>';
 
-  for (const day of [...TRIP_DATA].reverse()) {
+  for (const day of TRIP_DATA) {
     const dayPhotos = photosByDay[day.id];
     if (!dayPhotos || dayPhotos.length === 0) continue;
-    dayPhotos.sort(function(a, b) {
-      var ta = a.photo.timestamp || '', tb = b.photo.timestamp || '';
-      return ta < tb ? -1 : ta > tb ? 1 : 0;
-    });
 
     const photoBadge = day.id < 1 ? '&#9992;' : day.id;
     html += '<div class="photos-day-section">' +
@@ -1909,9 +1735,8 @@ function renderPhotos() {
         if (!sName && sParsed.stay) sName = sParsed.stay.name;
         if (!sName && sParsed.schedule) sName = sParsed.schedule.title;
         var sUrl = PHOTO_BASE + encodeURIComponent(sPhoto.filename);
-        html += '<div class="photo-card-sm" onclick="' + lightboxCall(sUrl, sPhoto) + '">' +
+        html += '<div class="photo-card-sm" onclick="openLightbox(\'' + sUrl + '\')">' +
           '<img src="' + sUrl + '" alt="' + escHtml(sName) + '" loading="lazy" onerror="handlePhotoError(this)">' +
-          videoBadge(sPhoto.filename) +
           '<div class="sm-label">' + escHtml(sName) + '</div></div>';
       }
       html += '</div>';
@@ -1926,8 +1751,7 @@ function renderPhotos() {
         if (!mName && mParsed.schedule) mName = mParsed.schedule.title;
         var mUrl = PHOTO_BASE + encodeURIComponent(mPhoto.filename);
         html += '<div class="photo-card-md">' +
-          '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="' + lightboxCall(mUrl, mPhoto) + '" loading="lazy" onerror="handlePhotoError(this)">' +
-          videoBadge(mPhoto.filename) +
+          '<img src="' + mUrl + '" alt="' + escHtml(mName) + '" onclick="openLightbox(\'' + mUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
           '<div class="md-info"><div class="md-place">📍 ' + escHtml(mName) + '</div>' +
           '<div class="md-day">' + dayLabel(day.id) + ': ' + escHtml(day.title) + '</div></div></div>';
       }
@@ -1964,9 +1788,7 @@ function renderPhotos() {
           '<span class="photo-card-place">' + escHtml(placeName) + '</span>' +
           (traveler ? '<span class="photo-card-traveler">&#128248; ' + escHtml(traveler) + '</span>' : '') +
           '</div>' +
-          photoNotesHtml(photo.key) +
-          '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="' + lightboxCall(photoUrl, photo) + '" loading="lazy" onerror="handlePhotoError(this)">' +
-          videoBadge(photo.filename) +
+          '<img class="photo-card-img" src="' + photoUrl + '" alt="' + escHtml(placeName) + '" onclick="openLightbox(\'' + photoUrl + '\')" loading="lazy" onerror="handlePhotoError(this)">' +
           '<div class="photo-card-footer">' +
           miniMapHtml(lat, lng) +
           '<div class="photo-card-meta">' +
@@ -1978,30 +1800,6 @@ function renderPhotos() {
     html += '</div>';
   }
 
-  var tripDayIds = TRIP_DATA.map(function(d) { return d.id; });
-  var orphanIds = Object.keys(photosByDay).map(Number).filter(function(id) { return tripDayIds.indexOf(id) === -1; });
-  orphanIds.sort(function(a, b) { return b - a; });
-  for (var oi = 0; oi < orphanIds.length; oi++) {
-    var oId = orphanIds[oi];
-    var oDayPhotos = photosByDay[oId];
-    if (!oDayPhotos || oDayPhotos.length === 0) continue;
-    html += '<div class="photos-day-section"><div class="photos-day-header">' +
-      '<div class="photos-day-badge">' + oId + '</div>' +
-      '<div class="photos-day-info"><div class="photos-day-title">Day ' + oId + '</div>' +
-      '<div class="photos-day-date">' + oDayPhotos.length + ' photo' + (oDayPhotos.length !== 1 ? 's' : '') + '</div></div></div>' +
-      '<div class="photos-grid-small">';
-    for (var opi = 0; opi < oDayPhotos.length; opi++) {
-      var op = oDayPhotos[opi], oPhoto = op.photo;
-      var oName = oPhoto.activityName || 'Photo';
-      var oUrl = PHOTO_BASE + encodeURIComponent(oPhoto.filename);
-      html += '<div class="photo-card-sm" onclick="' + lightboxCall(oUrl, oPhoto) + '">' +
-        '<img src="' + oUrl + '" alt="' + escHtml(oName) + '" loading="lazy" onerror="handlePhotoError(this)">' +
-        videoBadge(oPhoto.filename) +
-        '<div class="sm-label">' + escHtml(oName) + '</div></div>';
-    }
-    html += '</div></div>';
-  }
-
   container.innerHTML = html;
 }
 
@@ -2010,7 +1808,7 @@ function parsePhotoKey(key, photo) {
   if (m) {
     var dayId = parseInt(m[1]);
     var day = TRIP_DATA.find(function(d) { return d.id === dayId; });
-    if (!day) day = { id: dayId, title: 'Day ' + dayId, date: '', activities: [], food: [], schedule: [] };
+    if (!day) return null;
     if (m[3] !== undefined) return { day: day, activity: day.activities[parseInt(m[3])], type: 'activity' };
     if (m[4] !== undefined) return { day: day, food: day.food[parseInt(m[4])], type: 'food' };
     if (m[5] !== undefined) return { day: day, schedule: day.schedule ? day.schedule[parseInt(m[5])] : null, type: 'schedule' };
@@ -2021,10 +1819,7 @@ function parsePhotoKey(key, photo) {
     if (!cDay) cDay = { id: photo.dayID, title: 'Day ' + photo.dayID, date: '' };
     return { day: cDay, type: 'custom', customName: photo.activityName || 'Custom Event' };
   }
-  var fallbackDayId = photo && photo.dayID != null ? photo.dayID : 0;
-  var fallbackDay = TRIP_DATA.find(function(d) { return d.id === fallbackDayId; });
-  if (!fallbackDay) fallbackDay = { id: fallbackDayId, title: 'Day ' + fallbackDayId, date: '' };
-  return { day: fallbackDay, type: 'unknown', customName: photo ? (photo.activityName || 'Photo') : 'Photo' };
+  return null;
 }
 
 function findTravelerForPhoto(photo) {
@@ -2034,34 +1829,6 @@ function findTravelerForPhoto(photo) {
     return t ? t.name : null;
   }
   return null;
-}
-
-function getNotesForKey(key) {
-  if (!syncData || !syncData.travelers) return [];
-  var results = [];
-  for (var i = 0; i < syncData.travelers.length; i++) {
-    var t = syncData.travelers[i];
-    if (!t.notes) continue;
-    for (var j = 0; j < t.notes.length; j++) {
-      if (t.notes[j].key === key) {
-        results.push({ author: t.name || 'Traveler', text: t.notes[j].text });
-      }
-    }
-  }
-  return results;
-}
-
-function photoNotesHtml(key) {
-  var notes = getNotesForKey(key);
-  if (notes.length === 0) return '';
-  var html = '<div class="photo-card-notes">';
-  for (var i = 0; i < notes.length; i++) {
-    html += '<div class="photo-card-note">' +
-      '<span class="photo-card-note-author">' + escHtml(notes[i].author) + ':</span>' +
-      '<span class="photo-card-note-text">&ldquo;' + escHtml(notes[i].text) + '&rdquo;</span></div>';
-  }
-  html += '</div>';
-  return html;
 }
 
 function miniMapHtml(lat, lng) {
@@ -2118,38 +1885,6 @@ function renderProgress() {
 }
 
 // ─── RENDER DAYS ──────────────────────────────────────────────────
-function getEffectiveActivities(day) {
-  var activities = day.activities.map(function(act, idx) {
-    var key = 'd' + day.id + '-a' + idx;
-    if (scheduleAdmin && scheduleAdmin.overrides && scheduleAdmin.overrides[key]) {
-      var ov = scheduleAdmin.overrides[key];
-      var merged = Object.assign({}, act);
-      if (ov.name) merged.name = ov.name;
-      if (ov.duration) merged.duration = ov.duration;
-      if (ov.isHike !== undefined) { merged.isHike = ov.isHike; if (!ov.isHike) delete merged.hikeKm; }
-      if (ov.isWaterfall !== undefined) merged.isWaterfall = ov.isWaterfall;
-      if (ov.hikeDistanceKm !== undefined) merged.hikeKm = ov.hikeDistanceKm;
-      return { act: merged, key: key };
-    }
-    return { act: act, key: key };
-  });
-  if (scheduleAdmin && scheduleAdmin.hidden) {
-    activities = activities.filter(function(item) { return scheduleAdmin.hidden.indexOf(item.key) === -1; });
-  }
-  if (scheduleAdmin && scheduleAdmin.additions) {
-    scheduleAdmin.additions.forEach(function(added) {
-      if (added.dayId === day.id) {
-        activities.push({
-          act: { name: added.name, duration: added.duration, isHike: added.isHike, isWaterfall: added.isWaterfall, hikeKm: added.hikeDistanceKm || 0, brief: '', details: '' },
-          key: added.id,
-          isAdminAdded: true
-        });
-      }
-    });
-  }
-  return activities;
-}
-
 function renderDays() {
   const container = document.getElementById('daysContainer');
   const currentDay = getCurrentDayNum();
@@ -2158,14 +1893,13 @@ function renderDays() {
   for (const day of TRIP_DATA) {
     const status = getDayStatus(day.id);
     const expanded = status === 'today';
-    const effActs = getEffectiveActivities(day);
-    const bookedCount = effActs.filter(function(item) { return item.act.booked; }).length;
-    const hikeActivities = effActs.filter(function(item) { return item.act.hikeKm; });
+    const bookedCount = day.activities.filter(function(a) { return a.booked; }).length;
+    const hikeActivities = day.activities.filter(function(a) { return a.hikeKm; });
 
     let badges = '';
     if (bookedCount > 0) badges += '<span class="badge badge-green">&#10003; ' + bookedCount + ' booked</span>';
     if (hikeActivities.length > 0) {
-      const totalKm = hikeActivities.reduce(function(s, item) { return s + item.act.hikeKm; }, 0);
+      const totalKm = hikeActivities.reduce(function(s, a) { return s + a.hikeKm; }, 0);
       badges += '<span class="badge badge-orange">&#129406; ' + totalKm + ' km</span>';
     }
     if (day.match) badges += '<span class="badge badge-accent">&#9917; Match</span>';
@@ -2201,28 +1935,24 @@ function renderDayBody(day) {
   if (customEvents.length > 0) {
     html += '<div class="section-title">&#127775; Custom Events</div>';
     for (const ce of customEvents) {
-      let schedBadge = '';
-      if (ce.scheduleAfterIndex != null && day.schedule) {
-        const afterTitle = ce.scheduleAfterIndex === -1 ? 'start of day' : (day.schedule[ce.scheduleAfterIndex] ? day.schedule[ce.scheduleAfterIndex].title : '');
-        if (afterTitle) schedBadge = '<span class="badge badge-blue" style="font-size:0.6rem;margin-left:4px">&#128197; After ' + escHtml(afterTitle) + '</span>';
-      }
       html += '<div class="custom-event">' +
         '<span class="ce-icon">' + (ce.type === 'Activity' ? '&#127939;' : ce.type === 'Food' ? '&#127860;' : '&#128204;') + '</span>' +
-        '<span class="ce-name">' + escHtml(ce.name) + schedBadge + '</span>' +
+        '<span class="ce-name">' + escHtml(ce.name) + '</span>' +
         (ce.notes ? '<span class="ce-notes">' + escHtml(ce.notes) + '</span>' : '') +
         '<span style="font-size:0.7rem;color:var(--text3)">' + escHtml(ce.travelerName) + '</span></div>';
     }
   }
 
-  const effActs = getEffectiveActivities(day);
-  html += '<div class="section-title">&#128205; Activities (' + effActs.length + ')</div>';
-  effActs.forEach(function(item) {
+  var effectiveActs = getEffectiveActivities(day);
+  html += '<div class="section-title">&#128205; Activities (' + effectiveActs.length + ')</div>';
+  effectiveActs.forEach(function(item) {
     html += renderActivityCard(item.act, item.key);
   });
 
-  html += '<div class="section-title">&#127860; Food & Drink (' + day.food.length + ')</div>';
-  day.food.forEach(function(f, idx) {
-    html += renderFoodCard(f, 'd' + day.id + '-f' + idx);
+  var effectiveFood = getEffectiveFood(day);
+  html += '<div class="section-title">&#127860; Food & Drink (' + effectiveFood.length + ')</div>';
+  effectiveFood.forEach(function(item) {
+    html += renderFoodCard(item.food, item.key);
   });
 
   var scheduleInteractions = getScheduleInteractions(day.id);
@@ -2256,25 +1986,11 @@ function renderDayBody(day) {
   return html;
 }
 
-function getCheckInInfo(key) {
-  if (!syncData || !syncData.travelers) return null;
-  for (var ti = 0; ti < syncData.travelers.length; ti++) {
-    var t = syncData.travelers[ti];
-    var cins = t.checkIns || [];
-    for (var ci = 0; ci < cins.length; ci++) {
-      if (cins[ci].key === key) return { travelerName: t.name, timestamp: cins[ci].timestamp };
-    }
-  }
-  return null;
-}
-
 function renderActivityCard(act, key) {
   const mapLink = mapsUrl(act.lat, act.lng);
-  const checkIn = getCheckInInfo(key);
   let metaParts = [];
   if (act.duration) metaParts.push(act.duration);
   if (act.hikeKm) metaParts.push('<span class="hike-tag badge badge-orange">&#129406; ' + act.hikeKm + ' km hike</span>');
-  if (checkIn) metaParts.push(checkIn.travelerName + ' &bull; ' + new Date(checkIn.timestamp).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"}));
 
   let detailsHtml = '';
   if (act.details) detailsHtml += '<p>' + escHtml(act.details) + '</p>';
@@ -2292,7 +2008,7 @@ function renderActivityCard(act, key) {
 
   return '<div class="activity-card" onclick="toggleActivity(this)">' +
     '<div class="act-top"><div class="act-info">' +
-    '<div class="act-name">' + escHtml(act.name) + (act.booked ? ' <span class="badge badge-green">&#10003; Booked</span>' : '') + (checkIn ? ' <span class="badge badge-green">&#10003; Visited</span>' : '') + '</div>' +
+    '<div class="act-name">' + escHtml(act.name) + (act.booked ? ' <span class="badge badge-green">&#10003; Booked</span>' : '') + '</div>' +
     '<div class="act-meta">' + metaParts.join(' &bull; ') + '</div>' +
     '<div class="act-brief">' + escHtml(act.brief) + '</div></div>' +
     '<div class="act-links">' +
@@ -2303,12 +2019,10 @@ function renderActivityCard(act, key) {
 
 function renderFoodCard(f, key) {
   const mapLink = mapsUrl(f.lat, f.lng);
-  const checkIn = getCheckInInfo(key);
   return '<div class="food-card" onclick="toggleFood(this)">' +
     '<span class="food-icon">&#127860;</span><div class="food-info">' +
     '<div class="food-name">' + escHtml(f.name) +
     (f.gf ? ' <span class="gf-tag">GF OK</span>' : '') +
-    (checkIn ? ' <span class="badge badge-green">&#10003; Visited</span>' : '') +
     (mapLink ? ' <a href="' + mapLink + '" target="_blank" rel="noopener" class="map-link" onclick="event.stopPropagation()" style="width:22px;height:22px;font-size:0.6rem;">&#128205;</a>' : '') +
     '</div><div class="food-desc">' + escHtml(f.desc) + '</div>' +
     '<div class="food-details">' + renderRatingNotesPhotos(key) + '</div></div></div>';
@@ -2352,6 +2066,83 @@ function getCustomEventsForDay(dayId) {
   return events;
 }
 
+// ─── LOCAL EDITS → EFFECTIVE DATA ────────────────────────────────
+function getLocalEdits() {
+  return (syncData && syncData.localEdits) || {};
+}
+
+function getEffectiveActivities(day) {
+  var edits = getLocalEdits();
+  var results = [];
+
+  day.activities.forEach(function(act, idx) {
+    var key = 'd' + day.id + '-a' + idx;
+    var edit = edits[key];
+    if (edit && edit.movedToDayID != null && edit.movedToDayID !== day.id) return;
+    var effective = Object.assign({}, act);
+    if (edit) {
+      if (edit.name) effective.name = edit.name;
+      if (edit.duration) effective.duration = edit.duration;
+      if (edit.brief) effective.brief = edit.brief;
+    }
+    var order = (edit && edit.sortOrder != null) ? edit.sortOrder : idx * 2;
+    results.push({ act: effective, key: key, order: order });
+  });
+
+  TRIP_DATA.forEach(function(otherDay) {
+    if (otherDay.id === day.id) return;
+    otherDay.activities.forEach(function(act, idx) {
+      var key = 'd' + otherDay.id + '-a' + idx;
+      var edit = edits[key];
+      if (!edit || edit.movedToDayID !== day.id) return;
+      var effective = Object.assign({}, act);
+      if (edit.name) effective.name = edit.name;
+      if (edit.duration) effective.duration = edit.duration;
+      if (edit.brief) effective.brief = edit.brief;
+      var order = (edit.sortOrder != null) ? edit.sortOrder : results.length * 2;
+      results.push({ act: effective, key: key, order: order });
+    });
+  });
+
+  results.sort(function(a, b) { return a.order - b.order; });
+  return results;
+}
+
+function getEffectiveFood(day) {
+  var edits = getLocalEdits();
+  var results = [];
+
+  day.food.forEach(function(f, idx) {
+    var key = 'd' + day.id + '-f' + idx;
+    var edit = edits[key];
+    if (edit && edit.movedToDayID != null && edit.movedToDayID !== day.id) return;
+    var effective = Object.assign({}, f);
+    if (edit) {
+      if (edit.name) effective.name = edit.name;
+      if (edit.desc) effective.desc = edit.desc;
+    }
+    var order = (edit && edit.sortOrder != null) ? edit.sortOrder : idx * 2;
+    results.push({ food: effective, key: key, order: order });
+  });
+
+  TRIP_DATA.forEach(function(otherDay) {
+    if (otherDay.id === day.id) return;
+    otherDay.food.forEach(function(f, idx) {
+      var key = 'd' + otherDay.id + '-f' + idx;
+      var edit = edits[key];
+      if (!edit || edit.movedToDayID !== day.id) return;
+      var effective = Object.assign({}, f);
+      if (edit.name) effective.name = edit.name;
+      if (edit.desc) effective.desc = edit.desc;
+      var order = (edit.sortOrder != null) ? edit.sortOrder : results.length * 2;
+      results.push({ food: effective, key: key, order: order });
+    });
+  });
+
+  results.sort(function(a, b) { return a.order - b.order; });
+  return results;
+}
+
 // ─── TOGGLES ──────────────────────────────────────────────────────
 function toggleDay(dayId) {
   document.getElementById('body-' + dayId).classList.toggle('open');
@@ -2362,31 +2153,16 @@ function toggleFood(el) { el.classList.toggle('expanded'); }
 function toggleStay(el) { el.classList.toggle('expanded'); }
 
 // ─── SYNC FETCH ───────────────────────────────────────────────────
-function ghApiHeaders() {
-  return { 'Authorization': 'Bearer ' + GH_TOKEN, 'Accept': 'application/vnd.github+json' };
-}
-function decodeGHContent(json) {
-  var b64 = json.content.replace(/\n/g, '');
-  var bin = atob(b64);
-  var bytes = new Uint8Array(bin.length);
-  for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return JSON.parse(new TextDecoder().decode(bytes));
-}
 async function fetchSyncData() {
   try {
-    var hdrs = ghApiHeaders();
-    const [resp, delResp, schedResp] = await Promise.all([
-      fetch(SYNC_URL + '&_t=' + Date.now(), { headers: hdrs, cache: 'no-store' }),
-      fetch(DEL_EVENTS_URL + '&_t=' + Date.now(), { headers: hdrs, cache: 'no-store' }).catch(function() { return { ok: false }; }),
-      fetch(SCHED_ADMIN_URL + '&_t=' + Date.now(), { headers: hdrs, cache: 'no-store' }).catch(function() { return { ok: false }; })
+    const [resp, delResp] = await Promise.all([
+      fetch(SYNC_URL + '?t=' + Date.now()),
+      fetch(DEL_EVENTS_URL + '?t=' + Date.now()).catch(function() { return { ok: false }; })
     ]);
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    syncData = decodeGHContent(await resp.json());
+    syncData = await resp.json();
     if (delResp.ok) {
-      try { adminDeletedEvents = decodeGHContent(await delResp.json()); } catch(e) { adminDeletedEvents = []; }
-    }
-    if (schedResp.ok) {
-      try { scheduleAdmin = decodeGHContent(await schedResp.json()); } catch(e) { scheduleAdmin = null; }
+      try { adminDeletedEvents = await delResp.json(); } catch(e) { adminDeletedEvents = []; }
     }
     lastFetchTime = new Date();
     updateSyncStatus(true);
@@ -2437,84 +2213,6 @@ window.addEventListener('hashchange', function() {
   var h = location.hash.replace('#', '');
   if (['itinerary', 'map', 'photos'].indexOf(h) !== -1) switchTab(h, true);
 });
-
-// ─── ICELANDIC WALLPAPER ─────────────────────────────────────────
-(function() {
-  var ICON_NAMES = ['church','fish','geyser','horse','house','iceland','puffin','sheep','sweater','viking','whale'];
-  var canvas = document.getElementById('wallpaperCanvas');
-  var ctx = canvas.getContext('2d');
-  var images = {};
-  var loaded = 0;
-
-  function hashInt(seed) {
-    var h = Math.imul(seed | 0, 2654435761) | 0;
-    h = h ^ (h >>> 16);
-    h = Math.imul(h, 2246822519) | 0;
-    h = h ^ (h >>> 13);
-    return (h < 0 ? h + 4294967296 : h);
-  }
-  function rand(seed, lo, hi) {
-    return lo + (hashInt(seed) % 10000) / 10000.0 * (hi - lo);
-  }
-
-  var MIN_SZ = 60, MAX_SZ = 114;
-  var ALPHA_LO = 0.18, ALPHA_HI = 0.50;
-  var COLS = 4;
-
-  function draw() {
-    var dpr = window.devicePixelRatio || 1;
-    var w = window.innerWidth, h = window.innerHeight;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-
-    var cellW = w / COLS;
-    if (cellW <= 0) return;
-    var rows = Math.ceil(h / cellW) + 1;
-    var cellH = h / Math.max(rows, 1);
-    var total = rows * COLS;
-
-    for (var i = 0; i < total; i++) {
-      var col = i % COLS;
-      var row = Math.floor(i / COLS);
-      var sz = rand(i * 7 + 3, MIN_SZ, MAX_SZ);
-      var rot = rand(i * 13 + 5, -25, 25) * Math.PI / 180;
-      var offX = rand(i * 17 + 11, -cellW * 0.3, cellW * 0.3);
-      var offY = rand(i * 23 + 7, -cellH * 0.3, cellH * 0.3);
-      var alpha = rand(i * 31 + 19, ALPHA_LO, ALPHA_HI);
-
-      var x = cellW * (col + 0.5) + offX;
-      var y = cellH * (row + 0.5) + offY;
-
-      var iconIdx = hashInt(i * 3 + 7) % ICON_NAMES.length;
-      var img = images[ICON_NAMES[iconIdx]];
-      if (!img) continue;
-
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.translate(x, y);
-      ctx.rotate(rot);
-      ctx.drawImage(img, -sz / 2, -sz / 2, sz, sz);
-      ctx.restore();
-    }
-  }
-
-  ICON_NAMES.forEach(function(name) {
-    var img = new Image();
-    img.onload = function() {
-      images[name] = img;
-      loaded++;
-      if (loaded === ICON_NAMES.length) {
-        draw();
-        window.addEventListener('resize', draw);
-      }
-    };
-    img.src = 'icons/' + name + '.png';
-  });
-})();
 </script>
 </body>
 </html>
