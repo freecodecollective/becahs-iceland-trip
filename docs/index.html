@@ -1561,16 +1561,24 @@ function renderGPSTrack() {
       dashArray: '4, 8', lineCap: 'round', lineJoin: 'round'
     }).addTo(gpsTrackLayer);
 
-    // Snap GPS points to roads via OSRM in batches of up to 100
+    // Snap GPS points to roads via OSRM Route API in batches
     (function snapToRoads() {
-      var batchSize = 100;
+      // Thin out duplicate/very-close points (< 100m apart)
+      var thinned = [icelandPoints[0]];
+      for (var t = 1; t < icelandPoints.length; t++) {
+        var prev = thinned[thinned.length - 1];
+        var dlat = (icelandPoints[t].lat - prev.lat) * 111320;
+        var dlng = (icelandPoints[t].lng - prev.lng) * 111320 * Math.cos(prev.lat * Math.PI / 180);
+        if (Math.sqrt(dlat * dlat + dlng * dlng) > 100) {
+          thinned.push(icelandPoints[t]);
+        }
+      }
+      var batchSize = 80;
       var allSnapped = [];
       var batches = [];
-      for (var b = 0; b < icelandPoints.length; b += batchSize) {
-        batches.push(icelandPoints.slice(b, b + batchSize));
+      for (var b = 0; b < thinned.length; b += batchSize - 1) {
+        batches.push(thinned.slice(b, b + batchSize));
       }
-      // Overlap batches by 1 point for continuity
-      var processed = 0;
       function doBatch(idx) {
         if (idx >= batches.length) {
           if (allSnapped.length > 1) {
@@ -1583,18 +1591,16 @@ function renderGPSTrack() {
           return;
         }
         var batch = batches[idx];
+        if (batch.length < 2) { doBatch(idx + 1); return; }
         var coords = batch.map(function(p) { return p.lng + ',' + p.lat; }).join(';');
-        var radii = batch.map(function(p) { return Math.min(Math.max(Math.round(p.acc || 50), 20), 500); }).join(';');
-        var timestamps = batch.map(function(p) { return Math.round(new Date(p.ts).getTime() / 1000); }).join(';');
-        var url = 'https://router.project-osrm.org/match/v1/driving/' + coords +
-          '?overview=full&geometries=geojson&radiuses=' + radii + '&timestamps=' + timestamps;
+        var url = 'https://router.project-osrm.org/route/v1/driving/' + coords +
+          '?overview=full&geometries=geojson';
         fetch(url).then(function(r) { return r.json(); }).then(function(data) {
-          if (data.matchings) {
-            for (var m = 0; m < data.matchings.length; m++) {
-              var geom = data.matchings[m].geometry.coordinates;
-              for (var g = 0; g < geom.length; g++) {
-                allSnapped.push([geom[g][1], geom[g][0]]);
-              }
+          if (data.code === 'Ok' && data.routes && data.routes[0]) {
+            var geom = data.routes[0].geometry.coordinates;
+            var startIdx = (idx > 0 && allSnapped.length > 0) ? 1 : 0;
+            for (var g = startIdx; g < geom.length; g++) {
+              allSnapped.push([geom[g][1], geom[g][0]]);
             }
           }
           doBatch(idx + 1);
