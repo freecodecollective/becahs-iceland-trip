@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-17T11:55:09Z",
+  "lastUpdated" : "2026-07-17T11:56:30Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -563,6 +563,10 @@
     "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6" : {
       "editedAt" : 805930317.272862,
       "sortOrder" : 2
+    },
+    "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85" : {
+      "desc" : "The last turf house church",
+      "editedAt" : 805982138.302473
     },
     "custom-5D703179-6A84-453A-89FD-42202043885F" : {
       "editedAt" : 805928347.497897,
@@ -1605,6 +1609,20 @@
       "timestamp" : "2026-07-17T11:35:22Z"
     },
     {
+      "activityName" : "Hof Church Hofskirkja",
+      "dayID" : 5,
+      "filename" : "1284E772-B7FC-4297-83C6-2D0DE44A954E.jpg",
+      "key" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+      "timestamp" : "2026-07-17T11:56:27Z"
+    },
+    {
+      "activityName" : "Hof Church Hofskirkja",
+      "dayID" : 5,
+      "filename" : "25643BBA-7202-4E2A-A883-E6723E70AD41.jpg",
+      "key" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+      "timestamp" : "2026-07-17T11:56:27Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -2074,6 +2092,14 @@
           "itemName" : "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6",
           "key" : "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6",
           "timestamp" : "2026-07-16T09:28:39Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+          "key" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+          "latitude" : 63.90685889622778,
+          "longitude" : -16.707109384912535,
+          "timestamp" : "2026-07-17T11:56:00Z"
         },
         {
           "dayID" : 0,
@@ -2592,7 +2618,7 @@
         "54A846B9-6D87-40D2-995B-E807631D15DF",
         "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
       ],
-      "gpsPointCount" : 1331,
+      "gpsPointCount" : 1332,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6589,6 +6615,12 @@
           "lat" : 63.90708281325484,
           "lng" : -16.70708701024294,
           "ts" : "2026-07-17T11:53:42Z"
+        },
+        {
+          "acc" : 4.563812530613899,
+          "lat" : 63.90687161673804,
+          "lng" : -16.707106764703745,
+          "ts" : "2026-07-17T11:55:42Z"
         }
       ],
       "hikes" : [
@@ -6659,6 +6691,12 @@
       "hikesCompleted" : 7,
       "name" : "Chris",
       "notes" : [
+        {
+          "dayID" : 0,
+          "itemName" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+          "key" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+          "text" : "Last stuff the turf house churches built in the late 1800s"
+        },
         {
           "dayID" : 0,
           "itemName" : "custom-8319D757-3245-494C-9C6F-F5A5F4AB2EE0",
@@ -6809,6 +6847,12 @@
           "dayID" : 0,
           "itemName" : "custom-46297DCA-52A7-4E84-8125-15A7B83D3030",
           "key" : "custom-46297DCA-52A7-4E84-8125-15A7B83D3030",
+          "rating" : 5
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
+          "key" : "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85",
           "rating" : 5
         },
         {
