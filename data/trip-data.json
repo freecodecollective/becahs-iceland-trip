@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-17T21:47:19Z",
+  "lastUpdated" : "2026-07-17T21:48:23Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -566,15 +566,16 @@
     },
     "custom-529A2F03-1570-4A8C-AA36-FBC7814EDE85" : {
       "desc" : "The last turf house church",
-      "editedAt" : 805982138.302473
+      "editedAt" : 806017676.173765,
+      "sortOrder" : 10
     },
     "custom-5D703179-6A84-453A-89FD-42202043885F" : {
       "editedAt" : 805928347.497897,
       "sortOrder" : 28
     },
     "custom-7C2C6778-9BF0-4971-A772-C116EC97A547" : {
-      "editedAt" : 805980977.565792,
-      "sortOrder" : 10
+      "editedAt" : 806017676.173829,
+      "sortOrder" : 12
     },
     "custom-B2C52987-0F31-4633-BD86-AA9BB671891F" : {
       "editedAt" : 805931450.411918,
@@ -656,24 +657,24 @@
       "sortOrder" : 34
     },
     "d5-a1" : {
-      "editedAt" : 805980966.991722,
+      "editedAt" : 806017676.173941,
       "name" : "Svartifoss hike (Skaftafell) (skip)",
-      "sortOrder" : 36
+      "sortOrder" : 38
     },
     "d5-a2" : {
-      "editedAt" : 806017623.505112,
-      "sortOrder" : 16
+      "editedAt" : 806017676.173875,
+      "sortOrder" : 18
     },
     "d5-a3" : {
-      "editedAt" : 805980984.109052,
-      "sortOrder" : 20
-    },
-    "d5-a4" : {
-      "editedAt" : 805980984.109183,
+      "editedAt" : 806017676.173903,
       "sortOrder" : 22
     },
+    "d5-a4" : {
+      "editedAt" : 806017676.173925,
+      "sortOrder" : 36
+    },
     "d5-a5" : {
-      "editedAt" : 805980984.10932,
+      "editedAt" : 806017689.909515,
       "sortOrder" : 32
     },
     "d5-a6" : {
@@ -691,8 +692,8 @@
       "sortOrder" : 26
     },
     "d5-f3" : {
-      "editedAt" : 805980977.565818,
-      "sortOrder" : 12
+      "editedAt" : 806017676.173846,
+      "sortOrder" : 14
     },
     "d5-stay" : {
       "editedAt" : 806011011.695866
@@ -765,12 +766,12 @@
       "sortOrder" : 30
     },
     "sched-d5-5" : {
-      "editedAt" : 805980977.565843,
-      "sortOrder" : 14
+      "editedAt" : 806017676.173862,
+      "sortOrder" : 16
     },
     "sched-d5-7" : {
-      "editedAt" : 805980977.565893,
-      "sortOrder" : 18
+      "editedAt" : 806017676.173888,
+      "sortOrder" : 20
     },
     "sched-d8-1" : {
       "editedAt" : 805930452.174048,
@@ -1841,6 +1842,41 @@
       "videoFilename" : "1349536F-8DF9-45AC-A891-56D1C8B564A9.mov"
     },
     {
+      "activityName" : "Fjallsárlón Glacier Hike & Boat Tour",
+      "dayID" : 5,
+      "filename" : "F4D3A9A7-8FCF-4B0C-ABF0-5A6AD8349156.jpg",
+      "key" : "d5-a2",
+      "timestamp" : "2026-07-17T21:47:48Z"
+    },
+    {
+      "activityName" : "Fjallsárlón Glacier Hike & Boat Tour",
+      "dayID" : 5,
+      "filename" : "21EE4AD5-EA87-494C-8BAC-1B97E036E661.jpg",
+      "key" : "d5-a2",
+      "timestamp" : "2026-07-17T21:47:48Z"
+    },
+    {
+      "activityName" : "Fjallsárlón Glacier Hike & Boat Tour",
+      "dayID" : 5,
+      "filename" : "F532BD98-067B-42BB-A852-F30077F8047B.jpg",
+      "key" : "d5-a2",
+      "timestamp" : "2026-07-17T21:47:48Z"
+    },
+    {
+      "activityName" : "Fjallsárlón Glacier Hike & Boat Tour",
+      "dayID" : 5,
+      "filename" : "4C9FF63A-CAB9-45BC-8726-93A6A3955533.jpg",
+      "key" : "d5-a2",
+      "timestamp" : "2026-07-17T21:47:48Z"
+    },
+    {
+      "activityName" : "Fjallsárlón Glacier Hike & Boat Tour",
+      "dayID" : 5,
+      "filename" : "23ED1B8F-A56B-4746-A45D-BC5BB9F01B32.jpg",
+      "key" : "d5-a2",
+      "timestamp" : "2026-07-17T21:47:48Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -2844,7 +2880,7 @@
         "54A846B9-6D87-40D2-995B-E807631D15DF",
         "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
       ],
-      "gpsPointCount" : 2051,
+      "gpsPointCount" : 2053,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -5925,10 +5961,10 @@
           "ts" : "2026-07-17T21:46:16Z"
         },
         {
-          "acc" : 2.005508903654887,
-          "lat" : 64.26956627528733,
-          "lng" : -15.20227752825799,
-          "ts" : "2026-07-17T21:47:18Z"
+          "acc" : 2.12096420115746,
+          "lat" : 64.278226989557,
+          "lng" : -15.198009294340205,
+          "ts" : "2026-07-17T21:48:20Z"
         }
       ],
       "hikes" : [
