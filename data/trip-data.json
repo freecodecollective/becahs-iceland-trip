@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-17T10:38:44Z",
+  "lastUpdated" : "2026-07-17T10:40:26Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -611,7 +611,8 @@
       "sortOrder" : 20
     },
     "d4-a3" : {
-      "editedAt" : 805976159.552866,
+      "editedAt" : 805977589.069607,
+      "movedToDayID" : 5,
       "sortOrder" : 24
     },
     "d4-a4" : {
@@ -1511,6 +1512,28 @@
       "timestamp" : "2026-07-16T15:27:10Z"
     },
     {
+      "activityName" : "Kirkjugólf",
+      "dayID" : 5,
+      "filename" : "3CE29C3F-6D97-433F-823D-6D30C60B6505.jpg",
+      "key" : "custom-298742A5-B75F-4771-B3F1-497F32E42692",
+      "timestamp" : "2026-07-17T10:39:15Z"
+    },
+    {
+      "activityName" : "Hjörleifshöfði \/ Yoda Cave",
+      "dayID" : 4,
+      "filename" : "1B3D6962-9A4A-491E-A2F8-BE58FC926FF9_thumb.jpg",
+      "key" : "d4-a3",
+      "timestamp" : "2026-07-17T10:40:16Z",
+      "videoFilename" : "1B3D6962-9A4A-491E-A2F8-BE58FC926FF9.mov"
+    },
+    {
+      "activityName" : "Hjörleifshöfði \/ Yoda Cave",
+      "dayID" : 4,
+      "filename" : "AEC3FABE-7D61-4AC9-B0A1-B95BFAB779BB.jpg",
+      "key" : "d4-a3",
+      "timestamp" : "2026-07-17T10:40:16Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -2227,6 +2250,14 @@
         },
         {
           "dayID" : 4,
+          "itemName" : "Hjörleifshöfði \/ Yoda Cave",
+          "key" : "d4-a3",
+          "latitude" : 63.796225486070874,
+          "longitude" : -18.047787815702534,
+          "timestamp" : "2026-07-17T10:39:54Z"
+        },
+        {
+          "dayID" : 4,
           "itemName" : "Breakfast",
           "key" : "d4-f0",
           "latitude" : 63.6159943242148,
@@ -2431,6 +2462,17 @@
           "name" : "2 More",
           "notes" : "",
           "type" : "Activity"
+        },
+        {
+          "createdBy" : "Chris",
+          "dayID" : 5,
+          "id" : "298742A5-B75F-4771-B3F1-497F32E42692",
+          "latitude" : 63.796587177102936,
+          "longitude" : -18.048372825922172,
+          "name" : "Kirkjugólf",
+          "notes" : "",
+          "scheduleAfterIndex" : 1,
+          "type" : "Sightseeing"
         }
       ],
       "deletedEventIDs" : [
@@ -2447,7 +2489,7 @@
         "54A846B9-6D87-40D2-995B-E807631D15DF",
         "A1FA3647-B0AE-4B53-B589-B9F10A0B035D"
       ],
-      "gpsPointCount" : 1295,
+      "gpsPointCount" : 1296,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6336,6 +6378,12 @@
           "lat" : 63.79724115974002,
           "lng" : -18.04911841017146,
           "ts" : "2026-07-17T10:38:03Z"
+        },
+        {
+          "acc" : 2.1337938598859467,
+          "lat" : 63.79613372044767,
+          "lng" : -18.047665418069982,
+          "ts" : "2026-07-17T10:40:04Z"
         }
       ],
       "hikes" : [
@@ -6537,6 +6585,12 @@
           "itemName" : "Þakgil–Mælifell hike",
           "key" : "d4-a0",
           "text" : "Literally a straight up hike. 3 1\/2 up and 3 1\/2 down but we made it to the top of a for now inactive volcano. "
+        },
+        {
+          "dayID" : 4,
+          "itemName" : "Hjörleifshöfði \/ Yoda Cave",
+          "key" : "d4-a3",
+          "text" : "As advertised it does look exactly like Yoda"
         },
         {
           "dayID" : 4,
