@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-18T12:48:41Z",
+  "lastUpdated" : "2026-07-18T12:49:36Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -578,7 +578,8 @@
       "sortOrder" : 12
     },
     "custom-806D63B0-0465-4A87-9580-E7D7087AFE89" : {
-      "editedAt" : 806068839.761866
+      "editedAt" : 806071748.32541,
+      "sortOrder" : 4
     },
     "custom-B2C52987-0F31-4633-BD86-AA9BB671891F" : {
       "editedAt" : 805931450.411918,
@@ -591,6 +592,10 @@
       "desc" : "https:\/\/maps.app.goo.gl\/Kd1hxeZNnNsHs1pE7?g_st=ic",
       "editedAt" : 805980977.565763,
       "sortOrder" : 8
+    },
+    "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F" : {
+      "editedAt" : 806071757.775166,
+      "sortOrder" : 6
     },
     "custom-hike-7FF83750-8D70-4F19-BFE7-85F6ECA6FF6C" : {
       "editedAt" : 805931351.41647,
@@ -660,9 +665,9 @@
       "sortOrder" : 34
     },
     "d5-a1" : {
-      "editedAt" : 806017676.173941,
-      "name" : "Svartifoss hike (Skaftafell) (skip)",
-      "sortOrder" : 38
+      "editedAt" : 806071748.326213,
+      "movedToDayID" : 6,
+      "sortOrder" : 36
     },
     "d5-a2" : {
       "editedAt" : 806017676.173875,
@@ -673,9 +678,9 @@
       "sortOrder" : 22
     },
     "d5-a4" : {
-      "editedAt" : 806019424.86835,
+      "editedAt" : 806071748.326176,
       "movedToDayID" : 6,
-      "sortOrder" : 36
+      "sortOrder" : 34
     },
     "d5-a5" : {
       "editedAt" : 806019443.143455,
@@ -703,16 +708,32 @@
       "editedAt" : 806011011.695866
     },
     "d6-a2" : {
-      "editedAt" : 806019310.985706
+      "editedAt" : 806071757.775339,
+      "sortOrder" : 16
+    },
+    "d6-a3" : {
+      "editedAt" : 806071757.775363,
+      "sortOrder" : 18
     },
     "d6-a4" : {
-      "editedAt" : 806019340.973292
+      "editedAt" : 806071751.795978,
+      "sortOrder" : 20
     },
     "d6-a5" : {
-      "editedAt" : 806019358.617226
+      "editedAt" : 806071751.796008,
+      "sortOrder" : 22
+    },
+    "d6-a6" : {
+      "editedAt" : 806071757.775262,
+      "sortOrder" : 10
     },
     "d6-f1" : {
-      "editedAt" : 805930470.889163
+      "editedAt" : 806071748.326137,
+      "sortOrder" : 32
+    },
+    "d6-f2" : {
+      "editedAt" : 806071748.326058,
+      "sortOrder" : 28
     },
     "d6-stay" : {
       "editedAt" : 806020009.626864
@@ -782,6 +803,30 @@
     "sched-d5-7" : {
       "editedAt" : 806017676.173888,
       "sortOrder" : 20
+    },
+    "sched-d6-10" : {
+      "editedAt" : 806071751.796034,
+      "sortOrder" : 24
+    },
+    "sched-d6-11" : {
+      "editedAt" : 806071748.32602,
+      "sortOrder" : 26
+    },
+    "sched-d6-13" : {
+      "editedAt" : 806071748.326099,
+      "sortOrder" : 30
+    },
+    "sched-d6-2" : {
+      "editedAt" : 806071757.775234,
+      "sortOrder" : 8
+    },
+    "sched-d6-4" : {
+      "editedAt" : 806071757.775287,
+      "sortOrder" : 12
+    },
+    "sched-d6-5" : {
+      "editedAt" : 806071757.775314,
+      "sortOrder" : 14
     },
     "sched-d8-1" : {
       "editedAt" : 805930452.174048,
@@ -2519,6 +2564,12 @@
         },
         {
           "dayID" : 0,
+          "itemName" : "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F",
+          "key" : "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F",
+          "timestamp" : "2026-07-18T12:48:58Z"
+        },
+        {
+          "dayID" : 0,
           "itemName" : "custom-hike-7FF83750-8D70-4F19-BFE7-85F6ECA6FF6C",
           "key" : "custom-hike-7FF83750-8D70-4F19-BFE7-85F6ECA6FF6C",
           "timestamp" : "2026-07-16T12:47:18Z"
@@ -2984,6 +3035,15 @@
           "notes" : "",
           "scheduleAfterIndex" : 1,
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 6,
+          "id" : "hike-423A5DE5-66C0-4445-9F57-2F56A021559F",
+          "name" : "Svartifoss hike (Skaftafell) (skip)",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -3000,7 +3060,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 2786,
+      "gpsPointCount" : 2788,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6349,6 +6409,12 @@
           "lat" : 64.01472993398045,
           "lng" : -16.96945930496122,
           "ts" : "2026-07-18T12:48:34Z"
+        },
+        {
+          "acc" : 4.748651530191865,
+          "lat" : 64.01494106958144,
+          "lng" : -16.96811694707259,
+          "ts" : "2026-07-18T12:49:29Z"
         }
       ],
       "hikes" : [
@@ -6407,6 +6473,13 @@
           "pointCount" : 5,
           "source" : "gps",
           "startTime" : "2026-07-16T14:14:09Z"
+        },
+        {
+          "distanceKm" : 0.07,
+          "name" : "Svartifoss hike (Skaftafell) (skip)",
+          "pointCount" : 2,
+          "source" : "gps",
+          "startTime" : "2026-07-18T12:48:58Z"
         },
         {
           "distanceKm" : 11.9,
