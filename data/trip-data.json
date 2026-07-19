@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-19T11:28:56Z",
+  "lastUpdated" : "2026-07-19T11:34:45Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -746,9 +746,12 @@
       "editedAt" : 806020009.626864
     },
     "d7-a0" : {
-      "editedAt" : 806138110.223987,
+      "editedAt" : 806153380.620076,
       "name" : "1DC-3 plane wreck Sólheimasandur",
       "sortOrder" : 4
+    },
+    "d7-a1" : {
+      "editedAt" : 806153494.654966
     },
     "d7-a3" : {
       "editedAt" : 805930462.219251
@@ -2039,6 +2042,27 @@
       "timestamp" : "2026-07-18T17:58:05Z"
     },
     {
+      "activityName" : "1DC-3 plane wreck Sólheimasandur",
+      "dayID" : 7,
+      "filename" : "B2AF4AE5-4576-4EE8-8D54-C4B6185B09D1.jpg",
+      "key" : "d7-a0",
+      "timestamp" : "2026-07-19T11:30:16Z"
+    },
+    {
+      "activityName" : "1DC-3 plane wreck Sólheimasandur",
+      "dayID" : 7,
+      "filename" : "475E55DE-7C07-4F94-898E-38602CBCF854.jpg",
+      "key" : "d7-a0",
+      "timestamp" : "2026-07-19T11:30:16Z"
+    },
+    {
+      "activityName" : "1DC-3 plane wreck Sólheimasandur",
+      "dayID" : 7,
+      "filename" : "34D1C52B-E637-4E0E-8AD3-1BB48B4FCF53.jpg",
+      "key" : "d7-a0",
+      "timestamp" : "2026-07-19T11:30:16Z"
+    },
+    {
       "activityName" : "Fly Boston to Iceland",
       "dayID" : -1,
       "filename" : "0C313879-463C-4704-9536-B47CD974FD5F.jpg",
@@ -2881,6 +2905,14 @@
           "latitude" : 64.06276279182039,
           "longitude" : -18.244152859996284,
           "timestamp" : "2026-07-18T16:13:55Z"
+        },
+        {
+          "dayID" : 7,
+          "itemName" : "DC-3 plane wreck Sólheimasandur",
+          "key" : "d7-a0",
+          "latitude" : 63.542908264219605,
+          "longitude" : -19.66795305935466,
+          "timestamp" : "2026-07-19T11:29:44Z"
         }
       ],
       "colorHex" : "#3180A8",
@@ -3173,7 +3205,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 5261,
+      "gpsPointCount" : 5272,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6336,6 +6368,18 @@
           "lat" : 63.54295016627556,
           "lng" : -19.66824913073161,
           "ts" : "2026-07-19T11:28:39Z"
+        },
+        {
+          "acc" : 3.540002323031791,
+          "lat" : 63.54463504994198,
+          "lng" : -19.715645020889628,
+          "ts" : "2026-07-19T11:33:44Z"
+        },
+        {
+          "acc" : 4.758503018708868,
+          "lat" : 63.545765140101885,
+          "lng" : -19.730887562235253,
+          "ts" : "2026-07-19T11:34:15Z"
         }
       ],
       "hikes" : [
