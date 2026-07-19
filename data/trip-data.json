@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-19T13:11:42Z",
+  "lastUpdated" : "2026-07-19T13:12:42Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -765,6 +765,11 @@
       "movedToDayID" : 8,
       "name" : "Breakfast2",
       "sortOrder" : 2
+    },
+    "d7-f1" : {
+      "desc" : "",
+      "editedAt" : 806159547.39189,
+      "name" : "Lunch  at Greenhouse"
     },
     "d8-a3" : {
       "editedAt" : 805930452.968912
@@ -2064,6 +2069,13 @@
       "filename" : "34D1C52B-E637-4E0E-8AD3-1BB48B4FCF53.jpg",
       "key" : "d7-a0",
       "timestamp" : "2026-07-19T11:30:16Z"
+    },
+    {
+      "activityName" : "Lunch  at Greenhouse",
+      "dayID" : 7,
+      "filename" : "8777ACCB-6B9B-4E8D-9542-EB094C924E2A.jpg",
+      "key" : "d7-f1",
+      "timestamp" : "2026-07-19T13:12:40Z"
     }
   ],
   "travelers" : [
@@ -2404,6 +2416,14 @@
           "latitude" : 63.542908264219605,
           "longitude" : -19.66795305935466,
           "timestamp" : "2026-07-19T11:29:44Z"
+        },
+        {
+          "dayID" : 7,
+          "itemName" : "Lunch Vík",
+          "key" : "d7-f1",
+          "latitude" : 64.1298426,
+          "longitude" : -20.334075399999996,
+          "timestamp" : "2026-07-19T13:12:33Z"
         }
       ],
       "colorHex" : "#3180A8",
@@ -2696,7 +2716,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 5459,
+      "gpsPointCount" : 5461,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -5975,10 +5995,10 @@
           "ts" : "2026-07-19T13:07:20Z"
         },
         {
-          "acc" : 2.966685720524448,
-          "lat" : 64.12967393929569,
-          "lng" : -20.33579981004652,
-          "ts" : "2026-07-19T13:11:40Z"
+          "acc" : 5,
+          "lat" : 64.12970335095716,
+          "lng" : -20.33235101672946,
+          "ts" : "2026-07-19T13:12:40Z"
         }
       ],
       "hikes" : [
