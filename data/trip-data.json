@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-20T12:55:42Z",
+  "lastUpdated" : "2026-07-20T12:56:42Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -787,10 +787,29 @@
       "editedAt" : 806244934.319769,
       "movedToDayID" : 9
     },
+    "d8-a5" : {
+      "editedAt" : 806244949.905534,
+      "movedToDayID" : 9
+    },
+    "d8-a6" : {
+      "editedAt" : 806244962.258533,
+      "movedToDayID" : 9
+    },
+    "d8-a7" : {
+      "editedAt" : 806244975.29473,
+      "movedToDayID" : 9
+    },
     "d8-f0" : {
       "editedAt" : 806171013.595503,
       "movedToDayID" : 7,
       "sortOrder" : 0
+    },
+    "d8-f1" : {
+      "editedAt" : 806244955.265781,
+      "movedToDayID" : 9
+    },
+    "d8-f2" : {
+      "editedAt" : 806244993.071692
     },
     "sched-d4-1" : {
       "editedAt" : 805926985.609805,
@@ -2801,7 +2820,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 6344,
+      "gpsPointCount" : 6346,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -5978,10 +5997,10 @@
           "ts" : "2026-07-20T12:47:14Z"
         },
         {
-          "acc" : 134.52774486437377,
-          "lat" : 64.02449577483549,
-          "lng" : -21.212489747348197,
-          "ts" : "2026-07-20T12:55:38Z"
+          "acc" : 124.64167863814973,
+          "lat" : 64.02394886791659,
+          "lng" : -21.212160199796205,
+          "ts" : "2026-07-20T12:56:41Z"
         }
       ],
       "hikes" : [
