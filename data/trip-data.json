@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-20T13:07:41Z",
+  "lastUpdated" : "2026-07-20T13:22:41Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -572,6 +572,10 @@
     "custom-5D703179-6A84-453A-89FD-42202043885F" : {
       "editedAt" : 805928347.497897,
       "sortOrder" : 28
+    },
+    "custom-660BC7A1-9415-4E8F-95CA-A9F2D20A474A" : {
+      "editedAt" : 806246072.14427,
+      "sortOrder" : 8
     },
     "custom-7C2C6778-9BF0-4971-A772-C116EC97A547" : {
       "editedAt" : 806017676.173829,
@@ -821,8 +825,8 @@
       "sortOrder" : 12
     },
     "d8-f2" : {
-      "editedAt" : 806245215.63314,
-      "sortOrder" : 18
+      "editedAt" : 806245984.152186,
+      "sortOrder" : 20
     },
     "d9-a0" : {
       "editedAt" : 806245169.887973,
@@ -927,24 +931,28 @@
       "sortOrder" : 0
     },
     "sched-d8-13" : {
-      "editedAt" : 806245215.632988,
-      "sortOrder" : 10
-    },
-    "sched-d8-15" : {
-      "editedAt" : 806245215.63303,
+      "editedAt" : 806245984.152105,
       "sortOrder" : 12
     },
-    "sched-d8-16" : {
-      "editedAt" : 806245215.633067,
+    "sched-d8-15" : {
+      "editedAt" : 806245984.152125,
       "sortOrder" : 14
     },
-    "sched-d8-17" : {
-      "editedAt" : 806245215.633103,
+    "sched-d8-16" : {
+      "editedAt" : 806245984.152147,
       "sortOrder" : 16
     },
+    "sched-d8-17" : {
+      "editedAt" : 806245984.152166,
+      "sortOrder" : 18
+    },
     "sched-d8-20" : {
-      "editedAt" : 806245215.633176,
-      "sortOrder" : 20
+      "editedAt" : 806245984.152209,
+      "sortOrder" : 22
+    },
+    "sched-d8-4" : {
+      "editedAt" : 806245984.152082,
+      "sortOrder" : 10
     },
     "sched-d9-1" : {
       "editedAt" : 806245084.561976,
@@ -2239,6 +2247,13 @@
       "filename" : "A7BDFCB4-61A0-4425-BFA5-115E16B013BB.jpg",
       "key" : "custom-90B5FE66-8F60-4E3A-9488-9C2DC2FECC94",
       "timestamp" : "2026-07-20T12:55:03Z"
+    },
+    {
+      "activityName" : "Waterfall",
+      "dayID" : 8,
+      "filename" : "D3519CAF-B799-4A25-9426-83258A5A1AAD.jpg",
+      "key" : "custom-660BC7A1-9415-4E8F-95CA-A9F2D20A474A",
+      "timestamp" : "2026-07-20T13:14:38Z"
     }
   ],
   "travelers" : [
@@ -2275,6 +2290,12 @@
           "itemName" : "custom-5D703179-6A84-453A-89FD-42202043885F",
           "key" : "custom-5D703179-6A84-453A-89FD-42202043885F",
           "timestamp" : "2026-07-16T09:56:56Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-660BC7A1-9415-4E8F-95CA-A9F2D20A474A",
+          "key" : "custom-660BC7A1-9415-4E8F-95CA-A9F2D20A474A",
+          "timestamp" : "2026-07-20T13:12:52Z"
         },
         {
           "dayID" : 0,
@@ -2881,6 +2902,17 @@
           "notes" : "",
           "scheduleAfterIndex" : 2,
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Waterfall",
+          "createdBy" : "Chris",
+          "dayID" : 8,
+          "id" : "660BC7A1-9415-4E8F-95CA-A9F2D20A474A",
+          "latitude" : 64.03378503551987,
+          "longitude" : -21.216817026675894,
+          "name" : "Waterfall",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -2897,7 +2929,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 6347,
+      "gpsPointCount" : 6365,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6074,10 +6106,22 @@
           "ts" : "2026-07-20T12:47:14Z"
         },
         {
-          "acc" : 131.73577754922832,
-          "lat" : 64.02381062913048,
-          "lng" : -21.212122829806457,
-          "ts" : "2026-07-20T12:57:13Z"
+          "acc" : 4.7486515301921415,
+          "lat" : 64.03380840560577,
+          "lng" : -21.216239599184604,
+          "ts" : "2026-07-20T13:08:54Z"
+        },
+        {
+          "acc" : 2.0033896525987633,
+          "lat" : 64.03851211262842,
+          "lng" : -21.218616403277874,
+          "ts" : "2026-07-20T13:18:17Z"
+        },
+        {
+          "acc" : 2.369220313710789,
+          "lat" : 64.03968304114382,
+          "lng" : -21.21885078583802,
+          "ts" : "2026-07-20T13:20:20Z"
         }
       ],
       "hikes" : [
@@ -6534,7 +6578,7 @@
         }
       ],
       "totalHikeDistanceKm" : 23.9,
-      "waterfallsVisited" : 11
+      "waterfallsVisited" : 12
     }
   ]
 }
