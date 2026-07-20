@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-20T16:10:50Z",
+  "lastUpdated" : "2026-07-20T16:14:09Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -586,7 +586,7 @@
       "sortOrder" : 4
     },
     "custom-90B5FE66-8F60-4E3A-9488-9C2DC2FECC94" : {
-      "editedAt" : 806253195.770326,
+      "editedAt" : 806256672.515166,
       "sortOrder" : 6
     },
     "custom-9BFB2903-EDD2-41D5-9DC2-51B7B1C5F16F" : {
@@ -2892,9 +2892,27 @@
         },
         {
           "dayID" : 0,
+          "itemName" : "custom-hike-178AB565-D22D-48A6-8229-A27E07760F24",
+          "key" : "custom-hike-178AB565-D22D-48A6-8229-A27E07760F24",
+          "timestamp" : "2026-07-20T16:11:41Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-hike-1EA11712-CD50-4B20-91B3-D52D5EF44AC6",
+          "key" : "custom-hike-1EA11712-CD50-4B20-91B3-D52D5EF44AC6",
+          "timestamp" : "2026-07-20T16:12:02Z"
+        },
+        {
+          "dayID" : 0,
           "itemName" : "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F",
           "key" : "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F",
           "timestamp" : "2026-07-18T12:48:58Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-hike-7552CFBA-5646-41FB-B3FA-9E50C58DCF02",
+          "key" : "custom-hike-7552CFBA-5646-41FB-B3FA-9E50C58DCF02",
+          "timestamp" : "2026-07-20T16:12:05Z"
         },
         {
           "dayID" : 0,
@@ -3446,6 +3464,33 @@
           "name" : "Waterfall",
           "notes" : "",
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 8,
+          "id" : "hike-178AB565-D22D-48A6-8229-A27E07760F24",
+          "name" : "Reykjadalur Hot",
+          "notes" : "",
+          "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 8,
+          "id" : "hike-1EA11712-CD50-4B20-91B3-D52D5EF44AC6",
+          "name" : "Laki \/ Lakagígar craters",
+          "notes" : "",
+          "type" : "Activity"
+        },
+        {
+          "activityCategory" : "Hiking",
+          "createdBy" : "Chris",
+          "dayID" : 8,
+          "id" : "hike-7552CFBA-5646-41FB-B3FA-9E50C58DCF02",
+          "name" : "Laki \/ Lakagígar craters",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -3462,7 +3507,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 6555,
+      "gpsPointCount" : 6566,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6495,10 +6540,10 @@
           "ts" : "2026-07-20T16:09:12Z"
         },
         {
-          "acc" : 4.748651530191774,
-          "lat" : 64.02144535162053,
-          "lng" : -21.210705529202176,
-          "ts" : "2026-07-20T16:10:22Z"
+          "acc" : 8.359383288430442,
+          "lat" : 64.01932872434143,
+          "lng" : -21.207241904620954,
+          "ts" : "2026-07-20T16:13:39Z"
         }
       ],
       "hikes" : [
@@ -6575,6 +6620,30 @@
           "startTime" : "2026-07-18T16:16:22Z"
         },
         {
+          "distanceKm" : 0,
+          "endTime" : "2026-07-20T16:11:44Z",
+          "name" : "Reykjadalur Hot",
+          "pointCount" : 1,
+          "source" : "gps",
+          "startTime" : "2026-07-20T16:11:41Z"
+        },
+        {
+          "distanceKm" : 0,
+          "endTime" : "2026-07-20T16:12:03Z",
+          "name" : "Laki \/ Lakagígar craters",
+          "pointCount" : 1,
+          "source" : "gps",
+          "startTime" : "2026-07-20T16:12:02Z"
+        },
+        {
+          "distanceKm" : 0,
+          "endTime" : "2026-07-20T16:12:07Z",
+          "name" : "Laki \/ Lakagígar craters",
+          "pointCount" : 1,
+          "source" : "gps",
+          "startTime" : "2026-07-20T16:12:05Z"
+        },
+        {
           "distanceKm" : 11.9,
           "name" : "Þakgil–Mælifell hike",
           "pointCount" : 0,
@@ -6582,7 +6651,7 @@
           "startTime" : "2026-07-16T12:47:24Z"
         }
       ],
-      "hikesCompleted" : 9,
+      "hikesCompleted" : 12,
       "name" : "Chris",
       "notes" : [
         {
