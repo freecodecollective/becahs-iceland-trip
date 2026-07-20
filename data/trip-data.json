@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-20T12:57:56Z",
+  "lastUpdated" : "2026-07-20T12:59:22Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -777,33 +777,34 @@
       "sortOrder" : 0
     },
     "d8-a1" : {
-      "editedAt" : 806245031.416628,
-      "movedToDayID" : 9
+      "editedAt" : 806245084.562087,
+      "movedToDayID" : 9,
+      "sortOrder" : 6
     },
     "d8-a3" : {
-      "editedAt" : 806245059.048394,
+      "editedAt" : 806245094.999531,
       "movedToDayID" : 9,
-      "sortOrder" : 26
+      "sortOrder" : 8
     },
     "d8-a4" : {
-      "editedAt" : 806245059.048422,
+      "editedAt" : 806245117.494419,
       "movedToDayID" : 9,
-      "sortOrder" : 28
+      "sortOrder" : 10
     },
     "d8-a5" : {
-      "editedAt" : 806245059.048446,
+      "editedAt" : 806245159.828764,
       "movedToDayID" : 9,
-      "sortOrder" : 30
+      "sortOrder" : 14
     },
     "d8-a6" : {
-      "editedAt" : 806245059.04847,
+      "editedAt" : 806245159.8288,
       "movedToDayID" : 9,
-      "sortOrder" : 32
+      "sortOrder" : 16
     },
     "d8-a7" : {
-      "editedAt" : 806245059.048494,
+      "editedAt" : 806245159.829143,
       "movedToDayID" : 9,
-      "sortOrder" : 34
+      "sortOrder" : 36
     },
     "d8-f0" : {
       "editedAt" : 806171013.595503,
@@ -811,44 +812,44 @@
       "sortOrder" : 0
     },
     "d8-f1" : {
-      "editedAt" : 806245059.04852,
+      "editedAt" : 806245159.828661,
       "movedToDayID" : 9,
-      "sortOrder" : 36
+      "sortOrder" : 12
     },
     "d8-f2" : {
       "editedAt" : 806244993.071692
     },
     "d9-a0" : {
-      "editedAt" : 806245059.048213,
-      "sortOrder" : 10
+      "editedAt" : 806245159.828905,
+      "sortOrder" : 22
     },
     "d9-a1" : {
-      "editedAt" : 806245059.048242,
-      "sortOrder" : 12
+      "editedAt" : 806245159.828937,
+      "sortOrder" : 24
     },
     "d9-a2" : {
-      "editedAt" : 806245059.048272,
-      "sortOrder" : 14
+      "editedAt" : 806245159.828977,
+      "sortOrder" : 26
     },
     "d9-a3" : {
-      "editedAt" : 806245059.048297,
-      "sortOrder" : 16
+      "editedAt" : 806245159.829013,
+      "sortOrder" : 28
     },
     "d9-a5" : {
-      "editedAt" : 806245059.048369,
-      "sortOrder" : 22
+      "editedAt" : 806245159.829109,
+      "sortOrder" : 34
     },
     "d9-f0" : {
       "editedAt" : 806245059.048098,
       "sortOrder" : 2
     },
     "d9-f1" : {
-      "editedAt" : 806245059.048345,
-      "sortOrder" : 20
+      "editedAt" : 806245159.829077,
+      "sortOrder" : 32
     },
     "d9-f2" : {
-      "editedAt" : 806245059.048153,
-      "sortOrder" : 6
+      "editedAt" : 806245159.828836,
+      "sortOrder" : 18
     },
     "sched-d4-1" : {
       "editedAt" : 805926985.609805,
@@ -921,16 +922,16 @@
       "sortOrder" : 0
     },
     "sched-d9-1" : {
-      "editedAt" : 806245059.048127,
+      "editedAt" : 806245084.561976,
       "sortOrder" : 4
     },
     "sched-d9-3" : {
-      "editedAt" : 806245059.048184,
-      "sortOrder" : 8
+      "editedAt" : 806245159.828873,
+      "sortOrder" : 20
     },
     "sched-d9-8" : {
-      "editedAt" : 806245059.048321,
-      "sortOrder" : 18
+      "editedAt" : 806245159.829046,
+      "sortOrder" : 30
     }
   },
   "photos" : [
