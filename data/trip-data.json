@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-20T12:59:22Z",
+  "lastUpdated" : "2026-07-20T12:59:48Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -802,9 +802,9 @@
       "sortOrder" : 16
     },
     "d8-a7" : {
-      "editedAt" : 806245159.829143,
+      "editedAt" : 806245169.88785,
       "movedToDayID" : 9,
-      "sortOrder" : 36
+      "sortOrder" : 18
     },
     "d8-f0" : {
       "editedAt" : 806171013.595503,
@@ -820,36 +820,36 @@
       "editedAt" : 806244993.071692
     },
     "d9-a0" : {
-      "editedAt" : 806245159.828905,
-      "sortOrder" : 22
-    },
-    "d9-a1" : {
-      "editedAt" : 806245159.828937,
+      "editedAt" : 806245169.887973,
       "sortOrder" : 24
     },
-    "d9-a2" : {
-      "editedAt" : 806245159.828977,
+    "d9-a1" : {
+      "editedAt" : 806245169.888003,
       "sortOrder" : 26
     },
-    "d9-a3" : {
-      "editedAt" : 806245159.829013,
+    "d9-a2" : {
+      "editedAt" : 806245169.88803,
       "sortOrder" : 28
     },
+    "d9-a3" : {
+      "editedAt" : 806245169.888054,
+      "sortOrder" : 30
+    },
     "d9-a5" : {
-      "editedAt" : 806245159.829109,
-      "sortOrder" : 34
+      "editedAt" : 806245169.888134,
+      "sortOrder" : 36
     },
     "d9-f0" : {
       "editedAt" : 806245059.048098,
       "sortOrder" : 2
     },
     "d9-f1" : {
-      "editedAt" : 806245159.829077,
-      "sortOrder" : 32
+      "editedAt" : 806245169.888108,
+      "sortOrder" : 34
     },
     "d9-f2" : {
-      "editedAt" : 806245159.828836,
-      "sortOrder" : 18
+      "editedAt" : 806245169.88792,
+      "sortOrder" : 20
     },
     "sched-d4-1" : {
       "editedAt" : 805926985.609805,
@@ -926,12 +926,12 @@
       "sortOrder" : 4
     },
     "sched-d9-3" : {
-      "editedAt" : 806245159.828873,
-      "sortOrder" : 20
+      "editedAt" : 806245169.887947,
+      "sortOrder" : 22
     },
     "sched-d9-8" : {
-      "editedAt" : 806245159.829046,
-      "sortOrder" : 30
+      "editedAt" : 806245169.888081,
+      "sortOrder" : 32
     }
   },
   "photos" : [
