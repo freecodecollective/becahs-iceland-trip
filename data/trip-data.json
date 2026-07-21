@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T11:33:33Z",
+  "lastUpdated" : "2026-07-21T11:34:40Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -593,6 +593,9 @@
       "editedAt" : 806084059.86584,
       "sortOrder" : 8
     },
+    "custom-A2020E59-3F6F-4324-B7E8-56DF605AD22C" : {
+      "editedAt" : 806326457.573988
+    },
     "custom-AF7482C2-208D-4491-8769-4995975659A9" : {
       "editedAt" : 806256051.995181
     },
@@ -607,6 +610,9 @@
       "desc" : "https:\/\/maps.app.goo.gl\/Kd1hxeZNnNsHs1pE7?g_st=ic",
       "editedAt" : 805980977.565763,
       "sortOrder" : 8
+    },
+    "custom-D7E5583C-D2A9-4FF9-93B1-F024F85FE315" : {
+      "editedAt" : 806326475.418453
     },
     "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F" : {
       "editedAt" : 806084059.865871,
@@ -2293,6 +2299,20 @@
       "filename" : "B08C6F7F-528C-4657-8871-3C4268D3BB81.jpg",
       "key" : "custom-A2020E59-3F6F-4324-B7E8-56DF605AD22C",
       "timestamp" : "2026-07-21T11:24:11Z"
+    },
+    {
+      "activityName" : "Fossarétt",
+      "dayID" : 9,
+      "filename" : "EE08C2C1-0D55-43FF-8E2B-25CE442991EC.jpg",
+      "key" : "custom-D7E5583C-D2A9-4FF9-93B1-F024F85FE315",
+      "timestamp" : "2026-07-21T11:34:06Z"
+    },
+    {
+      "activityName" : "Stedjl: A Goblet On One Thin Foot",
+      "dayID" : 9,
+      "filename" : "736E9593-985D-48FF-BDBD-124B688EDEEC.jpg",
+      "key" : "custom-A2020E59-3F6F-4324-B7E8-56DF605AD22C",
+      "timestamp" : "2026-07-21T11:34:33Z"
     }
   ],
   "travelers" : [
@@ -2355,6 +2375,14 @@
           "itemName" : "custom-9BFB2903-EDD2-41D5-9DC2-51B7B1C5F16F",
           "key" : "custom-9BFB2903-EDD2-41D5-9DC2-51B7B1C5F16F",
           "timestamp" : "2026-07-18T13:19:13Z"
+        },
+        {
+          "dayID" : 0,
+          "itemName" : "custom-A2020E59-3F6F-4324-B7E8-56DF605AD22C",
+          "key" : "custom-A2020E59-3F6F-4324-B7E8-56DF605AD22C",
+          "latitude" : 64.35318007222585,
+          "longitude" : -21.454546815971092,
+          "timestamp" : "2026-07-21T11:34:22Z"
         },
         {
           "dayID" : 0,
@@ -3008,6 +3036,17 @@
           "name" : "Stedjl: A Goblet On One Thin Foot",
           "notes" : "",
           "type" : "Activity"
+        },
+        {
+          "activityCategory" : "General",
+          "createdBy" : "Chris",
+          "dayID" : 9,
+          "id" : "D7E5583C-D2A9-4FF9-93B1-F024F85FE315",
+          "latitude" : 64.35318002183361,
+          "longitude" : -21.454542029009275,
+          "name" : "Fossarétt",
+          "notes" : "Viking sheep pens!",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
@@ -3024,7 +3063,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 7138,
+      "gpsPointCount" : 7140,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6087,10 +6126,10 @@
           "ts" : "2026-07-21T11:27:39Z"
         },
         {
-          "acc" : 19.832272781445358,
-          "lat" : 64.35318100162004,
-          "lng" : -21.4546351105666,
-          "ts" : "2026-07-21T11:33:15Z"
+          "acc" : 18.96027164696294,
+          "lat" : 64.3531800703293,
+          "lng" : -21.45454663586032,
+          "ts" : "2026-07-21T11:34:16Z"
         }
       ],
       "hikes" : [
