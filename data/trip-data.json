@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T23:06:38Z",
+  "lastUpdated" : "2026-07-21T23:07:17Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -561,7 +561,8 @@
       "sortOrder" : 6
     },
     "custom-35BA11EF-7EA8-4478-80F7-96C299101845" : {
-      "editedAt" : 806344049.736308
+      "editedAt" : 806368004.664626,
+      "sortOrder" : 26
     },
     "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6" : {
       "editedAt" : 805930317.272862,
@@ -572,6 +573,10 @@
       "editedAt" : 806017676.173765,
       "sortOrder" : 10
     },
+    "custom-5D1EAA69-A560-461B-8310-A144F6AF5F0F" : {
+      "editedAt" : 806368004.664758,
+      "sortOrder" : 36
+    },
     "custom-5D703179-6A84-453A-89FD-42202043885F" : {
       "editedAt" : 805928347.497897,
       "sortOrder" : 28
@@ -581,7 +586,8 @@
       "sortOrder" : 8
     },
     "custom-671D3C83-2988-4BFF-BCA0-2C071117A4DD" : {
-      "editedAt" : 806344151.19303
+      "editedAt" : 806368004.6646,
+      "sortOrder" : 24
     },
     "custom-7C2C6778-9BF0-4971-A772-C116EC97A547" : {
       "editedAt" : 806017676.173829,
@@ -600,7 +606,8 @@
       "sortOrder" : 8
     },
     "custom-A2020E59-3F6F-4324-B7E8-56DF605AD22C" : {
-      "editedAt" : 806326457.573988
+      "editedAt" : 806368004.664518,
+      "sortOrder" : 18
     },
     "custom-AF7482C2-208D-4491-8769-4995975659A9" : {
       "editedAt" : 806256051.995181
@@ -618,10 +625,16 @@
       "sortOrder" : 8
     },
     "custom-D7E5583C-D2A9-4FF9-93B1-F024F85FE315" : {
-      "editedAt" : 806328296.015212
+      "editedAt" : 806368004.664574,
+      "sortOrder" : 22
     },
     "custom-E1C6F7AD-E850-47EF-A586-30B02E40D8BF" : {
-      "editedAt" : 806344135.570245
+      "editedAt" : 806368004.664653,
+      "sortOrder" : 28
+    },
+    "custom-FABE43F1-BEEB-495E-9509-E81217EA709D" : {
+      "editedAt" : 806368012.01395,
+      "sortOrder" : 34
     },
     "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F" : {
       "editedAt" : 806084059.865871,
@@ -634,6 +647,10 @@
     "custom-hike-A469A451-1F74-4BAE-9270-3434A5D8EDC5" : {
       "editedAt" : 805928347.498207,
       "sortOrder" : 34
+    },
+    "custom-hike-AA12D923-CEBF-48C1-B9AB-5F7E45244F01" : {
+      "editedAt" : 806368004.664681,
+      "sortOrder" : 30
     },
     "custom-hike-BA88BD66-FFC1-438C-B731-804E7A9A7FB8" : {
       "editedAt" : 806090253.486233
@@ -656,8 +673,9 @@
       "editedAt" : 806257399.018601
     },
     "d10-a2" : {
-      "editedAt" : 806367471.880508,
-      "movedToDayID" : 9
+      "editedAt" : 806368012.01375,
+      "movedToDayID" : 9,
+      "sortOrder" : 32
     },
     "d3-a3" : {
       "editedAt" : 805931404.646975,
@@ -817,24 +835,24 @@
       "sortOrder" : 8
     },
     "d8-a4" : {
-      "editedAt" : 806245117.494419,
+      "editedAt" : 806368004.664286,
       "movedToDayID" : 9,
-      "sortOrder" : 10
+      "sortOrder" : 8
     },
     "d8-a5" : {
-      "editedAt" : 806245159.828764,
+      "editedAt" : 806368004.664443,
+      "movedToDayID" : 9,
+      "sortOrder" : 12
+    },
+    "d8-a6" : {
+      "editedAt" : 806368004.664467,
       "movedToDayID" : 9,
       "sortOrder" : 14
     },
-    "d8-a6" : {
-      "editedAt" : 806245159.8288,
+    "d8-a7" : {
+      "editedAt" : 806368004.664493,
       "movedToDayID" : 9,
       "sortOrder" : 16
-    },
-    "d8-a7" : {
-      "editedAt" : 806245169.88785,
-      "movedToDayID" : 9,
-      "sortOrder" : 18
     },
     "d8-f0" : {
       "editedAt" : 806171013.595503,
@@ -842,9 +860,9 @@
       "sortOrder" : 0
     },
     "d8-f1" : {
-      "editedAt" : 806245159.828661,
+      "editedAt" : 806368004.664413,
       "movedToDayID" : 9,
-      "sortOrder" : 12
+      "sortOrder" : 10
     },
     "d8-f2" : {
       "editedAt" : 806245984.152186,
@@ -871,8 +889,8 @@
       "sortOrder" : 30
     },
     "d9-a5" : {
-      "editedAt" : 806245169.888134,
-      "sortOrder" : 36
+      "editedAt" : 806368004.664807,
+      "sortOrder" : 40
     },
     "d9-f0" : {
       "editedAt" : 806257354.214156,
@@ -880,9 +898,9 @@
     },
     "d9-f1" : {
       "desc" : "Best meal of the trip! ",
-      "editedAt" : 806367620.295998,
+      "editedAt" : 806368004.664783,
       "name" : "Dinner at Matarlist",
-      "sortOrder" : 34
+      "sortOrder" : 38
     },
     "d9-f2" : {
       "editedAt" : 806257384.052607,
@@ -988,8 +1006,8 @@
       "sortOrder" : 4
     },
     "sched-d9-3" : {
-      "editedAt" : 806245169.887947,
-      "sortOrder" : 22
+      "editedAt" : 806368004.664543,
+      "sortOrder" : 20
     },
     "sched-d9-8" : {
       "editedAt" : 806245169.888081,
@@ -3390,7 +3408,7 @@
         "hike-D12612E1-CE43-487D-9069-93D95A96BFF5",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 8012,
+      "gpsPointCount" : 8013,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6399,10 +6417,10 @@
           "ts" : "2026-07-21T23:00:49Z"
         },
         {
-          "acc" : 6.330363037947685,
-          "lat" : 64.76641954738108,
-          "lng" : -23.631830147158038,
-          "ts" : "2026-07-21T23:06:38Z"
+          "acc" : 9.687877158703126,
+          "lat" : 64.76642451955765,
+          "lng" : -23.63174815255995,
+          "ts" : "2026-07-21T23:07:09Z"
         }
       ],
       "hikes" : [
