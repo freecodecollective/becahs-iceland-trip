@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T16:48:42Z",
+  "lastUpdated" : "2026-07-21T16:49:42Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -3251,7 +3251,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 7740,
+      "gpsPointCount" : 7742,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6350,10 +6350,16 @@
           "ts" : "2026-07-21T16:41:11Z"
         },
         {
-          "acc" : 2.3991659171475086,
-          "lat" : 64.93230409180404,
-          "lng" : -23.3094121959055,
-          "ts" : "2026-07-21T16:48:19Z"
+          "acc" : 3.193916018615628,
+          "lat" : 64.93238509109706,
+          "lng" : -23.309336656034862,
+          "ts" : "2026-07-21T16:48:50Z"
+        },
+        {
+          "acc" : 2.3561551052660725,
+          "lat" : 64.93264902385302,
+          "lng" : -23.309003898625903,
+          "ts" : "2026-07-21T16:49:21Z"
         }
       ],
       "hikes" : [
@@ -6454,9 +6460,9 @@
           "startTime" : "2026-07-20T16:12:05Z"
         },
         {
-          "distanceKm" : 0.61,
+          "distanceKm" : 0.65,
           "name" : "Kirkjufell",
-          "pointCount" : 34,
+          "pointCount" : 36,
           "source" : "gps",
           "startTime" : "2026-07-21T16:31:31Z"
         },
@@ -6870,7 +6876,7 @@
           "rating" : 5
         }
       ],
-      "totalHikeDistanceKm" : 24.5,
+      "totalHikeDistanceKm" : 24.6,
       "waterfallsVisited" : 13
     }
   ]
