@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T23:10:37Z",
+  "lastUpdated" : "2026-07-21T23:10:46Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -820,12 +820,14 @@
       "name" : "Lunch  at Greenhouse"
     },
     "d8-a0" : {
-      "editedAt" : 806257273.832411,
+      "editedAt" : 806368238.524216,
+      "hidden" : true,
       "movedToDayID" : 9,
       "sortOrder" : 0
     },
     "d8-a1" : {
-      "editedAt" : 806245084.562087,
+      "editedAt" : 806368246.510342,
+      "hidden" : true,
       "movedToDayID" : 9,
       "sortOrder" : 6
     },
