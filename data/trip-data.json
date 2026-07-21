@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T16:26:43Z",
+  "lastUpdated" : "2026-07-21T16:27:40Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -561,7 +561,7 @@
       "sortOrder" : 6
     },
     "custom-35BA11EF-7EA8-4478-80F7-96C299101845" : {
-      "editedAt" : 806334601.108016
+      "editedAt" : 806344049.736308
     },
     "custom-5299C09C-E30A-4379-B1C3-B60906B2EEC6" : {
       "editedAt" : 805930317.272862,
@@ -2368,6 +2368,13 @@
       "filename" : "EF28DC2F-955E-477C-B038-80C36EA34B2F.jpg",
       "key" : "custom-35BA11EF-7EA8-4478-80F7-96C299101845",
       "timestamp" : "2026-07-21T13:57:18Z"
+    },
+    {
+      "activityName" : "Waffles At Skemman Kaffihus",
+      "dayID" : 9,
+      "filename" : "F1165769-7981-4919-97B9-9C0571AF52B1.jpg",
+      "key" : "custom-35BA11EF-7EA8-4478-80F7-96C299101845",
+      "timestamp" : "2026-07-21T16:27:24Z"
     }
   ],
   "travelers" : [
@@ -3163,7 +3170,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 7700,
+      "gpsPointCount" : 7702,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6250,10 +6257,10 @@
           "ts" : "2026-07-21T16:24:23Z"
         },
         {
-          "acc" : 34.795014,
-          "lat" : 64.9279499597651,
-          "lng" : -23.31352013356721,
-          "ts" : "2026-07-21T16:26:26Z"
+          "acc" : 2,
+          "lat" : 64.92796428223741,
+          "lng" : -23.313513178702863,
+          "ts" : "2026-07-21T16:27:27Z"
         }
       ],
       "hikes" : [
