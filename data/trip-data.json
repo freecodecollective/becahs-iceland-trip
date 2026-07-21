@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T16:29:41Z",
+  "lastUpdated" : "2026-07-21T16:30:41Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -656,7 +656,8 @@
       "editedAt" : 806257399.018601
     },
     "d10-a2" : {
-      "editedAt" : 806257423.449068
+      "editedAt" : 806344199.324146,
+      "movedToDayID" : 9
     },
     "d3-a3" : {
       "editedAt" : 805931404.646975,
@@ -2414,6 +2415,13 @@
       "filename" : "CFF123A9-3B18-48E4-8E86-D4F7E83A1E3E.jpg",
       "key" : "custom-671D3C83-2988-4BFF-BCA0-2C071117A4DD",
       "timestamp" : "2026-07-21T16:29:31Z"
+    },
+    {
+      "activityName" : "Kirkjufell + Kirkjufellsfoss",
+      "dayID" : 9,
+      "filename" : "58779D92-89FF-497A-AD02-1F44A06C6DFD.jpg",
+      "key" : "d10-a2",
+      "timestamp" : "2026-07-21T16:30:35Z"
     }
   ],
   "travelers" : [
@@ -2664,6 +2672,14 @@
           "latitude" : 64.01316089307237,
           "longitude" : -22.18119694075438,
           "timestamp" : "2026-07-13T20:35:48Z"
+        },
+        {
+          "dayID" : 10,
+          "itemName" : "Kirkjufell + Kirkjufellsfoss",
+          "key" : "d10-a2",
+          "latitude" : 64.92794068479205,
+          "longitude" : -23.313527950090958,
+          "timestamp" : "2026-07-21T16:30:26Z"
         },
         {
           "dayID" : 2,
@@ -3220,7 +3236,7 @@
         "hike-7666B985-19D6-4937-8B38-1659089A4DB0",
         "hike-A28E698E-519E-4C42-85BC-43DA700A8CF0"
       ],
-      "gpsPointCount" : 7703,
+      "gpsPointCount" : 7704,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6307,10 +6323,10 @@
           "ts" : "2026-07-21T16:24:23Z"
         },
         {
-          "acc" : 12.3186763607504,
-          "lat" : 64.9279814557192,
-          "lng" : -23.313562289447038,
-          "ts" : "2026-07-21T16:27:58Z"
+          "acc" : 187.095014,
+          "lat" : 64.92796363532143,
+          "lng" : -23.31353567320423,
+          "ts" : "2026-07-21T16:30:14Z"
         }
       ],
       "hikes" : [
@@ -6498,6 +6514,12 @@
           "itemName" : "Lunch Grindavík",
           "key" : "d1-f2",
           "text" : "Café Bryggjan\n\nLamb and lobster soup. \n\nThey were out of pickled herring and one of us was sad :(. But they had local beer so that made up for it. "
+        },
+        {
+          "dayID" : 10,
+          "itemName" : "Kirkjufell + Kirkjufellsfoss",
+          "key" : "d10-a2",
+          "text" : "This looks steep. And long. "
         },
         {
           "dayID" : 2,
@@ -6815,7 +6837,7 @@
         }
       ],
       "totalHikeDistanceKm" : 23.9,
-      "waterfallsVisited" : 12
+      "waterfallsVisited" : 13
     }
   ]
 }
