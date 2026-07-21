@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T22:57:48Z",
+  "lastUpdated" : "2026-07-21T22:59:23Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -656,7 +656,7 @@
       "editedAt" : 806257399.018601
     },
     "d10-a2" : {
-      "editedAt" : 806344241.4079,
+      "editedAt" : 806367471.880508,
       "movedToDayID" : 9
     },
     "d3-a3" : {
@@ -879,7 +879,8 @@
       "sortOrder" : 2
     },
     "d9-f1" : {
-      "editedAt" : 806245169.888108,
+      "desc" : "Best meal of the trip! ",
+      "editedAt" : 806367554.454468,
       "sortOrder" : 34
     },
     "d9-f2" : {
@@ -2422,6 +2423,34 @@
       "filename" : "58779D92-89FF-497A-AD02-1F44A06C6DFD.jpg",
       "key" : "d10-a2",
       "timestamp" : "2026-07-21T16:30:35Z"
+    },
+    {
+      "activityName" : "Kirkjufell + Kirkjufellsfoss",
+      "dayID" : 9,
+      "filename" : "68F8C10E-6B72-4A28-A722-DDF1E7CB5248.jpg",
+      "key" : "d10-a2",
+      "timestamp" : "2026-07-21T22:58:57Z"
+    },
+    {
+      "activityName" : "Kirkjufell + Kirkjufellsfoss",
+      "dayID" : 9,
+      "filename" : "3DF44163-AC0D-45B8-B411-08FA872D0568.jpg",
+      "key" : "d10-a2",
+      "timestamp" : "2026-07-21T22:58:57Z"
+    },
+    {
+      "activityName" : "Kirkjufell + Kirkjufellsfoss",
+      "dayID" : 9,
+      "filename" : "D00A7002-5205-4CDF-BFD8-995EE0B944B4.jpg",
+      "key" : "d10-a2",
+      "timestamp" : "2026-07-21T22:58:57Z"
+    },
+    {
+      "activityName" : "Kirkjufell + Kirkjufellsfoss",
+      "dayID" : 9,
+      "filename" : "92913280-D764-4B6B-81A3-063905825B9E.jpg",
+      "key" : "d10-a2",
+      "timestamp" : "2026-07-21T22:58:57Z"
     }
   ],
   "travelers" : [
@@ -3251,7 +3280,7 @@
         "hike-D12612E1-CE43-487D-9069-93D95A96BFF5",
         "72F18AEC-99EF-4D55-B498-448DE505E501"
       ],
-      "gpsPointCount" : 7995,
+      "gpsPointCount" : 7998,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6452,10 +6481,16 @@
           "ts" : "2026-07-21T18:50:59Z"
         },
         {
-          "acc" : 6.514865116178486,
-          "lat" : 64.76642614493112,
-          "lng" : -23.631811392696306,
-          "ts" : "2026-07-21T22:57:38Z"
+          "acc" : 8.096960612976591,
+          "lat" : 64.76642752635615,
+          "lng" : -23.631836459844383,
+          "ts" : "2026-07-21T22:58:09Z"
+        },
+        {
+          "acc" : 5.505389528502776,
+          "lat" : 64.76642575698982,
+          "lng" : -23.631836411139425,
+          "ts" : "2026-07-21T22:59:14Z"
         }
       ],
       "hikes" : [
@@ -6656,7 +6691,7 @@
           "dayID" : 10,
           "itemName" : "Kirkjufell + Kirkjufellsfoss",
           "key" : "d10-a2",
-          "text" : "This looks steep. And long. "
+          "text" : "This looks steep. And long. \nWe survived. It was scary and nuts. We didn't summit. Nobody we saw did. "
         },
         {
           "dayID" : 2,
