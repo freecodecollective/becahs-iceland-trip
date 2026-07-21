@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-21T16:28:41Z",
+  "lastUpdated" : "2026-07-21T16:29:41Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -581,7 +581,7 @@
       "sortOrder" : 8
     },
     "custom-671D3C83-2988-4BFF-BCA0-2C071117A4DD" : {
-      "editedAt" : 806330746.701976
+      "editedAt" : 806344151.19303
     },
     "custom-7C2C6778-9BF0-4971-A772-C116EC97A547" : {
       "editedAt" : 806017676.173829,
@@ -619,6 +619,9 @@
     },
     "custom-D7E5583C-D2A9-4FF9-93B1-F024F85FE315" : {
       "editedAt" : 806328296.015212
+    },
+    "custom-E1C6F7AD-E850-47EF-A586-30B02E40D8BF" : {
+      "editedAt" : 806344135.570245
     },
     "custom-hike-423A5DE5-66C0-4445-9F57-2F56A021559F" : {
       "editedAt" : 806084059.865871,
@@ -2375,6 +2378,42 @@
       "filename" : "F1165769-7981-4919-97B9-9C0571AF52B1.jpg",
       "key" : "custom-35BA11EF-7EA8-4478-80F7-96C299101845",
       "timestamp" : "2026-07-21T16:27:24Z"
+    },
+    {
+      "activityName" : "Road Tripping",
+      "dayID" : 9,
+      "filename" : "CC623876-A295-403A-9E50-9FBC95F9EEFA_thumb.jpg",
+      "key" : "custom-E1C6F7AD-E850-47EF-A586-30B02E40D8BF",
+      "timestamp" : "2026-07-21T16:29:08Z",
+      "videoFilename" : "CC623876-A295-403A-9E50-9FBC95F9EEFA.mov"
+    },
+    {
+      "activityName" : "Road Tripping",
+      "dayID" : 9,
+      "filename" : "D9173D67-9A6B-43CD-B23B-747E9689C3ED.jpg",
+      "key" : "custom-E1C6F7AD-E850-47EF-A586-30B02E40D8BF",
+      "timestamp" : "2026-07-21T16:29:08Z"
+    },
+    {
+      "activityName" : "Road Tripping",
+      "dayID" : 9,
+      "filename" : "319BA85F-BF17-4DDF-BC22-631FC68D2219.jpg",
+      "key" : "custom-E1C6F7AD-E850-47EF-A586-30B02E40D8BF",
+      "timestamp" : "2026-07-21T16:29:08Z"
+    },
+    {
+      "activityName" : "Troll Garden",
+      "dayID" : 9,
+      "filename" : "F422290D-225F-423C-A5D1-442D6E0CFB4B.jpg",
+      "key" : "custom-671D3C83-2988-4BFF-BCA0-2C071117A4DD",
+      "timestamp" : "2026-07-21T16:29:31Z"
+    },
+    {
+      "activityName" : "Troll Garden",
+      "dayID" : 9,
+      "filename" : "CFF123A9-3B18-48E4-8E86-D4F7E83A1E3E.jpg",
+      "key" : "custom-671D3C83-2988-4BFF-BCA0-2C071117A4DD",
+      "timestamp" : "2026-07-21T16:29:31Z"
     }
   ],
   "travelers" : [
@@ -3154,6 +3193,17 @@
           "name" : "Waffles At Skemman Kaffihus",
           "notes" : "In a tractor village",
           "type" : "Food"
+        },
+        {
+          "activityCategory" : "General",
+          "createdBy" : "Chris",
+          "dayID" : 9,
+          "id" : "E1C6F7AD-E850-47EF-A586-30B02E40D8BF",
+          "latitude" : 64.92796363532143,
+          "longitude" : -23.31353567320423,
+          "name" : "Road Tripping",
+          "notes" : "",
+          "type" : "Activity"
         }
       ],
       "deletedEventIDs" : [
