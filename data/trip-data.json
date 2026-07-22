@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-22T12:44:48Z",
+  "lastUpdated" : "2026-07-22T12:52:54Z",
   "localEdits" : {
     "custom-28600F5C-1A53-466D-AAF0-491C85652217" : {
       "editedAt" : 805976301.135915,
@@ -679,12 +679,12 @@
       "sortOrder" : -2
     },
     "d10-a0" : {
-      "editedAt" : 806417079.054164,
-      "sortOrder" : 10
+      "editedAt" : 806417098.73669,
+      "sortOrder" : 12
     },
     "d10-a1" : {
-      "editedAt" : 806417079.054185,
-      "sortOrder" : 12
+      "editedAt" : 806417098.736706,
+      "sortOrder" : 14
     },
     "d10-a2" : {
       "editedAt" : 806414023.903408,
@@ -696,12 +696,12 @@
       "sortOrder" : 36
     },
     "d10-f1" : {
-      "editedAt" : 806417079.054256,
-      "sortOrder" : 18
+      "editedAt" : 806417098.736751,
+      "sortOrder" : 20
     },
     "d10-f2" : {
-      "editedAt" : 806417079.05431,
-      "sortOrder" : 22
+      "editedAt" : 806417098.736781,
+      "sortOrder" : 24
     },
     "d3-a3" : {
       "editedAt" : 805931404.646975,
@@ -858,9 +858,9 @@
       "sortOrder" : 6
     },
     "d8-a3" : {
-      "editedAt" : 806417079.054208,
+      "editedAt" : 806417098.73672,
       "movedToDayID" : 10,
-      "sortOrder" : 14
+      "sortOrder" : 16
     },
     "d8-a4" : {
       "editedAt" : 806368249.886054,
@@ -902,17 +902,17 @@
       "sortOrder" : 20
     },
     "d9-a0" : {
-      "editedAt" : 806417079.05443,
+      "editedAt" : 806417101.172921,
       "movedToDayID" : 10,
-      "sortOrder" : 32
+      "sortOrder" : 8
     },
     "d9-a1" : {
-      "editedAt" : 806417079.054496,
+      "editedAt" : 806417107.387271,
       "movedToDayID" : 10,
       "sortOrder" : 38
     },
     "d9-a2" : {
-      "editedAt" : 806417079.053993,
+      "editedAt" : 806417101.172775,
       "movedToDayID" : 10,
       "sortOrder" : 6
     },
@@ -936,21 +936,21 @@
       "sortOrder" : 36
     },
     "d9-f2" : {
-      "editedAt" : 806417079.054355,
+      "editedAt" : 806417098.736814,
       "movedToDayID" : 10,
-      "sortOrder" : 26
-    },
-    "sched-d10-1" : {
-      "editedAt" : 806417079.054134,
-      "sortOrder" : 8
-    },
-    "sched-d10-10" : {
-      "editedAt" : 806417079.054377,
       "sortOrder" : 28
     },
-    "sched-d10-11" : {
-      "editedAt" : 806417079.054402,
+    "sched-d10-1" : {
+      "editedAt" : 806417098.736676,
+      "sortOrder" : 10
+    },
+    "sched-d10-10" : {
+      "editedAt" : 806417098.736831,
       "sortOrder" : 30
+    },
+    "sched-d10-11" : {
+      "editedAt" : 806417098.736849,
+      "sortOrder" : 32
     },
     "sched-d10-12" : {
       "editedAt" : 806417079.054452,
@@ -961,16 +961,16 @@
       "sortOrder" : 40
     },
     "sched-d10-4" : {
-      "editedAt" : 806417079.054232,
-      "sortOrder" : 16
+      "editedAt" : 806417098.736734,
+      "sortOrder" : 18
     },
     "sched-d10-7" : {
-      "editedAt" : 806417079.054284,
-      "sortOrder" : 20
+      "editedAt" : 806417098.736767,
+      "sortOrder" : 22
     },
     "sched-d10-9" : {
-      "editedAt" : 806417079.054332,
-      "sortOrder" : 24
+      "editedAt" : 806417098.736799,
+      "sortOrder" : 26
     },
     "sched-d4-1" : {
       "editedAt" : 805926985.609805,
