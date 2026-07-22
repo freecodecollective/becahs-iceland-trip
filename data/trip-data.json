@@ -549,7 +549,7 @@
       "title" : "Snæfellsnes North & Home"
     }
   ],
-  "lastUpdated" : "2026-07-22T19:44:31Z",
+  "lastUpdated" : "2026-07-22T19:45:42Z",
   "localEdits" : {
     "custom-22291616-5CF2-40CC-A4AA-2AAC56722A1F" : {
       "editedAt" : 806427634.574104,
@@ -707,7 +707,7 @@
       "sortOrder" : 32
     },
     "d10-a3" : {
-      "editedAt" : 806427614.136253,
+      "editedAt" : 806442277.403405,
       "sortOrder" : 42
     },
     "d10-f1" : {
@@ -2406,6 +2406,27 @@
       "filename" : "BB330BDE-3ED8-465E-90EA-55AEDAF7E8ED.jpg",
       "key" : "custom-90B5FE66-8F60-4E3A-9488-9C2DC2FECC94",
       "timestamp" : "2026-07-20T15:14:23Z"
+    },
+    {
+      "activityName" : "FI633 wheels up",
+      "dayID" : 10,
+      "filename" : "D5A69BA8-F85C-4D20-B47A-90F47DFCFF9B.jpg",
+      "key" : "d10-a3",
+      "timestamp" : "2026-07-22T19:44:51Z"
+    },
+    {
+      "activityName" : "FI633 wheels up",
+      "dayID" : 10,
+      "filename" : "EB82FB64-6E53-4375-97D7-64DCCA87E0FA.jpg",
+      "key" : "d10-a3",
+      "timestamp" : "2026-07-22T19:44:51Z"
+    },
+    {
+      "activityName" : "FI633 wheels up",
+      "dayID" : 10,
+      "filename" : "C5B4410D-0A69-409C-A593-09C0710C182F.jpg",
+      "key" : "d10-a3",
+      "timestamp" : "2026-07-22T19:44:51Z"
     }
   ],
   "travelers" : [
@@ -2624,6 +2645,14 @@
           "latitude" : 64.01316089307237,
           "longitude" : -22.18119694075438,
           "timestamp" : "2026-07-13T20:35:48Z"
+        },
+        {
+          "dayID" : 10,
+          "itemName" : "FI633 wheels up",
+          "key" : "d10-a3",
+          "latitude" : 63.99371864888311,
+          "longitude" : -22.622218986092506,
+          "timestamp" : "2026-07-22T19:44:42Z"
         },
         {
           "dayID" : 2,
@@ -3228,7 +3257,7 @@
         "5D703179-6A84-453A-89FD-42202043885F",
         "hike-D12612E1-CE43-487D-9069-93D95A96BFF5"
       ],
-      "gpsPointCount" : 10053,
+      "gpsPointCount" : 10055,
       "gpsTrack" : [
         {
           "acc" : 135.12671105200525,
@@ -6249,10 +6278,10 @@
           "ts" : "2026-07-22T19:35:52Z"
         },
         {
-          "acc" : 9.46893141793849,
-          "lat" : 63.99357415507887,
-          "lng" : -22.62256885636506,
-          "ts" : "2026-07-22T19:44:10Z"
+          "acc" : 27.675179773385416,
+          "lat" : 63.993714285836354,
+          "lng" : -22.62216277386323,
+          "ts" : "2026-07-22T19:45:15Z"
         }
       ],
       "hikes" : [
